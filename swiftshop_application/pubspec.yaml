@@ -38,8 +38,8 @@ dependencies:
   path_provider: ^2.0.11
   dependencies:
   banner_carousel: ^1.2.1
-  intl: ^0.17.0
-  font_awesome_flutter: ^10.4.0
+  #http
+ 
 
   #provider
   provider: ^6.1.1
@@ -68,15 +68,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/banner/h1.jpg
-    - assets/banner/h2.jpg
-    - assets/banner/h3.jpg
-    - assets/banner/h4.jpg
-    - assets/icons/money.png
-    - assets/icons/3d-cube.png
-    - assets/icons/mouse.jpg
-    - assets/icons/trash.png
+  # assets:
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
