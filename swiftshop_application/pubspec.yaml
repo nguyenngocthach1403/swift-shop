@@ -39,6 +39,7 @@ dependencies:
   dependencies:
   banner_carousel: ^1.2.1
   intl: ^0.17.0
+  font_awesome_flutter: ^10.4.0
 
   #provider
   provider: ^6.1.1
