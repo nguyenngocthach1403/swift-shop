@@ -74,7 +74,10 @@ flutter:
     - assets/icons/money.png
     - assets/icons/3d-cube.png
     - assets/icons/mouse.jpg
+    - assets/icons/item.jpg
     - assets/icons/trash.png
+    - assets/icons/exit.png
+    - assets/icons/edit.png
     - assets/icons/add.png
     - assets/icons/arrow-back-black.png
     - assets/icons/arrow-back-white.png
@@ -88,6 +91,7 @@ flutter:
     - assets/icons/download.png
     - assets/icons/star.png
     - assets/icons/star1.png
+    - assets/images/piza.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

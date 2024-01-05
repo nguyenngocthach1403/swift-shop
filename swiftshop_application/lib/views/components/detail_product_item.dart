@@ -13,6 +13,7 @@ class _DetailItemProductState extends State<DetailItemProduct> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(""),
+        backgroundColor: Colors.blue,
       ),
       body: Container(
         margin: EdgeInsets.all(10),
@@ -21,7 +22,7 @@ class _DetailItemProductState extends State<DetailItemProduct> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(13.0),
         ),
-        height: MediaQuery.of(context).size.height / 5,
+        height: MediaQuery.of(context).size.height / 4.8,
         width: MediaQuery.of(context).size.width - 15,
         child: Row(
           children: [
@@ -119,7 +120,7 @@ class _DetailItemProductState extends State<DetailItemProduct> {
                 Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 130),
+                      padding: EdgeInsets.only(left: 115),
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
