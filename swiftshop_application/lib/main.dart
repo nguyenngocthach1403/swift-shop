@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swiftshop_application/views/components/order_item.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      home: OderItem(),
     );
   }
 }
