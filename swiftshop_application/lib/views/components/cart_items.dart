@@ -87,7 +87,7 @@ class _Cart_ItemsState extends State<Cart_Items> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.red, // Màu nền của nút
+                            backgroundColor: Colors.red, // Màu nền của nút
                           ),
                           child: Row(
                             children: [

@@ -124,7 +124,7 @@ class _DetailItemProductState extends State<DetailItemProduct> {
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           // ignore: deprecated_member_use
-                          primary: Color(0xFFE55B5B),
+                          backgroundColor: Color(0xFFE55B5B),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),

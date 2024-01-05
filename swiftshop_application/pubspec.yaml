@@ -67,10 +67,27 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/banner/h1.jpg
+    - assets/banner/h2.jpg
+    - assets/banner/h3.jpg
+    - assets/banner/h4.jpg
     - assets/icons/money.png
     - assets/icons/3d-cube.png
     - assets/icons/mouse.jpg
     - assets/icons/trash.png
+    - assets/icons/add.png
+    - assets/icons/arrow-back-black.png
+    - assets/icons/arrow-back-white.png
+    - assets/icons/boxes.png
+    - assets/icons/camera.png
+    - assets/icons/cross.png
+    - assets/icons/cube-white.png
+    - assets/icons/cube.png
+    - assets/icons/dollar-black.png
+    - assets/icons/dollar.png
+    - assets/icons/download.png
+    - assets/icons/star.png
+    - assets/icons/star1.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

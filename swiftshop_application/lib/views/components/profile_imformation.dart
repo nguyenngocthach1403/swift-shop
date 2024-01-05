@@ -49,7 +49,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.red, // Màu nền của nút
+                    backgroundColor: Colors.red, // Màu nền của nút
                   ),
                   child: Row(
                     children: [
