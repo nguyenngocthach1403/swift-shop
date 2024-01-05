@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'views/components/banner_slider.dart';
 
 void main() {
   runApp(const MyApp());
