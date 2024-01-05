@@ -73,7 +73,10 @@ flutter:
     - assets/banner/h2.jpg
     - assets/banner/h3.jpg
     - assets/banner/h4.jpg
-  #   - images/a_dot_ham.jpeg
+    - assets/icons/money.png
+    - assets/icons/3d-cube.png
+    - assets/icons/mouse.jpg
+    - assets/icons/trash.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
