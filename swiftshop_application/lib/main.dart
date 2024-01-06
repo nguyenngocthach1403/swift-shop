@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'views/components/banner_slider.dart';
+import 'package:swiftshop_application/views/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      home: HomeScreen(),
     );
   }
 }

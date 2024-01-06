@@ -1,40 +1,67 @@
 import 'package:flutter/material.dart';
 
-class BottomNavigationBar extends StatefulWidget {
-  const BottomNavigationBar({super.key});
-
+// ignore: must_be_immutable
+class BottomNavigationBarCustom extends StatefulWidget {
+  BottomNavigationBarCustom({super.key, required this.idx});
+  int idx;
   @override
-  State<BottomNavigationBar> createState() => _BottomNavigationBarState();
+  State<BottomNavigationBarCustom> createState() =>
+      _BottomNavigationBarCustomState();
 }
 
-class _BottomNavigationBarState extends State<BottomNavigationBar> {
+class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        alignment: Alignment.bottomCenter,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.home_max_outlined),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.shopping_bag),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const Icon(Icons.person),
-              onPressed: () {},
-            ),
-          ],
-        ),
-      ),
-    );
+    // return Container(
+    //   height: 50,
+    //   alignment: Alignment.bottomCenter,
+    //   child: Row(
+    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //     children: [
+    //       IconButton(
+    //         icon: const Icon(Icons.home_max_outlined),
+    //         onPressed: () {},
+    //       ),
+    //       IconButton(
+    //         icon: const Icon(Icons.shopping_bag),
+    //         onPressed: () {},
+    //       ),
+    //       IconButton(
+    //         icon: const Icon(Icons.search),
+    //         onPressed: () {},
+    //       ),
+    //       IconButton(
+    //         icon: const Icon(Icons.person),
+    //         onPressed: () {},
+    //       ),
+    //     ],
+    //   ),
+    // );
+    return BottomNavigationBar(currentIndex: widget.idx, items: [
+      BottomNavigationBarItem(
+          icon: Image.asset(
+            "assets/icons/home.png",
+            width: 25,
+          ),
+          label: ""),
+      BottomNavigationBarItem(
+          icon: Image.asset(
+            "assets/icons/shopping-bag.png",
+            width: 25,
+          ),
+          label: ""),
+      BottomNavigationBarItem(
+          icon: Image.asset(
+            "assets/icons/search.png",
+            width: 25,
+          ),
+          label: ""),
+      BottomNavigationBarItem(
+          icon: Image.asset(
+            "assets/icons/user.png",
+            width: 25,
+          ),
+          label: "")
+    ]);
   }
 }
