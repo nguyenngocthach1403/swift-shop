@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:swiftshop_application/views/components/cart_items.dart';
+import 'package:swiftshop_application/views/screens/cart_screen.dart';
 import 'package:swiftshop_application/views/screens/home_screen.dart';
 
 void main() {
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      home: Cart_Screen()
     );
   }
 }
