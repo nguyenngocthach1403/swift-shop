@@ -97,6 +97,8 @@ flutter:
     - assets/icons/shopping-bag.png
     - assets/icons/user.png
     - assets/images/piza.png
+    - assets/images/ne.jpg
+    - assets/data/products.json
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

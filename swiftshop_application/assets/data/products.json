@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "title": "Sản phẩm 1",
+    "price": "200000đ",
+    "promotionalPrice": "100000đ",
+    "quantity": 150,
+    "quantitySold": 50,
+    "description": "Mô tả sản phẩm 1",
+    "type": "Loại 1",
+    "rate": 2.5
+  },
+  {
+    "id": 2,
+    "title": "Sản phẩm 2",
+    "price": "200000đ",
+    "promotionalPrice": "100000đ",
+    "quantity": 20,
+    "quantitySold": 40,
+    "description": "Mô tả sản phẩm 2",
+    "type": "Loại 5",
+    "rate": 5.0
+  },
+  {
+    "id": 3,
+    "title": "Sản phẩm 3",
+    "price": "1500000đ",
+    "promotionalPrice": "1000000đ",
+    "quantity": 100,
+    "quantitySold": 200,
+    "description": "Mô tả sản phẩm 3",
+    "type": "Loại 2",
+    "rate": 4.5
+  }
+]
