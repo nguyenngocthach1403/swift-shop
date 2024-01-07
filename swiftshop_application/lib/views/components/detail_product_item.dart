@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:swiftshop_application/data/models/product.dart';
 
 class DetailItemProduct extends StatefulWidget {
-  const DetailItemProduct({super.key});
-
+  const DetailItemProduct({super.key, required this.pro});
+  final Product pro;
   @override
-  State<DetailItemProduct> createState() => _DetailItemProductState();
+  State<DetailItemProduct> createState() => _DetailProductItemState();
 }
 
-class _DetailItemProductState extends State<DetailItemProduct> {
+class _DetailProductItemState extends State<DetailItemProduct> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,10 +44,10 @@ class _DetailItemProductState extends State<DetailItemProduct> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(0),
-                        child: Text("Item 001",
-                            style: TextStyle(
+                      Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Text(widget.pro.title,
+                            style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold)),
                       ),
                       IconButton(
@@ -61,22 +62,22 @@ class _DetailItemProductState extends State<DetailItemProduct> {
                       ),
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Text("Giá:    120.000đ",
-                          style: TextStyle(
+                      Text("Giá:    ${widget.pro.price}",
+                          style: const TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Text("Đã bán:   200",
-                          style: TextStyle(
+                      Text("Đã bán:   ${widget.pro.quantitySold}",
+                          style: const TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold)),
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 20, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 5, 20, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -94,11 +95,11 @@ class _DetailItemProductState extends State<DetailItemProduct> {
                               Image.asset(
                                 "assets/icons/star1.png",
                               ),
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                                 child: Text(
-                                  "4.5",
-                                  style: TextStyle(
+                                  "${widget.pro.rate}",
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 10),
@@ -115,11 +116,11 @@ class _DetailItemProductState extends State<DetailItemProduct> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               color: Color(0xFFE1E1E1)),
-                          child: const Padding(
+                          child: Padding(
                             padding: EdgeInsets.all(0),
                             child: Text(
-                              "Số lượng tồn: 100",
-                              style: TextStyle(
+                              "Số lượng tồn: ${widget.pro.quantity}",
+                              style: const TextStyle(
                                 fontSize: 12,
                               ),
                               textAlign: TextAlign.center,

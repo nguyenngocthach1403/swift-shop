@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:swiftshop_application/views/components/cart_items.dart';
 import 'package:swiftshop_application/views/screens/cart_screen.dart';
 import 'package:swiftshop_application/views/screens/home_screen.dart';
+import 'package:swiftshop_application/views/screens/login_screen.dart';
+import 'package:swiftshop_application/views/screens/register_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +18,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Cart_Screen()
+      routes: {
+        "/": (context) => SignInScreen(),
+        "/signup": (context) => SignUpScreen(),
+        "/homepage": (context) => HomeScreen(),
+      },
     );
   }
 }
