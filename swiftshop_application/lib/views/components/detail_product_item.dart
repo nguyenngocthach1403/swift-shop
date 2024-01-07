@@ -5,10 +5,10 @@ class DetailItemProduct extends StatefulWidget {
   const DetailItemProduct({super.key, required this.pro});
   final Product pro;
   @override
-  State<DetailProductItem> createState() => _DetailProductItemState();
+  State<DetailItemProduct> createState() => _DetailProductItemState();
 }
 
-class _DetailProductItemState extends State<DetailProductItem> {
+class _DetailProductItemState extends State<DetailItemProduct> {
   @override
   Widget build(BuildContext context) {
     return Container(
