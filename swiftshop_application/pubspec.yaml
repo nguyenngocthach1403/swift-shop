@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   banner_carousel: ^1.2.1
+  font_awesome_flutter: ^10.4.0
   #http
   http: ^1.1.2
 
@@ -90,9 +91,16 @@ flutter:
     - assets/icons/dollar-black.png
     - assets/icons/dollar.png
     - assets/icons/download.png
+    - assets/icons/shopping-cart.png
     - assets/icons/star.png
     - assets/icons/star1.png
     - assets/icons/shopping-cart-white.png
+    - assets/icons/edit.png
+    - assets/icons/home.png
+    - assets/icons/search.png
+    - assets/icons/shopping-cart.png
+    - assets/icons/shopping-bag.png
+    - assets/icons/user.png
     - assets/images/piza.png
     
 
