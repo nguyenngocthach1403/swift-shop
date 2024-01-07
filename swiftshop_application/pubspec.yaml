@@ -75,6 +75,7 @@ flutter:
     - assets/icons/3d-cube.png
     - assets/icons/mouse.jpg
     - assets/icons/item.jpg
+    - assets/icons/clock.jpg
     - assets/icons/trash.png
     - assets/icons/exit.png
     - assets/icons/edit.png
@@ -91,6 +92,7 @@ flutter:
     - assets/icons/download.png
     - assets/icons/star.png
     - assets/icons/star1.png
+    - assets/icons/shopping-cart-white.png
     - assets/images/piza.png
     
 

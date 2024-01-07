@@ -1,107 +1,113 @@
 import 'package:flutter/material.dart';
 
-class ProductItem extends StatefulWidget {
-  const ProductItem({super.key});
+class Item extends StatelessWidget {
+  const Item({super.key});
 
-  @override
-  State<ProductItem> createState() => _ProductItemState();
-}
-
-class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(""),
-        backgroundColor: Colors.blue,
-      ),
-      body: Container(
-        margin: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(13.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: Offset(0, 8),
-            ),
-          ],
-        ),
-        height: MediaQuery.of(context).size.height / 6.5,
-        width: MediaQuery.of(context).size.width - 15,
-        child: Row(
-          children: [
-            Container(
-                margin: EdgeInsets.only(left: 15),
-                padding: EdgeInsets.all(2),
-                width: 90,
-                height: 90,
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+          child: Row(children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 7),
+              child: Container(
+                width: 250,
+                height: 350,
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.white),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 3,
-                      blurRadius: 5,
-                      offset: Offset(0, 8),
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: CircleAvatar(
-                  backgroundImage: AssetImage("assets/icons/item.jpg"),
-                )),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 25),
-                  child: Row(
-                    children: [Text("Item 1 pizza xúc xích Đức thơm ngonnn")],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 3,
+                          blurRadius: 10,
+                          offset: Offset(0, 3))
+                    ]),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset("assets/images/piza.png"),
+                      SizedBox(height: 10.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "San pham 1",
+                            style: TextStyle(fontSize: 17),
+                          ),
+                          Material(
+                            child: Ink(
+                              width: 25,
+                              height: 25,
+                              decoration: const ShapeDecoration(
+                                color: Color.fromRGBO(96, 136, 202, 1),
+                                shape: CircleBorder(),
+                              ),
+                              child: IconButton(
+                                padding: EdgeInsets.all(4),
+                                iconSize: 15,
+                                icon: const Icon(Icons.shopping_cart_rounded),
+                                color: Colors.white,
+                                onPressed: () {},
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        "San pham 1",
+                        style: TextStyle(fontSize: 13, color: Colors.grey),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 50,
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(96, 136, 202, 1),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  "4.5",
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  size: 13,
+                                )
+                              ],
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "100.000d ",
+                                style: TextStyle(
+                                    decoration: TextDecoration.lineThrough),
+                              ),
+                              Text("100.000d"),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
                   ),
                 ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Text(
-                      "nếu có loại",
-                      style: TextStyle(color: Colors.grey[400]),
-                    ),
-                    SizedBox(width: 158),
-                    Text("sl: 1")
-                  ],
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 120),
-                      child: Text(
-                        "120.000đ",
-                        style: TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      "100.000đ",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.redAccent,
-                          fontSize: 15),
-                    )
-                  ],
-                )
-              ],
+              ),
             )
-          ],
+          ]),
         ),
       ),
     );
