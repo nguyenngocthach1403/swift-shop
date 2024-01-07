@@ -17,8 +17,16 @@ class _HomeScreenState extends State<HomeScreen> {
     // final w = MediaQuery.of(context).size.width;
     List<Product> lstProduct = List.filled(
         4,
-        Product("", "San pham aaaaaaaaaaaa", "100000d", "Food", "Food",
-            quantitySold: "", rate: 2.3),
+        Product(
+            id: 1,
+            path: "path",
+            title: "Sản phẩm 1",
+            price: "100000đ",
+            promotionalPrice: "2000000đ",
+            type: '',
+            quantity: 1,
+            quantitySold: 1,
+            rate: 1),
         growable: true);
     return Scaffold(
       appBar: AppBar(
