@@ -110,7 +110,7 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                     // TODO: Xử lý thanh toán
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFFFC700), // Đặt màu vàng cho nút
+                    backgroundColor: Color(0xFFFFC700), // Đặt màu vàng cho nút
                     minimumSize: Size(double.infinity, 50),
                   ),
                   child: Text("Thanh toán"),

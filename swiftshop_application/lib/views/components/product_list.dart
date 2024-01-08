@@ -19,7 +19,6 @@ class _ProductListState extends State<ProductList> {
     TabItem(title: "3"),
     TabItem(title: "4")
   ];
-
   @override
   Widget build(BuildContext context) {
     List<DetailProductItem> items = List.filled(
