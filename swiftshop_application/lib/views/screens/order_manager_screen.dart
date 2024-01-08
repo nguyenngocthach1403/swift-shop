@@ -165,7 +165,8 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                             ],
                           ))
                         ],
-                      )),
+                      )
+                      ),
 //? Imformation Receiver
                   Container(
                       width: MediaQuery.of(context).size.width,
