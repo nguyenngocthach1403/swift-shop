@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/views/screens/admin_profile_screen.dart';
 import 'package:swiftshop_application/views/screens/home_screen.dart';
+import 'package:swiftshop_application/views/screens/order_manager_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AdminProfileScreen(),
+      home: OrderManagementScreen(),
     );
   }
 }
