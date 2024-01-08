@@ -13,7 +13,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget returnProfileScreen() {
-    return ProfileScreen();
+    return AvatarProfile();
   }
 
   Widget returnProfileInfomation() {
