@@ -22,9 +22,9 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
-    List<DetailItemProduct> items = List.filled(
+    List<DetailProductItem> items = List.filled(
         0,
-        DetailItemProduct(
+        DetailProductItem(
           pro: Product(
               id: 0,
               path: "",
@@ -38,7 +38,7 @@ class _ProductListState extends State<ProductList> {
         ),
         growable: true);
     for (int i = 0; i < widget.products.length; i++) {
-      items.add(DetailItemProduct(
+      items.add(DetailProductItem(
         pro: widget.products[i],
       ));
     }
