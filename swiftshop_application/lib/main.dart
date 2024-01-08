@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:swiftshop_application/views/screens/admin_profile_screen.dart';
+
+import 'package:swiftshop_application/views/components/cart_items.dart';
+import 'package:swiftshop_application/views/screens/cart_screen.dart';
 import 'package:swiftshop_application/views/screens/home_screen.dart';
-import 'package:swiftshop_application/views/screens/order_manager_screen.dart';
-=======
->>>>>>> 051032475271de7dae9d14f5575b663091e11d18
+import 'package:swiftshop_application/views/screens/login_screen.dart';
+import 'package:swiftshop_application/views/screens/register_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +18,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: OrderManagementScreen(),
+      routes: {
+        "/": (context) => SignInScreen(),
+        "/signup": (context) => SignUpScreen(),
+        "/homepage": (context) => HomeScreen(),
+      },
     );
   }
 }
