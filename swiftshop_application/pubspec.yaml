@@ -104,6 +104,8 @@ flutter:
     - assets/images/piza.png
     - assets/images/ne.jpg
     - assets/data/products.json
+    - assets/images/mouse.png
+    - assets/images/keyboard.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
