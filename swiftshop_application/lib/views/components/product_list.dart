@@ -18,8 +18,8 @@ class _ProductListState extends State<ProductList> {
     TabItem(title: "3"),
     TabItem(title: "4")
   ];
-  List<DetailItemProduct> items =
-      List.filled(5, DetailItemProduct(), growable: true);
+  List<DetailProductItem> items =
+      List.filled(5, DetailProductItem(), growable: true);
   @override
   Widget build(BuildContext context) {
     TabItem.lstTab.clear();

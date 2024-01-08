@@ -11,10 +11,6 @@ class _ProfileInformationState extends State<ProfileInformation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("abc"),
-        backgroundColor: Colors.blue,
-      ),
       body: Container(
         width: MediaQuery.of(context).size.width - 3,
         height: MediaQuery.of(context).size.height / 3 - 10,
