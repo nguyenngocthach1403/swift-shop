@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 
-class DetailItemProduct extends StatefulWidget {
-  const DetailItemProduct({super.key, required this.pro});
+class DetailProductItem extends StatefulWidget {
+  const DetailProductItem({super.key, required this.pro});
   final Product pro;
   @override
-  State<DetailItemProduct> createState() => _DetailItemProductState();
+  State<DetailProductItem> createState() => _DetailProductItemState();
 }
 
-class _DetailItemProductState extends State<DetailItemProduct> {
+class _DetailProductItemState extends State<DetailProductItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
