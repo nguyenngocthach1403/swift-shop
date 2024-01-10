@@ -413,7 +413,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(9.0),
                         child: _text("Lưu", Color.fromRGBO(96, 136, 202, 1),
                             20.0, FontWeight.bold),
                       ),
@@ -435,3 +435,4 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 }
+//test hau
