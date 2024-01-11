@@ -97,9 +97,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           height: 80,
                           decoration: BoxDecoration(
                               border: Border.all(width: 1, color: Colors.grey)),
-                          child: FaIcon(
-                            FontAwesomeIcons.plus,
-                            size: 40,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: FaIcon(
+                              FontAwesomeIcons.plus,
+                              size: 40,
+                            ),
                           ),
                         )),
                   ),

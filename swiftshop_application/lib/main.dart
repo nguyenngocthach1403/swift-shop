@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          "/": (context) => SignInScreen(),
+          "/": (context) => AddProductScreen(),
           "/signup": (context) => SignUpScreen(),
           "/homepage": (context) => HomeScreen(),
         });
