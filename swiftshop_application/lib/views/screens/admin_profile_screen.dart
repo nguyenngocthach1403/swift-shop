@@ -16,7 +16,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
   List<Product> pro = List.filled(
       1,
       Product(
-          id: 0,
+          id: 1,
           path: "",
           title: "",
           price: "",
@@ -24,6 +24,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
           type: "",
           quantity: 1,
           quantitySold: 1,
+          description: "",
           rate: 1),
       growable: true);
 
