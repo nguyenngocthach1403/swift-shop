@@ -15,13 +15,14 @@ class _SearchScreenState extends State<SearchScreen> {
       4,
       Product(
           id: 1,
-          path: "path",
-          title: "Sản phẩm 1",
-          price: "100000đ",
-          promotionalPrice: "2000000đ",
-          type: '',
+          path: "",
+          title: "",
+          price: "",
+          promotionalPrice: "",
+          type: "",
           quantity: 1,
           quantitySold: 1,
+          description: "",
           rate: 1),
       growable: true);
   @override

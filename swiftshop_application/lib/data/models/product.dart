@@ -10,8 +10,9 @@ class Product {
   final int quantity;
   final String type;
   final String promotionalPrice;
-  final int? quantitySold;
+  final int quantitySold;
   final double? rate;
+  final String description;
   Product(
       {required this.id,
       required this.path,
@@ -21,7 +22,8 @@ class Product {
       required this.type,
       required this.quantity,
       required this.quantitySold,
-      required this.rate});
+      required this.rate,
+      required this.description});
   Product.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         path = "",
@@ -31,7 +33,9 @@ class Product {
         type = json['type'],
         quantitySold = json['quantitySold'],
         quantity = json['quantity'],
-        rate = json['rate'];
+        rate = json['rate'],
+        description = json['description'];
+
   static List<Product> product = List.filled(
       0,
       Product(
@@ -43,8 +47,19 @@ class Product {
           type: "",
           quantity: 1,
           quantitySold: 1,
+          description: "",
           rate: 1),
       growable: true);
+
+  static int findBestQuantitySold() {
+    int bestquantitySold = 0;
+    for (var i in Product.product) {
+      if (bestquantitySold < i.quantitySold) {
+        bestquantitySold = i.quantitySold;
+      }
+    }
+    return bestquantitySold;
+  }
 
   static Future<void> loadDataProduct() async {
     InfoReader reader = InfoReader();

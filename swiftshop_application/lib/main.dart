@@ -29,9 +29,11 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          "/": (context) => SignInScreen(),
+          "/": (context) => HomeScreen(),
           "/signup": (context) => SignUpScreen(),
           "/homepage": (context) => HomeScreen(),
+          "/cartscreen": (context) =>
+              Cart_Screen() // Thach 11/1 10:00 AM Thêm route cho Cart Screen
         });
   }
 }
