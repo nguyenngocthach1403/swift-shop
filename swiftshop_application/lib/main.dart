@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swiftshop_application/views/components/cart_items.dart';
 import 'package:swiftshop_application/views/screens/add_product_screen.dart';
 import 'package:swiftshop_application/views/screens/cart_screen.dart';
@@ -16,7 +17,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          "/": (context) => HomeScreen(),
+          "/": (context) => SignInScreen(),
           "/signup": (context) => SignUpScreen(),
           "/homepage": (context) => HomeScreen(),
           "/cartscreen": (context) =>
