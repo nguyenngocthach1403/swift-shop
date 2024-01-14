@@ -29,7 +29,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
       growable: true);
 
   Future<void> _loadData() async {
-    Product.loadDataProduct().then((value) {
+    Product.loadLocalProduct().then((value) {
       pro = Product.product;
       setState(() {});
     });
