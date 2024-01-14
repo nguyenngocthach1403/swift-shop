@@ -44,23 +44,9 @@ class HomeScreenViewModel {
               Product.product.add(newPro);
             }
           }
-          //? Tại list sản phẩm bán chạy có 6 sp
-          List<Product> outstandingProduct = [];
-          Product.product.sort((a, b) => b.rate!.compareTo(a.rate!));
-          if (Product.product.length <= 6) {
-            outstandingProduct.addAll(Product.product);
-          } else {
-            for (int i = 0;
-                Product.product.length >= 6
-                    ? i < 6
-                    : i < Product.product.length;
-                i++) {
-              if (outstandingProduct.length < 6)
-                outstandingProduct.add(Product.product[i]);
-            }
-          }
 
-          return OutstandingProductList(cols: 2, products: outstandingProduct);
+          return OutstandingProductList(
+              cols: 2, products: findOustandingProducts());
         }
         return const Center(
           child: CircularProgressIndicator(),
@@ -106,24 +92,21 @@ class HomeScreenViewModel {
               Product.product.add(newPro);
             }
           }
-          //? Tại list sản phẩm bán chạy có 6 sp
-          List<Product> outstandingProduct = [];
-          Product.product.sort((a, b) => (b.quantitySold * 0.6 + b.rate! * 0.8)
-              .compareTo(a.quantitySold * 0.6 + a.rate! * 0.8));
-          if (Product.product.length <= 6) {
-            outstandingProduct.addAll(Product.product);
-          } else {
-            for (int i = 0;
-                Product.product.length >= 6
-                    ? i < 6
-                    : i < Product.product.length;
-                i++) {
-              if (outstandingProduct.length < 6)
-                outstandingProduct.add(Product.product[i]);
+          // Thach 1:28 PM Lưu dữ liệu product firebase vào local
+          if (Product.product.length != 0) {
+            if (Product.saveDataProduct(Product.product) == true) {
+              print("Save product done");
+            } else {
+              print("Save product fail");
             }
           }
-
-          return OutstandingProductList(cols: 2, products: outstandingProduct);
+          return OutstandingProductList(
+              cols: 2, products: findBestSalerProducts());
+        } else {
+          if (Product.product == null) {
+            Product.loadLocalProduct();
+            return OutstandingProductList(cols: 2, products: Product.product);
+          }
         }
         return const Center(
           child: CircularProgressIndicator(),
@@ -139,4 +122,45 @@ class HomeScreenViewModel {
   // void navigationDetailProduct(BuildContext context) {
   //   Navigator.push(context, MaterialPageRoute(builder: (context) => DetailProductSreen(),));
   // }
+
+  List<Product> findBestSalerProducts() {
+    //? Tại list sản phẩm bán chạy có 4 sp
+    List<Product> bestSalerProducts = [];
+
+    Product.product.sort((a, b) => (b.quantitySold * 0.6 + b.rate! * 0.8)
+        .compareTo(a.quantitySold * 0.6 + a.rate! * 0.8));
+
+    if (Product.product.length <= 4) {
+      bestSalerProducts.addAll(Product.product);
+    } else {
+      for (int i = 0;
+          Product.product.length >= 4 ? i < 4 : i < Product.product.length;
+          i++) {
+        if (bestSalerProducts.length <= 4)
+          bestSalerProducts.add(Product.product[i]);
+        else
+          break;
+      }
+    }
+    return bestSalerProducts;
+  }
+
+  List<Product> findOustandingProducts() {
+    //? Tại list sản phẩm nổi bật có 6 sp
+    List<Product> outstandingProduct = [];
+
+    Product.product.sort((a, b) => b.rate!.compareTo(a.rate!));
+
+    if (Product.product.length <= 6) {
+      outstandingProduct.addAll(Product.product);
+    } else {
+      for (int i = 0;
+          Product.product.length >= 6 ? i < 6 : i < Product.product.length;
+          i++) {
+        if (outstandingProduct.length < 6)
+          outstandingProduct.add(Product.product[i]);
+      }
+    }
+    return outstandingProduct;
+  }
 }

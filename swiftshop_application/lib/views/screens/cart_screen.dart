@@ -32,7 +32,10 @@ class _Cart_ScreenState extends State<Cart_Screen> {
             "assets/icons/arrow-back-black.png",
             width: 23,
           ),
-          onPressed: () {},
+          onPressed: () {
+            //Thach  14/1
+            Navigator.pop(context);
+          },
         ),
         title: Text(
           "Cart",

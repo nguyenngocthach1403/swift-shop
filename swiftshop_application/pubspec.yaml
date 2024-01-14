@@ -37,7 +37,8 @@ dependencies:
   banner_carousel: ^1.2.1
   font_awesome_flutter: ^10.4.0
   simple_animations: ^5.0.2
-  intl: ^0.18.0
+  intl: ^0.17.0
+  path_provider: ^2.1.2
   #http
   http: ^1.1.2
 

@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class BottomNavigationBarCustom extends StatefulWidget {
+class BottomNavigationBarCustom extends StatelessWidget {
   BottomNavigationBarCustom({super.key, required this.idx});
   int idx;
-  @override
-  State<BottomNavigationBarCustom> createState() =>
-      _BottomNavigationBarCustomState();
-}
-
-class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
   @override
   Widget build(BuildContext context) {
     // return Container(
@@ -37,31 +31,56 @@ class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
     //     ],
     //   ),
     // );
-    return BottomNavigationBar(currentIndex: widget.idx, items: [
-      BottomNavigationBarItem(
-          icon: Image.asset(
-            "assets/icons/home.png",
-            width: 25,
-          ),
-          label: ""),
-      BottomNavigationBarItem(
-          icon: Image.asset(
-            "assets/icons/shopping-bag.png",
-            width: 25,
-          ),
-          label: ""),
-      BottomNavigationBarItem(
-          icon: Image.asset(
-            "assets/icons/search.png",
-            width: 25,
-          ),
-          label: ""),
-      BottomNavigationBarItem(
-          icon: Image.asset(
-            "assets/icons/user.png",
-            width: 25,
-          ),
-          label: "")
-    ]);
+    return BottomNavigationBar(
+      currentIndex: idx,
+      items: [
+        BottomNavigationBarItem(
+            icon: Image.asset(
+              "assets/icons/home.png",
+              width: 25,
+            ),
+            label: ""),
+        BottomNavigationBarItem(
+            icon: Image.asset(
+              "assets/icons/shopping-bag.png",
+              width: 25,
+            ),
+            label: ""),
+        BottomNavigationBarItem(
+            icon: Image.asset(
+              "assets/icons/search.png",
+              width: 25,
+            ),
+            label: ""),
+        BottomNavigationBarItem(
+            icon: Image.asset(
+              "assets/icons/user.png",
+              width: 25,
+            ),
+            label: "")
+      ],
+      onTap: (int indexOfItem) {
+        if (idx != indexOfItem) {
+          switch (indexOfItem) {
+            case 0:
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/homepage', (route) => false);
+              break;
+            case 1:
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/cartscreen", (route) => true);
+              break;
+            case 2:
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/searchscreen',
+                (route) => false,
+              );
+              break;
+          }
+        }
+      },
+    );
   }
 }
+//Thach 14/1 Change StateLess

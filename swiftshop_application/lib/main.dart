@@ -33,8 +33,9 @@ class MyApp extends StatelessWidget {
           "/": (context) => SignInScreen(),
           "/signup": (context) => SignUpScreen(),
           "/homepage": (context) => HomeScreen(),
-          "/cartscreen": (context) =>
-              Cart_Screen() // Thach 11/1 10:00 AM Thêm route cho Cart Screen
+          "/cartscreen": (context) => Cart_Screen(),
+          "/searchscreen": (context) =>
+              SearchScreen() // Thach 11/1 10:00 AM Thêm route cho Cart Screen
         });
   }
 }
