@@ -133,22 +133,20 @@ class _ItemState extends State<Item> {
                     children: [
                       Text(
                         //Thạch 10/1 5:21PM sửa format tiền thành kiểu VND
-                        widget.products.promotionalPrice.isEmpty ||
-                                widget.products.promotionalPrice == '0'
+                        widget.products.promotionalPrice == 0
                             ? ""
-                            : widget.products.price,
+                            : widget.products.price.toString(),
                         style: const TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: 12),
                         softWrap: true,
                       ),
                       Text(
-                        widget.products.promotionalPrice.isEmpty ||
-                                widget.products.promotionalPrice == '0'
+                        widget.products.promotionalPrice == 0
                             ? FormatCurrency.stringToCurrency(
-                                widget.products.price)
+                                widget.products.price.toString())
                             : FormatCurrency.stringToCurrency(
-                                widget.products.promotionalPrice),
+                                widget.products.promotionalPrice.toString()),
                         style: const TextStyle(fontSize: 12),
                         softWrap: true,
                       ),

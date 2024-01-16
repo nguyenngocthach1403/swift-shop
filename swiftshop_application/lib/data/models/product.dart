@@ -1,20 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:swiftshop_application/data/models/reader.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Product {
-  final int id;
+  final String id; //Doi kieu id cua product thanh kieu String
   final String path;
   final String title;
-  final String price;
+  final int
+      price; //Thach 16.1 sửa lại kiểu dữ liệu price , quantity, promotionalPrice, quantitySold
   final int quantity;
   final String type;
-  final String promotionalPrice;
+  final int promotionalPrice;
   final int quantitySold;
   final double? rate;
   final String description;
@@ -44,11 +44,11 @@ class Product {
   static List<Product> product = List.filled(
       0,
       Product(
-          id: 1,
+          id: '',
           path: "",
           title: "",
-          price: "",
-          promotionalPrice: "",
+          price: 0,
+          promotionalPrice: 0,
           type: "",
           quantity: 1,
           quantitySold: 1,
@@ -98,11 +98,11 @@ class Product {
         await FirebaseFirestore.instance.collection("products").get();
     for (var i in snapshotData.docs) {
       Product newPro = Product(
-          id: i['id'],
+          id: i.id,
           path: i['path'],
           title: i['name'],
-          price: i['price'].toString(),
-          promotionalPrice: i['promotionalPrice'].toString(),
+          price: i['price'],
+          promotionalPrice: i['promotionalPrice'],
           type: i['type'],
           quantity: int.parse(i['quantity'].toString()),
           quantitySold: int.parse(i['quantitySold'].toString()),

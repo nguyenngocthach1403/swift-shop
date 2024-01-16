@@ -146,7 +146,7 @@ class _DetailProductSreenState extends State<DetailProductSreen> {
                         ],
                       ),
                       child: Text(
-                        "Add to Cart ${FormatCurrency.stringToCurrency(_viewModel.totalProduct != 0 ? (int.parse(widget.product.price) * _viewModel.totalProduct).toString() : widget.product.price)}",
+                        "Add to Cart ${FormatCurrency.stringToCurrency(_viewModel.totalProduct != 0 ? (widget.product.price * _viewModel.totalProduct).toString() : widget.product.price.toString())}", //Thach 16/1
                         style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
