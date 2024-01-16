@@ -55,7 +55,7 @@ class _ItemState extends State<Item> {
                 child: widget.products.path.isNotEmpty
                     ? Image(
                         image: NetworkImage(widget.products.path),
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                       )
                     : Image.asset(
                         "assets/images/piza.png",
@@ -133,20 +133,21 @@ class _ItemState extends State<Item> {
                     children: [
                       Text(
                         //Thạch 10/1 5:21PM sửa format tiền thành kiểu VND
-                        widget.products.promotionalPrice == 0
+                        widget.products.promotionalPrice == 0 &&
+                                widget.products.price < 999999
                             ? ""
-                            : widget.products.price.toString(),
+                            : " ${(widget.products.price % 1000000 == 0 ? widget.products.price ~/ 1000000 : widget.products.price / 1000000)}Tr ",
                         style: const TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: 12),
                         softWrap: true,
                       ),
                       Text(
-                        widget.products.promotionalPrice == 0
+                        (widget.products.promotionalPrice == 0 &&
+                                widget.products.price < 999999)
                             ? FormatCurrency.stringToCurrency(
                                 widget.products.price.toString())
-                            : FormatCurrency.stringToCurrency(
-                                widget.products.promotionalPrice.toString()),
+                            : "${(widget.products.promotionalPrice % 1000000 == 0 ? widget.products.promotionalPrice ~/ 1000000 : widget.products.promotionalPrice / 1000000)}Tr",
                         style: const TextStyle(fontSize: 12),
                         softWrap: true,
                       ),

@@ -146,7 +146,7 @@ class _DetailProductSreenState extends State<DetailProductSreen> {
                         ],
                       ),
                       child: Text(
-                        "Add to Cart ${FormatCurrency.stringToCurrency(_viewModel.totalProduct != 0 ? (widget.product.price * _viewModel.totalProduct).toString() : widget.product.price.toString())}", //Thach 16/1
+                        "Add to Cart ${FormatCurrency.stringToCurrency(_viewModel.totalProduct != 0 ? ((widget.product.promotionalPrice == 0 ? widget.product.price : widget.product.promotionalPrice) * _viewModel.totalProduct).toString() : (widget.product.promotionalPrice == 0 ? widget.product.price : widget.product.promotionalPrice).toString())}", //Thach 16/1
                         style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
@@ -256,10 +256,10 @@ class _DetailProductSreenState extends State<DetailProductSreen> {
                 height: 270,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.amber,
+                    color: Colors.white,
                     image: DecorationImage(
                         image: NetworkImage(widget.product.path),
-                        fit: BoxFit.cover))),
+                        fit: BoxFit.contain))),
           ),
         ],
       ),
