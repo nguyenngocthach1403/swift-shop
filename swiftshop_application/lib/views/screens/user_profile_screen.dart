@@ -39,8 +39,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 height: MediaQuery.of(context).size.height + 10,
                 child: Column(
                   children: [
-                    Expanded(
-                      child: returnProfileScreen(),
+                    SizedBox(
+                      height: 335,
+                      child: Expanded(
+                        child: returnProfileScreen(),
+                      ),
                     ),
                     Expanded(
                       child: returnProfileInfomation(),

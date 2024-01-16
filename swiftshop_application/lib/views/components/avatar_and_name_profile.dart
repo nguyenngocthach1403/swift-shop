@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swiftshop_application/views/screens/edit_profile_user_screen.dart';
 
 class AvatarProfile extends StatefulWidget {
   const AvatarProfile({super.key});
@@ -20,41 +21,33 @@ class _AvatarProfileState extends State<AvatarProfile> {
             alignment: Alignment.center,
             children: [
               Image.asset("assets/images/ne.jpg"),
-              Positioned(
+              const Positioned(
                 bottom: -40,
                 child: CircleAvatar(
                   radius: 50,
                   backgroundImage: NetworkImage(
                       "https://www.w3schools.com/howto/img_avatar.png"),
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: Colors.grey),
-                          child: GestureDetector(
-                            child: const Icon(
-                              Icons.edit,
-                              color: Colors.black,
-                              size: 20,
-                            ),
-                          ),
-                        ),
+                ),
+              ),
+              Positioned(
+                bottom: -15,
+                right: 115,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfileSettingScreen(),
                       ),
-                    ],
-                  ),
+                    );
+                  },
+                  icon: Icon(Icons.edit),
                 ),
               ),
             ],
           ),
           const SizedBox(
-            height: 50,
+            height: 40,
           ),
           const Center(
             child: Column(
