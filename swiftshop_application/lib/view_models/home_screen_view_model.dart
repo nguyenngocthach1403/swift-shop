@@ -6,12 +6,18 @@ import 'package:swiftshop_application/views/screens/cart_screen.dart';
 import 'package:swiftshop_application/views/screens/detail_product_screen.dart';
 
 class HomeScreenViewModel {
+  final CollectionReference products =
+      FirebaseFirestore.instance.collection("products");
+  //Thach 15/1
+  Stream<QuerySnapshot> getProductForHomeScreen() {
+    final productStream = products.snapshots();
+    return productStream;
+  }
+
   //? Thach 1/10 5:46 PM Tải sản phẩm bán chạy
   Widget loadOutStandingProducts() {
-    final Stream<QuerySnapshot> _streamShoppingItem =
-        FirebaseFirestore.instance.collection("products").snapshots();
     return StreamBuilder<QuerySnapshot>(
-      stream: _streamShoppingItem,
+      stream: getProductForHomeScreen(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text(snapshot.error.toString());
@@ -24,11 +30,11 @@ class HomeScreenViewModel {
 
           for (var i in listQueryDocumentSnapshot) {
             Product newPro = Product(
-                id: i['id'],
+                id: i.id, //Thach 15/1
                 path: i['path'],
                 title: i['name'],
-                price: i['price'].toString(),
-                promotionalPrice: i['promotionalPrice'].toString(),
+                price: i['price'], //Thach 16/1 int
+                promotionalPrice: i['promotionalPrice'], //Thach 16/1 int
                 type: i['type'],
                 quantity: int.parse(i['quantity'].toString()),
                 quantitySold: int.parse(i['quantitySold'].toString()),
@@ -72,11 +78,11 @@ class HomeScreenViewModel {
 
           for (var i in listQueryDocumentSnapshot) {
             Product newPro = Product(
-                id: i['id'],
+                id: i.id,
                 path: i['path'],
                 title: i['name'],
-                price: i['price'].toString(),
-                promotionalPrice: i['promotionalPrice'].toString(),
+                price: i['price'], //Thach 16/1 int
+                promotionalPrice: i['promotionalPrice'], //Thach 16/1 int
                 type: i['type'],
                 quantity: int.parse(i['quantity'].toString()),
                 quantitySold: int.parse(i['quantitySold'].toString()),

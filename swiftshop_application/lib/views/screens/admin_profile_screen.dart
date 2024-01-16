@@ -16,11 +16,11 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
   List<Product> pro = List.filled(
       1,
       Product(
-          id: 1,
+          id: '', //Thach 15/1
           path: "",
           title: "",
-          price: "",
-          promotionalPrice: "",
+          price: 0, //Thach 16/1 int
+          promotionalPrice: 0, //Thach 16/1 int
           type: "",
           quantity: 1,
           quantitySold: 1,
