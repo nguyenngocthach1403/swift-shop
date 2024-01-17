@@ -11,6 +11,7 @@ import 'package:swiftshop_application/views/screens/login_screen.dart';
 import 'package:swiftshop_application/views/screens/payment_screen.dart';
 import 'package:swiftshop_application/views/screens/register_screen.dart';
 import 'package:swiftshop_application/views/screens/searching_screen.dart';
+import 'package:swiftshop_application/views/screens/order_manager_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:swiftshop_application/views/screens/user_profile_screen.dart';
 import 'firebase_options.dart';

@@ -308,14 +308,37 @@ class Detail_Order_Screen extends StatelessWidget {
   }
 }
 
-
 List<ProductItemOfOrder> lstProduct = [
   const ProductItemOfOrder(
-      title: "Sản phẩm 1", quantity: 1, promotionalPrice: 0, price: 15000),
+    title: "Sản phẩm 1",
+    quantity: 1,
+    promotionalPrice: 0,
+    price: 15000,
+    path: "",
+    promotionPrice: 0,
+  ),
   const ProductItemOfOrder(
-      title: "Sản phẩm 2", quantity: 2, promotionalPrice: 12000, price: 15000),
+    title: "Sản phẩm 2",
+    quantity: 2,
+    promotionalPrice: 12000,
+    price: 15000,
+    path: "",
+    promotionPrice: 0,
+  ),
   const ProductItemOfOrder(
-      title: "Sản phẩm 2", quantity: 2, promotionalPrice: 12000, price: 15000),
+    title: "Sản phẩm 2",
+    quantity: 2,
+    promotionalPrice: 12000,
+    price: 15000,
+    path: "",
+    promotionPrice: 0,
+  ),
   const ProductItemOfOrder(
-      title: "Sản phẩm 2", quantity: 2, promotionalPrice: 12000, price: 15000)
+    title: "Sản phẩm 2",
+    quantity: 2,
+    promotionalPrice: 12000,
+    price: 15000,
+    path: "",
+    promotionPrice: 0,
+  )
 ];

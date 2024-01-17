@@ -92,7 +92,7 @@ class Product {
   }
 
   //Thach 12/1 lấy dữ liệu từ filebase
-  static Future<void> fetchDataFromFirebase() async {
+  static Future fetchDataFromFirebase() async {
     List<Product> lstFirebaseProducts = [];
     QuerySnapshot snapshotData =
         await FirebaseFirestore.instance.collection("products").get();
@@ -102,7 +102,7 @@ class Product {
           path: i['path'],
           title: i['name'],
           price: i['price'],
-          promotionalPrice: i['promotionalPrice'],
+          promotionalPrice: i['promotionPrice'],
           type: i['type'],
           quantity: int.parse(i['quantity'].toString()),
           quantitySold: int.parse(i['quantitySold'].toString()),
