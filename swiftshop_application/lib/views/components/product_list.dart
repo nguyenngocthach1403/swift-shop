@@ -25,14 +25,15 @@ class _ProductListState extends State<ProductList> {
         0,
         DetailProductItem(
           pro: Product(
-              id: 0,
+              id: '',
               path: "",
-              title: '',
-              price: '',
-              promotionalPrice: '',
-              type: '',
+              title: "",
+              price: 0, //Thach 16/1 int
+              promotionalPrice: 0, //Thach 16/1 int
+              type: "",
               quantity: 1,
               quantitySold: 1,
+              description: "",
               rate: 1),
         ),
         growable: true);

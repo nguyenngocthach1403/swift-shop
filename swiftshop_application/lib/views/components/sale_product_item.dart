@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
+import 'package:swiftshop_application/data/models/format_currency.dart';
+import 'package:swiftshop_application/views/screens/detail_product_screen.dart'; //? Format tiền kiểu int thành String VND
 
 class Item extends StatefulWidget {
-  const Item({super.key, required this.products});
+  const Item({super.key, required this.products, required this.addToCart});
   final Product products;
+  final VoidCallback addToCart; //Thach add parameter
 
   @override
   State<Item> createState() => _ItemState();
@@ -13,9 +16,19 @@ class _ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailProductSreen(product: widget.products),
+          ),
+          (route) => false,
+        ); //Thach 14/1 Them chuyen huong den trang chi tiet
+      },
       child: Container(
         margin: EdgeInsets.fromLTRB(10, 5, 5, 10),
         width: MediaQuery.of(context).size.width / 2 - 20,
+        height: MediaQuery.of(context).size.width / 2 + 80,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
@@ -30,15 +43,27 @@ class _ItemState extends State<Item> {
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Image.asset(
-                  "assets/images/piza.png",
-                  width: 230,
-                ),
+                //Thach 1/10 6:00 PM Thêm chiều rộng, chiều cao của hình
+                width: 230,
+                height: 160,
+                child: widget.products.path.isNotEmpty
+                    ? Image(
+                        image: NetworkImage(widget.products.path),
+                        fit: BoxFit.contain,
+                      )
+                    : Image.asset(
+                        "assets/images/piza.png",
+                      ),
+                // child: NetworkImage.asset(
+                //   "assets/images/piza.png",
+                //   width: 230,
+                // ),
               ),
               SizedBox(height: 10.0),
               Row(
@@ -64,7 +89,8 @@ class _ItemState extends State<Item> {
                         iconSize: 15,
                         icon: const Icon(Icons.shopping_cart_rounded),
                         color: Colors.white,
-                        onPressed: () {},
+                        onPressed:
+                            widget.addToCart, //Thach 14/1 Handle adding to cart
                       ),
                     ),
                   ),
@@ -91,10 +117,12 @@ class _ItemState extends State<Item> {
                       children: [
                         Text(
                           "${widget.products.rate}",
-                          style: const TextStyle(fontSize: 10),
+                          style: const TextStyle(
+                              fontSize: 10, color: Colors.white),
                         ),
                         const Icon(
                           Icons.star,
+                          color: Colors.yellow,
                           size: 13,
                         )
                       ],
@@ -104,16 +132,24 @@ class _ItemState extends State<Item> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        widget.products.promotionalPrice.isEmpty
+                        //Thạch 10/1 5:21PM sửa format tiền thành kiểu VND
+                        widget.products.promotionalPrice == 0 &&
+                                widget.products.price < 999999
                             ? ""
-                            : widget.products.promotionalPrice,
+                            : " ${(widget.products.price % 1000000 == 0 ? widget.products.price ~/ 1000000 : widget.products.price / 1000000)}Tr ",
                         style: const TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: 12),
+                        softWrap: true,
                       ),
                       Text(
-                        widget.products.price,
+                        (widget.products.promotionalPrice == 0 &&
+                                widget.products.price < 999999)
+                            ? FormatCurrency.stringToCurrency(
+                                widget.products.price.toString())
+                            : "${(widget.products.promotionalPrice % 1000000 == 0 ? widget.products.promotionalPrice ~/ 1000000 : widget.products.promotionalPrice / 1000000)}Tr",
                         style: const TextStyle(fontSize: 12),
+                        softWrap: true,
                       ),
                     ],
                   )

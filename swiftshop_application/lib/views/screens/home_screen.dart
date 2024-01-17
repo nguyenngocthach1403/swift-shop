@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
+import 'package:swiftshop_application/view_models/home_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/banner_slider.dart';
 import 'package:swiftshop_application/views/components/bottom_navigation_bar.dart';
-import 'package:swiftshop_application/views/components/outstanding_product_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,20 +14,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // final w = MediaQuery.of(context).size.width;
-    List<Product> lstProduct = List.filled(
-        4,
-        Product(
-            id: 1,
-            path: "path",
-            title: "Sản phẩm 1",
-            price: "100000đ",
-            promotionalPrice: "2000000đ",
-            type: '',
-            quantity: 1,
-            quantitySold: 1,
-            rate: 1),
-        growable: true);
+    var homeViewModel = HomeScreenViewModel();
+    //Thach xóa list
+    @override
+    void initState() {
+      super.initState();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const CircleAvatar(
@@ -35,7 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                homeViewModel.navigationCartScreen(
+                    context); //Thach 10:00 AM Thêm điều hướng tới CartScreen
+              },
               icon: Image.asset(
                 "assets/icons/shopping-cart.png",
                 width: 35,
@@ -58,7 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            OutstandingProductList(cols: 2, products: lstProduct),
+            //Thach 11/1  Chỉnh sửa view model
+            homeViewModel.loadOutStandingProducts(),
             const Row(
               children: [
                 Padding(
@@ -71,18 +68,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            OutstandingProductList(cols: 2, products: lstProduct),
-            // Row(
-            //   children: [Item(), Item()],
-            // ),
-            // Row(
-            //   children: [Item(), Item()],
-            // )
+            //Thach 11/1  Chỉnh sửa view model
+            homeViewModel.loadBestSalerProducts(),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBarCustom(
-        idx: 2,
+        idx: 0, //Thach 14/1 Thuc hien bottomnavigator
       ),
     );
   }
