@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBarCustom(
-        idx: 2,
+        idx: 0, //Thach 14/1 Thuc hien bottomnavigator
       ),
     );
   }

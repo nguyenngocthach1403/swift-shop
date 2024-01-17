@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
+import 'package:swiftshop_application/view_models/searching_screen_view_model.dart';
+import 'package:swiftshop_application/views/components/bottom_navigation_bar.dart';
 import 'package:swiftshop_application/views/components/outstanding_product_list.dart';
 import 'package:swiftshop_application/views/screens/home_screen.dart';
 
@@ -11,20 +13,23 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<Product> lstProduct = List.filled(
-      4,
-      Product(
-          id: 1,
-          path: "",
-          title: "",
-          price: "",
-          promotionalPrice: "",
-          type: "",
-          quantity: 1,
-          quantitySold: 1,
-          description: "",
-          rate: 1),
-      growable: true);
+  SearchScreenViewModel _viewModel = SearchScreenViewModel();
+  bool showFilter = false;
+  @override
+  void initState() {
+    Product.fetchDataFromFirebase().then((value) => {
+          setState(() {
+            _viewModel.resultProducts = Product.product;
+            Product.product.forEach((item) {
+              if (!_viewModel.lsttype.contains(item.type)) {
+                _viewModel.lsttype.add(item.type);
+              }
+            });
+          })
+        });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,12 +38,13 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
                     builder: (e) => const HomeScreen(),
                   ),
-                );
+                  (route) => false,
+                ); //  Thach 14/1 sua
               },
               icon: Image.asset(
                 "assets/icons/arrow-back-black.png",
@@ -63,6 +69,8 @@ class _SearchScreenState extends State<SearchScreen> {
       body: Column(
         children: [
           Container(
+            margin:
+                EdgeInsets.only(left: 10, right: 10), //Thach 14/1 Them  margin
             width: 400,
             child: Row(
               children: [
@@ -72,7 +80,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       color: Color.fromARGB(255, 208, 203, 203),
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    child: TextFormField(
+                    child: TextField(
+                      onChanged: (value) => setState(() {
+                        _viewModel.runFilter(value);
+                      }),
                       decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Nhập tên sản phẩm ...',
@@ -80,7 +91,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Material(
@@ -97,19 +108,66 @@ class _SearchScreenState extends State<SearchScreen> {
                         height: 20,
                         width: 20,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (showFilter)
+                          showFilter = !showFilter;
+                        else
+                          showFilter = !showFilter;
+
+                        setState(() {});
+                      },
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(
-            height: 25,
+          if (showFilter)
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 30,
+              margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+              child: ListView.builder(
+                itemCount: _viewModel.lsttype.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _viewModel.onTapFilter(_viewModel.lsttype[index]);
+                      });
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      height: 25,
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(96, 136, 202, 1),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      margin: EdgeInsets.all(2.5),
+                      child: Text(
+                        "${_viewModel.lsttype[index]}",
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          const SizedBox(
+            height: 10,
           ),
-          OutstandingProductList(cols: 2, products: lstProduct),
+          Expanded(
+              child: _viewModel.resultProducts.isNotEmpty
+                  ? SingleChildScrollView(
+                      child: OutstandingProductList(
+                          cols: 2, products: _viewModel.resultProducts),
+                    )
+                  : const Text("Not found product"))
         ],
       ),
+      bottomNavigationBar: BottomNavigationBarCustom(idx: 2),
     );
   }
 }

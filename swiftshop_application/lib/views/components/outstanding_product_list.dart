@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
+import 'package:swiftshop_application/view_models/detail_product_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/sale_product_item.dart';
 
 class OutstandingProductRow extends StatefulWidget {
@@ -17,6 +18,7 @@ class OutstandingProductRow extends StatefulWidget {
 }
 
 class _OutstandingProductRowState extends State<OutstandingProductRow> {
+  DetailProductScreenViewModel _viewModel = DetailProductScreenViewModel();
   @override
   Widget build(BuildContext context) {
     return Row(children: [
@@ -27,7 +29,12 @@ class _OutstandingProductRowState extends State<OutstandingProductRow> {
                   ? widget.indexRow * widget.cols + widget.cols
                   : widget.products.length);
           i++)
-        Item(products: widget.products[i])
+        Item(
+          products: widget.products[i],
+          addToCart: () {
+            _viewModel.addProductToCard(widget.products[i], 1);
+          },
+        )
     ]);
   }
 }
