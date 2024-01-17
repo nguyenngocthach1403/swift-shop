@@ -1,52 +1,10 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:swiftshop_application/view_models/add_product_screen_view_model.dart';
-
-class LoginGoogle {
-  static Future<User?> signInWithGoogle({required BuildContext context}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
-
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
-
-    if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-
-      try {
-        final UserCredential userCredential =
-            await auth.signInWithCredential(credential);
-
-        user = userCredential.user;
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'account-exists-with-different-credential') {
-          // handle the error here
-        } else if (e.code == 'invalid-credential') {
-          // handle the error here
-        }
-      } catch (e) {
-        // handle the error here
-      }
-    }
-
-    return user;
-  }
-}
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -74,6 +32,22 @@ class _AddProductScreenState extends State<AddProductScreen> {
       style: TextStyle(color: color, fontSize: size, fontWeight: weight),
     );
   }
+
+  // loginGoogle() async {
+  //   GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  //   GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+  //   AuthCredential credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth?.accessToken,
+  //     idToken: googleAuth?.idToken,
+  //   );
+  //   UserCredential userCredential =
+  //       await FirebaseAuth.instance.signInWithCredential(credential);
+  //   // print(userCredential.user?.displayName);
+  //   // if (userCredential.user != null) {
+  //   //   Navigator.of(context)
+  //   //       .push(MaterialPageRoute(builder: ((context) => HomeScreen())));
+  //   // }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +128,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               border: Border.all(width: 1, color: Colors.grey)),
                           child: IconButton(
                             onPressed: () async {
-                              LoginGoogle.signInWithGoogle(context: context);
                               final file = await ImagePicker()
                                   .pickImage(source: ImageSource.gallery);
                               if (file == null) {
