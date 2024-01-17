@@ -4,22 +4,25 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as Path;
+import 'package:swiftshop_application/data/models/user_model.dart';
+import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/Animation/animation.dart';
+import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
 
 class ProfileSettingScreen extends StatefulWidget {
-  const ProfileSettingScreen({Key? key}) : super(key: key);
+  final UserModel user;
+  const ProfileSettingScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   State<ProfileSettingScreen> createState() => _ProfileSettingScreenState();
 }
 
 class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
-  TextEditingController _fullname = TextEditingController();
-  TextEditingController _email = TextEditingController();
-  TextEditingController _address = TextEditingController();
-  TextEditingController _phonenumber = TextEditingController();
-  TextEditingController _password = TextEditingController();
+  TextEditingController? _fullname;
+  TextEditingController? _email;
+  TextEditingController? _address;
+  TextEditingController? _phonenumber;
+  TextEditingController? _password;
   Uint8List? _imgage;
   final _formSignupKey = GlobalKey<FormState>();
 
@@ -34,10 +37,30 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
   }
 
   void selectedImage() async {
-    Uint8List img = await getImage(ImageSource.gallery);
+    Uint8List? img = await getImage(ImageSource.gallery);
     setState(() {
       _imgage = img;
     });
+  }
+
+  @override
+  void initState() {
+    _fullname = TextEditingController(text: widget.user.fullname);
+    _email = TextEditingController(text: widget.user.email);
+    _address = TextEditingController(text: widget.user.address);
+    _phonenumber = TextEditingController(text: widget.user.phonenumber);
+    _password = TextEditingController(text: widget.user.password);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _fullname!.dispose();
+    _email!.dispose();
+    _address!.dispose();
+    _phonenumber!.dispose();
+    _password!.dispose();
+    super.dispose();
   }
 
   @override
@@ -285,16 +308,22 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                               backgroundColor: Colors.yellow,
                             ),
                             onPressed: () {
-                              // if (_formSignupKey.currentState!.validate()) {
-                              //   authNotifier.signupUserWithFirebase(
-                              //       _fullname.text, _email.text, _password.text);
-                              //   Navigator.pushNamed(context, '/');
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //     const SnackBar(
-                              //       content: Text('Create Account Success'),
-                              //     ),
-                              //   );
-                              // }
+                              if (_formSignupKey.currentState!.validate()) {
+                                UserData.updateData(UserModel(
+                                    accountId: widget.user.accountId,
+                                    fullname: _fullname!.text,
+                                    email: _email!.text,
+                                    address: _address!.text,
+                                    phonenumber: _phonenumber!.text,
+                                    password: _password!.text,
+                                    avatar: widget.user.avatar));
+                                Navigator.pushNamed(context, '/profile');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Update Account Success'),
+                                  ),
+                                );
+                              }
                             },
                             child: const Text('Update'),
                           ),

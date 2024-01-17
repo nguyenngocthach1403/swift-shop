@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:swiftshop_application/data/models/user_model.dart';
 
 class AccountRepository {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -61,5 +62,18 @@ class AccountRepository {
     } else {
       return false;
     }
+  }
+
+  Future<UserModel> getUserDetail(String email) async {
+    final snapshot = await _firestoreInstance.collection('accounts').get();
+    final userData = snapshot.docs.map((e) => UserModel.formSnapShot(e)).single;
+    return userData;
+  }
+
+  Future<void> updateUser(UserModel user) async {
+    await _firestoreInstance
+        .collection('accounts')
+        .doc(user.accountId)
+        .update(user.toJson());
   }
 }
