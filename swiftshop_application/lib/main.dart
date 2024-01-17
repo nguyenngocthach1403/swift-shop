@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           // "/": (context) => SignInScreen(),
-          "/": (context) => AdminProfileScreen(),
+          "/": (context) => Cart_Screen(),
           "/signup": (context) => SignUpScreen(),
           "/homepage": (context) => HomeScreen(),
           "/cartscreen": (context) => Cart_Screen(),
