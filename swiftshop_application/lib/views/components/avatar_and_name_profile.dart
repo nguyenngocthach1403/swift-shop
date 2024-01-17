@@ -18,6 +18,22 @@ class _AvatarProfileState extends State<AvatarProfile> {
   @override
   void initState() {
     super.initState();
+    setUserName();
+  }
+
+  Future<void> setUserName() async {
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('accounts')
+          .doc(user!.uid)
+          .get();
+      if (userDoc.exists) {
+        String fullname = userDoc['fullname'];
+        setState(() {
+          _name = fullname;
+        });
+      }
+    }
   }
 
   @override
@@ -61,9 +77,6 @@ class _AvatarProfileState extends State<AvatarProfile> {
                         String password = userDoc['password'];
                         String phonenumber = userDoc['phonenumber'];
                         String position = "";
-                        setState(() {
-                          _name = fullname;
-                        });
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -89,7 +102,7 @@ class _AvatarProfileState extends State<AvatarProfile> {
             ],
           ),
           const SizedBox(
-            height: 45,
+            height: 40,
           ),
           Center(
             child: Column(
