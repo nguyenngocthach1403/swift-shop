@@ -55,6 +55,7 @@ class _ProductListState extends State<ProductList> {
           TabCustom(
             width: width,
             lstTab: lstProTypeTab,
+            onTabSelected: (int) {},
           ),
           Container(
             width: width - 20 - 20,
