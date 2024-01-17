@@ -36,7 +36,7 @@ class AuthProvider extends ChangeNotifier {
         await fauth.signupUserWithFirebase(fullname, email, password);
 
     final data = {
-      'accountId': 'A' + _userCredential!.user!.uid,
+      'accountId': _userCredential!.user!.uid,
       'address': '',
       'avatar': '',
       'email': email,
