@@ -74,7 +74,7 @@ class _AvatarProfileState extends State<AvatarProfile> {
                         String avatar = userDoc['avatar'];
                         String email = userDoc['email'];
                         String fullname = userDoc['fullname'];
-                        String password = userDoc['password'];
+                        // String password = userDoc['password'];
                         String phonenumber = userDoc['phonenumber'];
                         String position = "";
                         Navigator.push(
@@ -87,7 +87,7 @@ class _AvatarProfileState extends State<AvatarProfile> {
                                   avatar: avatar,
                                   email: email,
                                   fullname: fullname,
-                                  password: password,
+                                  // password: password,
                                   phonenumber: phonenumber,
                                   position: position),
                             ),
