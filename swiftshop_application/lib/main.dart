@@ -34,13 +34,13 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          // "/": (context) => SignInScreen(),
-          "/": (context) => Cart_Screen(),
           "/signup": (context) => SignUpScreen(),
           "/homepage": (context) => HomeScreen(),
           "/cartscreen": (context) => Cart_Screen(),
           "/searchscreen": (context) =>
-              SearchScreen() // Thach 11/1 10:00 AM Thêm route cho Cart Screen
+              SearchScreen(), // Thach 11/1 10:00 AM Thêm route cho Cart Screen
+          "/profile": (context) =>
+              UserProfileScreen() // Toan 17/1 10:28 AM Thêm route cho UserProfile
         });
   }
 }

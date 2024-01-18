@@ -77,10 +77,16 @@ class BottomNavigationBarCustom extends StatelessWidget {
                 (route) => false,
               );
               break;
+            case 3:
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/profile',
+                (route) => false,
+              );
+              break;
           }
         }
       },
     );
   }
 }
-//Thach 14/1 Change StateLess
