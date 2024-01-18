@@ -34,7 +34,7 @@ class HomeScreenViewModel {
                 path: i['path'],
                 title: i['name'],
                 price: i['price'], //Thach 16/1 int
-                promotionalPrice: i['promotionalPrice'], //Thach 16/1 int
+                promotionalPrice: i['promotionPrice'], //Thach 16/1 int
                 type: i['type'],
                 quantity: int.parse(i['quantity'].toString()),
                 quantitySold: int.parse(i['quantitySold'].toString()),
@@ -82,7 +82,7 @@ class HomeScreenViewModel {
                 path: i['path'],
                 title: i['name'],
                 price: i['price'], //Thach 16/1 int
-                promotionalPrice: i['promotionalPrice'], //Thach 16/1 int
+                promotionalPrice: i['promotionPrice'], //Thach 16/1 int
                 type: i['type'],
                 quantity: int.parse(i['quantity'].toString()),
                 quantitySold: int.parse(i['quantitySold'].toString()),
