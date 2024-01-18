@@ -72,7 +72,7 @@ class _AvatarProfileState extends State<AvatarProfile> {
                         String accountId = userDoc['accountId'];
                         String address = userDoc['address'];
                         String avatar = userDoc['avatar'];
-                        String email = userDoc['email'];
+                        // String email = userDoc['email'];
                         String fullname = userDoc['fullname'];
                         // String password = userDoc['password'];
                         String phonenumber = userDoc['phonenumber'];
@@ -85,7 +85,7 @@ class _AvatarProfileState extends State<AvatarProfile> {
                                   accountId: accountId,
                                   address: address,
                                   avatar: avatar,
-                                  email: email,
+                                  // email: email,
                                   fullname: fullname,
                                   // password: password,
                                   phonenumber: phonenumber,

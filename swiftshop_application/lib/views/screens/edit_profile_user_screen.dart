@@ -2,12 +2,14 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:swiftshop_application/data/models/user_model.dart';
 import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/Animation/animation.dart';
 import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
+import 'package:path/path.dart' as Path;
 
 class ProfileSettingScreen extends StatefulWidget {
   final UserModel user;
@@ -19,16 +21,16 @@ class ProfileSettingScreen extends StatefulWidget {
 
 class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
   TextEditingController? _fullname;
-  TextEditingController? _email;
   TextEditingController? _address;
   TextEditingController? _phonenumber;
-  TextEditingController? _password;
-  Uint8List? _imgage;
   final _formSignupKey = GlobalKey<FormState>();
+  XFile? _imgage;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   getImage(ImageSource source) async {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: source);
+    print(image!.path);
     if (image != null) {
       // selectedImage = File(image.path);
       // setState(() {});
@@ -36,30 +38,57 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
     }
   }
 
-  void selectedImage() async {
-    Uint8List? img = await getImage(ImageSource.gallery);
+  selectedImage() async {
+    XFile img = await getImage(ImageSource.gallery);
     setState(() {
       _imgage = img;
+      uploadImageToStorage('images', img);
     });
+  }
+
+  // Future<void> uploadFileToFirebaseStorage(File data) async {
+  //   try {
+  //     FirebaseStorage storage = FirebaseStorage.instance;
+  //     String fileName = "${DateTime.now()}.png";
+  //     Reference storageReference = storage.ref().child(fileName);
+  //     await storageReference.putFile(data);
+  //     String downloadURL = await storageReference.getDownloadURL();
+
+  //     print('File uploaded successfully. Download URL: $downloadURL');
+  //   } catch (e) {
+  //     print('Error uploading file: $e');
+  //   }
+  // }
+  Future<String> uploadImageToStorage(String childName, XFile file) async {
+    Reference ref = _storage.ref();
+    Reference referenceDirImage = ref.child(childName);
+    Reference referenceImage = referenceDirImage.child(file.path);
+    referenceImage.putFile(File(file!.path));
+    String url = await referenceImage.getDownloadURL();
+    return url;
+    // UploadTask uploadTask = ref.putData(file);
+    // TaskSnapshot snapshot = await uploadTask;
+    // String downloadUrl = await snapshot.ref.getDownloadURL();
+    // return downloadUrl;
   }
 
   @override
   void initState() {
     _fullname = TextEditingController(text: widget.user.fullname);
-    _email = TextEditingController(text: widget.user.email);
+    // _email = TextEditingController(text: widget.user.email);
     _address = TextEditingController(text: widget.user.address);
     _phonenumber = TextEditingController(text: widget.user.phonenumber);
-    _password = TextEditingController(text: widget.user.password);
+    // _password = TextEditingController(text: widget.user.password);
     super.initState();
   }
 
   @override
   void dispose() {
     _fullname!.dispose();
-    _email!.dispose();
+    // _email!.dispose();
     _address!.dispose();
     _phonenumber!.dispose();
-    _password!.dispose();
+    // _password!.dispose();
     super.dispose();
   }
 
@@ -89,7 +118,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                     child: _imgage != null
                         ? CircleAvatar(
                             radius: 64,
-                            backgroundImage: MemoryImage(_imgage!),
+                            // backgroundImage: XFileImage(_imgage!),
                           )
                         : const CircleAvatar(
                             radius: 50,
@@ -100,7 +129,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 4,
             child: Container(
               padding: const EdgeInsets.fromLTRB(25.0, 50.0, 25.0, 20.0),
               decoration: const BoxDecoration(
@@ -149,43 +178,43 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                       const SizedBox(
                         height: 25.0,
                       ),
-                      FadeAnimation(
-                        1.4,
-                        TextFormField(
-                          controller: _email,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter Email';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: Icon(Icons.email_outlined),
-                            label: const Text('Email'),
-                            hintText: 'Enter your Email',
-                            hintStyle: const TextStyle(
-                              color: Colors.black26,
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.white, // Default border color
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.white, // Default border color
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
+                      // FadeAnimation(
+                      //   1.4,
+                      //   TextFormField(
+                      //     controller: _email,
+                      //     validator: (value) {
+                      //       if (value == null || value.isEmpty) {
+                      //         return 'Please enter Email';
+                      //       }
+                      //       return null;
+                      //     },
+                      //     decoration: InputDecoration(
+                      //       filled: true,
+                      //       fillColor: Colors.white,
+                      //       prefixIcon: Icon(Icons.email_outlined),
+                      //       label: const Text('Email'),
+                      //       hintText: 'Enter your Email',
+                      //       hintStyle: const TextStyle(
+                      //         color: Colors.black26,
+                      //       ),
+                      //       border: OutlineInputBorder(
+                      //         borderSide: const BorderSide(
+                      //           color: Colors.white, // Default border color
+                      //         ),
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       ),
+                      //       enabledBorder: OutlineInputBorder(
+                      //         borderSide: const BorderSide(
+                      //           color: Colors.white, // Default border color
+                      //         ),
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // const SizedBox(
+                      //   height: 25.0,
+                      // ),
                       FadeAnimation(
                         1.6,
                         TextFormField(
@@ -257,45 +286,45 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
-                      FadeAnimation(
-                        2.0,
-                        TextFormField(
-                          controller: _password,
-                          obscureText: true,
-                          obscuringCharacter: '*',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter Password';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: Icon(Icons.key_sharp),
-                            label: const Text('Password'),
-                            hintText: 'Enter your Password',
-                            hintStyle: const TextStyle(
-                              color: Colors.black26,
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.black12, // Default border color
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.black12, // Default border color
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // const SizedBox(
+                      //   height: 25.0,
+                      // ),
+                      // FadeAnimation(
+                      //   2.0,
+                      //   TextFormField(
+                      //     controller: _password,
+                      //     obscureText: true,
+                      //     obscuringCharacter: '*',
+                      //     validator: (value) {
+                      //       if (value == null || value.isEmpty) {
+                      //         return 'Please enter Password';
+                      //       }
+                      //       return null;
+                      //     },
+                      //     decoration: InputDecoration(
+                      //       filled: true,
+                      //       fillColor: Colors.white,
+                      //       prefixIcon: Icon(Icons.key_sharp),
+                      //       label: const Text('Password'),
+                      //       hintText: 'Enter your Password',
+                      //       hintStyle: const TextStyle(
+                      //         color: Colors.black26,
+                      //       ),
+                      //       border: OutlineInputBorder(
+                      //         borderSide: const BorderSide(
+                      //           color: Colors.black12, // Default border color
+                      //         ),
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       ),
+                      //       enabledBorder: OutlineInputBorder(
+                      //         borderSide: const BorderSide(
+                      //           color: Colors.black12, // Default border color
+                      //         ),
+                      //         borderRadius: BorderRadius.circular(10),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 25.0,
                       ),
@@ -307,15 +336,16 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.yellow,
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formSignupKey.currentState!.validate()) {
+                                // String url = await uploadFileToFirebaseStorage(_imgage!);
                                 UserData.updateData(UserModel(
                                     accountId: widget.user.accountId,
                                     fullname: _fullname!.text,
-                                    email: _email!.text,
+                                    // email: _email!.text,
                                     address: _address!.text,
                                     phonenumber: _phonenumber!.text,
-                                    password: _password!.text,
+                                    // password: _password!.text,
                                     avatar: widget.user.avatar));
                                 Navigator.pushNamed(context, '/profile');
                                 ScaffoldMessenger.of(context).showSnackBar(
