@@ -1,6 +1,7 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,23 +16,56 @@ class AddProductScreen extends StatefulWidget {
 
 class _AddProductScreenState extends State<AddProductScreen> {
   final FirebaseStorage storage = FirebaseStorage.instance;
+
+  //image upload
+  String imageURL = '';
+  File? _photo;
+  final ImagePicker _picker = ImagePicker();
+  //Thư viện hình ảnh
+  Future imgFromGallery() async {
+    final pickdFile = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickdFile != null) {
+        _photo = File(pickdFile.path);
+        uploadFile();
+      }
+    });
+  }
+
+  //Upload hình ảnh
+  Future uploadFile() async {
+    if (_photo == null) {
+      print("Không có hình ảnh");
+    }
+    final fileName = basename(_photo!.path);
+    final destination = 'file/$fileName';
+    try {
+      final ref = FirebaseStorage.instance.ref(destination).child('file/');
+      await ref.putFile(_photo!);
+    } catch (e) {
+      print('error-----------------');
+    }
+  }
+
+  //Text
   Color color = Colors.black;
   late String text;
   double size = 13.0;
   FontWeight weight = FontWeight.normal;
-  String imageURL = '';
-  TextEditingController nameController = TextEditingController();
-  TextEditingController quantityController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
-  TextEditingController typeController = TextEditingController();
-  TextEditingController promotionController = TextEditingController();
-  TextEditingController desciptionController = TextEditingController();
   Text _text(text, color, size, weight) {
     return Text(
       text,
       style: TextStyle(color: color, fontSize: size, fontWeight: weight),
     );
   }
+
+  //Controller
+  TextEditingController nameController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
+  TextEditingController promotionController = TextEditingController();
+  TextEditingController desciptionController = TextEditingController();
 
   // loginGoogle() async {
   //   GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -128,27 +162,39 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               border: Border.all(width: 1, color: Colors.grey)),
                           child: IconButton(
                             onPressed: () async {
+                              // add the package image_picker
                               final file = await ImagePicker()
                                   .pickImage(source: ImageSource.gallery);
-                              if (file == null) {
-                                print("Khong co hinh anh trong file");
-                              }
-                              String fileName =
-                                  DateTime.now().microsecond.toString();
+                              if (file == null) return;
+
+                              String fileName = DateTime.now()
+                                  .microsecondsSinceEpoch
+                                  .toString();
+
+                              // Get the reference to storage root
+                              // We create the image folder first and insider folder we upload the image
                               Reference referenceRoot =
                                   FirebaseStorage.instance.ref();
-                              Reference referenceDireImage =
+                              Reference referenceDireImages =
                                   referenceRoot.child('images');
-                              Reference referenceImageToUpLoad =
-                                  referenceDireImage.child(fileName);
 
+                              // we have creata reference for the image to be stored
+                              Reference referenceImageaToUpload =
+                                  referenceDireImages.child(fileName);
+
+                              // For errors handled and/or success
                               try {
-                                await referenceImageToUpLoad
-                                    .putFile(File(file!.path));
-                                //upload image link in firestore
-                                imageURL = await referenceImageToUpLoad
+                                await referenceImageaToUpload
+                                    .putFile(File(file.path));
+
+                                // We have successfully upload the image now
+                                // make this upload image link in firebase database
+
+                                imageURL = await referenceImageaToUpload
                                     .getDownloadURL();
-                              } catch (e) {}
+                              } catch (error) {
+                                //some error
+                              }
                             },
                             icon: FaIcon(
                               FontAwesomeIcons.plus,
@@ -486,18 +532,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           if (imageURL.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text("Hãy chọn hình ảnh cần upload")));
+                          } else {
+                            AddProduct.addItem(
+                              name: nameController.text,
+                              description: desciptionController.text,
+                              price: int.parse(priceController.text),
+                              promotionPrice:
+                                  int.parse(promotionController.text),
+                              quantity: int.parse(quantityController.text),
+                              quantitySold: 0,
+                              rate: 0,
+                              type: typeController.text,
+                              path: imageURL.toString(),
+                            );
                           }
-                          AddProduct.addItem(
-                            name: nameController.text,
-                            description: desciptionController.text,
-                            price: int.parse(priceController.text),
-                            promotionPrice: int.parse(promotionController.text),
-                            quantity: int.parse(quantityController.text),
-                            quantitySold: 0,
-                            rate: 0,
-                            type: typeController.text,
-                            path: imageURL.toString(),
-                          );
                         }),
                       ),
                     ],

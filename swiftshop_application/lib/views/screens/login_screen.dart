@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swiftshop_application/view_models/login_creen_view_model.dart';
+import 'package:swiftshop_application/views/screens/add_product_screen.dart';
 import '../Animation/animation.dart';
 import 'register_screen.dart';
 
@@ -166,11 +167,9 @@ class SignInScreen extends ConsumerWidget {
                                 );
 
                                 // Navigate Home
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  "/homepage",
-                                  (route) => false,
-                                );
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: ((context) =>
+                                        AddProductScreen())));
                               }
                             } catch (e) {
                               showDialog(

@@ -19,8 +19,12 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyB4uR5_QlrE5TwAPReT-bN93MH2SvH1HOM",
+          appId: "1:475664841613:android:bb3894c3094a582cec5bc4",
+          messagingSenderId: "475664841613",
+          projectId: "swiftshop-5e2eb",
+          storageBucket: "swiftshop-5e2eb.appspot.com"));
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -35,7 +39,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           // "/": (context) => SignInScreen(),
-          "/": (context) => AdminProfileScreen(),
+          "/": (context) => SignInScreen(),
           "/signup": (context) => SignUpScreen(),
           "/homepage": (context) => HomeScreen(),
           "/cartscreen": (context) => Cart_Screen(),
