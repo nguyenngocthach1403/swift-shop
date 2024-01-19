@@ -88,6 +88,7 @@ class HomeScreenViewModel {
 
   //Get product local
   Future<List<Product>> fetchProductsLocal() async {
+    await loadAndSaveProduct();
     List<Product> products = [];
     File file = await Product.getPathFile('product');
     try {
