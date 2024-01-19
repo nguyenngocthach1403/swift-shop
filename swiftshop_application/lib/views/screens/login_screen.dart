@@ -172,7 +172,7 @@ class SignInScreen extends ConsumerWidget {
                                   (route) => false,
                                 );
 
-                                authNotifier.updateData(true);
+                                // authNotifier.updateData(true);
                               }
                             } catch (e) {
                               showDialog(

@@ -17,17 +17,14 @@ class _HomeScreenState extends State<HomeScreen> {
   var homeViewModel = HomeScreenViewModel();
   @override
   void initState() {
-    homeViewModel.loadAndSaveProduct().then((value) {
-      setState(() {});
+    homeViewModel.fetchProductsLocal().then((value) {
+      products = value;
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    homeViewModel.fetchProductsLocal().then((value) {
-      products = value;
-    });
     return Scaffold(
       appBar: AppBar(
         title: const CircleAvatar(
