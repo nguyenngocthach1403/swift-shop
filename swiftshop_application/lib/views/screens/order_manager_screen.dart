@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/format_currency.dart';
 import 'package:swiftshop_application/data/models/order.dart';
 import 'package:swiftshop_application/data/models/product_of_order.dart';
-import 'package:swiftshop_application/data/models/user.dart';
+import 'package:swiftshop_application/data/models/user_model.dart';
 import 'package:swiftshop_application/view_models/order_management_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/product_item_of_order.dart';
 
@@ -26,13 +26,13 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
       orderDate: Timestamp.now(),
       status: '',
       totalPrice: 0);
-  Users user = Users(
+  UserModel user = UserModel(
       accountId: '',
       address: '',
       email: '',
       fullname: '',
-      path: '',
-      phoneNumber: '',
+      avatar: '',
+      phonenumber: '',
       position: '');
   List<ProductOfOrder> productOfOrder = [];
   List<ProductItemOfOrder> lstProduct = [];
@@ -295,19 +295,19 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        user.fullname,
+                                        user.fullname!,
                                         style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        user.phoneNumber,
+                                        user.phonenumber!,
                                         style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        user.address,
+                                        user.address!,
                                         style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),

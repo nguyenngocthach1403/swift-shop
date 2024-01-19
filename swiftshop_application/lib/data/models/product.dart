@@ -31,7 +31,7 @@ class Product {
       required this.description});
   Product.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        path = "",
+        path = json['path'],
         title = json['name'],
         price = json['price'],
         promotionalPrice = json['promotionalPrice'],
@@ -121,7 +121,8 @@ class Product {
     Product.product = lstFirebaseProducts;
   }
 
-  static Future<bool> saveDataProduct(List<Product> products) async {
+  static Future<bool> saveDataProduct(
+      List<Product> products, String filename) async {
     try {
       File productFile = await getPathFile('product');
       if (await productFile.exists()) {
@@ -142,7 +143,7 @@ class Product {
         'name': title,
         'price': price,
         'promotionalPrice': promotionalPrice,
-        'path': "",
+        'path': path,
         'quantity': quantity,
         'quantitySold': quantitySold,
         'description': description,

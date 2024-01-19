@@ -6,7 +6,7 @@ import 'package:swiftshop_application/data/models/order.dart';
 import 'package:swiftshop_application/data/models/order_item.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/data/models/product_of_order.dart';
-import 'package:swiftshop_application/data/models/user.dart';
+import 'package:swiftshop_application/data/models/user_model.dart';
 
 class OrderManagementViewModel {
   CollectionReference order = FirebaseFirestore.instance.collection('orders');
@@ -53,30 +53,32 @@ class OrderManagementViewModel {
     }
   }
 
-  Future<Users> getUser(String accountId) async {
+  Future<UserModel> getUser(String accountId) async {
     QuerySnapshot user =
         await FirebaseFirestore.instance.collection("accounts").get();
-    Users currentUser;
+    UserModel currentUser;
     for (var i in user.docs) {
       if (i.id == accountId) {
-        currentUser = Users(
+        currentUser = UserModel(
             accountId: i.id,
             address: i['address'],
             email: i['email'],
             fullname: i['fullname'],
-            path: i['avatar'],
-            phoneNumber: i['phonenumber'],
+            avatar: i['avatar'],
+            phonenumber: i['phonenumber'],
+            password: "",
             position: i['position']);
         return currentUser;
       }
     }
-    return Users(
+    return UserModel(
         accountId: '',
         address: '',
         email: '',
         fullname: '',
-        path: '',
-        phoneNumber: '',
+        avatar: '',
+        phonenumber: '',
+        password: '',
         position: '');
   }
 
