@@ -3,6 +3,7 @@ import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/home_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/banner_slider.dart';
 import 'package:swiftshop_application/views/components/bottom_navigation_bar.dart';
+import 'package:swiftshop_application/views/components/outstanding_product_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,15 +13,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Product> products = [];
+  var homeViewModel = HomeScreenViewModel();
+  @override
+  void initState() {
+    homeViewModel.loadAndSaveProduct().then((value) {
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var homeViewModel = HomeScreenViewModel();
-    //Thach xóa list
-    @override
-    void initState() {
-      super.initState();
-    }
-
+    homeViewModel.fetchProductsLocal().then((value) {
+      products = value;
+    });
     return Scaffold(
       appBar: AppBar(
         title: const CircleAvatar(
@@ -54,8 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            //Thach 11/1  Chỉnh sửa view model
-            homeViewModel.loadOutStandingProducts(),
+            //Thach 19/1  Sua
+            OutstandingProductList(
+                cols: 2,
+                products: homeViewModel.findOustandingProducts(products)),
             const Row(
               children: [
                 Padding(
@@ -68,8 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            //Thach 11/1  Chỉnh sửa view model
-            homeViewModel.loadBestSalerProducts(),
+            //Thach 19/1  Sua
+            OutstandingProductList(
+                cols: 2,
+                products: homeViewModel.findBestSalerProducts(products)),
           ],
         ),
       ),
