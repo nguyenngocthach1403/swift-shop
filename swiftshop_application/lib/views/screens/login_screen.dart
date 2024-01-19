@@ -171,6 +171,8 @@ class SignInScreen extends ConsumerWidget {
                                   "/homepage",
                                   (route) => false,
                                 );
+
+                                authNotifier.updateData(true);
                               }
                             } catch (e) {
                               showDialog(
