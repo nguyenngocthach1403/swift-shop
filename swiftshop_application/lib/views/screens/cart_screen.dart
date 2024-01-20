@@ -156,6 +156,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/cart_detail.dart';
+import 'package:swiftshop_application/data/models/format_currency.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/cart_screen_view_model.dart';
 
@@ -173,6 +174,7 @@ class _Cart_ScreenState extends State<Cart_Screen> {
   CartViewModel cartViewModel = CartViewModel();
   List<CartDetail> carts = [];
   List<Product> products = [];
+  double totalPrice = 0.0; // Thêm biến totalPrice
   @override
   void initState() {
     cartViewModel.fetchCartDetailOnLocal().then((value) {
@@ -183,7 +185,27 @@ class _Cart_ScreenState extends State<Cart_Screen> {
         products = value;
       });
     });
+    totalPrice = _calculateTotalPrice(carts, products); // Cập nhật totalPrice
     super.initState();
+  }
+
+  double _calculateTotalPrice(
+      List<CartDetail> cartItems, List<Product> products) {
+    double totalPrice = 0.0;
+    for (var cartItem in cartItems) {
+      Product? product =
+          cartViewModel.getProductById(cartItem.productId, products);
+      if (product != null) {
+        totalPrice += cartItem.quantity * product.price;
+      }
+    }
+    return totalPrice;
+  }
+
+  void _updateTotalPrice() {
+    setState(() {
+      totalPrice = _calculateTotalPrice(carts, products);
+    });
   }
 
   @override
@@ -239,9 +261,11 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                       products: products,
                       onIncreaseQuantity: () {
                         cartViewModel.increaseQuantity(carts[index].cartId);
+                        _updateTotalPrice();
                       },
                       onDecreaseQuantity: () {
                         cartViewModel.decreaseQuantity(carts[index].cartId);
+                        _updateTotalPrice();
                       },
                       onRemoveProduct: () {
                         cartViewModel.deleteItem(carts[index].cartdetailId);
@@ -252,9 +276,11 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                             .fetchProductFromCartDetail()
                             .then((value) {
                           products = value;
+                          _updateTotalPrice();
                           setState(() {});
                         });
                       },
+                      onQuantityChanged: () {},
                     ),
                   ),
                 );
@@ -273,7 +299,7 @@ class _Cart_ScreenState extends State<Cart_Screen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -284,31 +310,16 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                         fontSize: 18,
                       ),
                     ),
-                    // StreamBuilder<List<Cart>>(
-                    //   stream: cartViewModel.cartItemsStream,
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.connectionState ==
-                    //         ConnectionState.waiting) {
-                    //       return CircularProgressIndicator();
-                    //     } else if (snapshot.hasError) {
-                    //       return Text('Error: ${snapshot.error}');
-                    //     } else {
-                    //       double totalPrice = 0.0;
-                    //       List<Cart> cartItems = snapshot.data ?? [];
-                    //       for (var item in cartItems) {
-                    //         totalPrice += item.totalPrice;
-                    //       }
-                    //       return Text(
-                    //         "${totalPrice.toStringAsFixed(0)}",
-                    //         style: const TextStyle(
-                    //           fontWeight: FontWeight.bold,
-                    //           color: Colors.white,
-                    //           fontSize: 18,
-                    //         ),
-                    //       );
-                    //     }
-                    //   },
-                    // ),
+                    Text(
+                      FormatCurrency.stringToCurrency(
+                          _calculateTotalPrice(carts, products)
+                              .toStringAsFixed(0)),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 10),

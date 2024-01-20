@@ -49,6 +49,7 @@ class CartViewModel {
     await Cart.removeProduct(cartId);
   }
 
+ 
   //load cart on  firebase
   Future<List<CartDetail>> loadCartOnFirebase() async {
     QuerySnapshot cartSnapshot = await carts.get();
@@ -74,7 +75,7 @@ class CartViewModel {
     List<CartDetail> carts = await loadCartOnFirebase();
     //get file
     InfoReader reader = InfoReader();
-    File f = await reader.getPathFile('cartdetail');
+    File f = await reader.getPathFile('cart detail');
     //If file is exist
     try {
       if (await f.exists()) {
@@ -100,7 +101,7 @@ class CartViewModel {
     List<CartDetail> carts = [];
     //get file
     InfoReader reader = InfoReader();
-    File f = await reader.getPathFile('cartdetail');
+    File f = await reader.getPathFile('cart detail');
 
     try {
       //if file is exist
@@ -163,14 +164,17 @@ class CartViewModel {
     return null;
   }
 
-  //Remove cart
+  // tung 19/1 Remove cart
   deleteItem(String cartDetailId) {
     carts.doc(cartDetailId).delete();
     fetchProductFromCartDetail();
   }
 
-  //Update cart
+  // tung 19/1 Update cart
   updateQuantity(String cartDetailId, int quantity) {
     carts.doc(cartDetailId).update({'Quantity': quantity});
   }
+  
+ 
+  
 }

@@ -143,7 +143,8 @@ class Cart_Items extends StatefulWidget {
     required this.onIncreaseQuantity,
     required this.onDecreaseQuantity,
     required this.onRemoveProduct,
-    required this.products,
+    required this.products, 
+    required this.onQuantityChanged,
   }) : super(key: key);
 
   final CartDetail cartItem;
@@ -151,7 +152,7 @@ class Cart_Items extends StatefulWidget {
   final VoidCallback onIncreaseQuantity;
   final VoidCallback onDecreaseQuantity;
   final VoidCallback onRemoveProduct;
-
+ final VoidCallback onQuantityChanged;
   @override
   State<Cart_Items> createState() => _Cart_ItemsState();
 }
@@ -167,6 +168,7 @@ class _Cart_ItemsState extends State<Cart_Items> {
     }
     return "$priceStringđ";
   }
+  
 
   @override
   void initState() {
@@ -210,6 +212,7 @@ class _Cart_ItemsState extends State<Cart_Items> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(padding: EdgeInsets.only(top: 10, left: 50)),
+                //tùng cập nhật giá của sản phẩm hiện thị tổng
                 Row(
                   children: [
                     Text(_viewModel
@@ -243,6 +246,7 @@ class _Cart_ItemsState extends State<Cart_Items> {
                                   quantity--;
                                   _viewModel.updateQuantity(
                                       widget.cartItem.cartdetailId, quantity);
+                                      widget.onQuantityChanged();
                                 }
                               });
                             },
@@ -264,6 +268,7 @@ class _Cart_ItemsState extends State<Cart_Items> {
                                 quantity++;
                                 _viewModel.updateQuantity(
                                     widget.cartItem.cartdetailId, quantity);
+                                    widget.onQuantityChanged();
                               });
                             },
                             color: Colors.black,
