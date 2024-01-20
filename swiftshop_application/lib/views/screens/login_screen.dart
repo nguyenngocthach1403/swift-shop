@@ -233,7 +233,12 @@ class SignInScreen extends ConsumerWidget {
                         child: OutlinedButton.icon(
                           style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.white),
-                          onPressed: () {},
+                          onPressed: () async {
+                            bool res = await authNotifier.signInWithGoogle();
+                            if (res) {
+                              Navigator.pushNamed(context, '/homepage');
+                            }
+                          },
                           icon: Image(
                             image: AssetImage("assets/images/logo.png"),
                             width: 20.0,
