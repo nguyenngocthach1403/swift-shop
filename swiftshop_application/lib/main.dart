@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swiftshop_application/views/components/cart_items.dart';
@@ -33,6 +34,17 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+        // home: FutureBuilder(
+        //   future: FirebaseAuth.instance.authStateChanges().first,
+        //   builder: (context, snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       return CircularProgressIndicator();
+        //     } else {
+        //       final user = snapshot.data as User?;
+        //       return user != null ? HomeScreen() : SignInScreen();
+        //     }
+        //   },
+        // ),
         routes: {
           "/": (context) => SignInScreen(),
           "/signup": (context) => SignUpScreen(),

@@ -36,11 +36,21 @@ class SignInScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    FadeAnimation(
+                      1,
+                      Container(
+                        child: Image(
+                          image: AssetImage('assets/icons/SwiftShop_logo.png'),
+                          width: 400,
+                          height: 100,
+                        ),
+                      ),
+                    ),
                     const SizedBox(
                       height: 25.0,
                     ),
                     FadeAnimation(
-                      1,
+                      1.2,
                       const Text(
                         'Welcome to SwiftShop',
                         style: TextStyle(
@@ -50,10 +60,10 @@ class SignInScreen extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 100,
+                      height: 30,
                     ),
                     FadeAnimation(
-                      1.2,
+                      1.4,
                       TextFormField(
                         controller: _email,
                         validator: (value) {
@@ -90,7 +100,7 @@ class SignInScreen extends ConsumerWidget {
                       height: 25.0,
                     ),
                     FadeAnimation(
-                      1.4,
+                      1.6,
                       TextFormField(
                         controller: _password,
                         // obscureText: pass ? _isObscure : false,
@@ -144,7 +154,7 @@ class SignInScreen extends ConsumerWidget {
                       height: 25.0,
                     ),
                     FadeAnimation(
-                      1.6,
+                      1.8,
                       SizedBox(
                         width: 150,
                         child: ElevatedButton(
@@ -193,7 +203,7 @@ class SignInScreen extends ConsumerWidget {
                       height: 25.0,
                     ),
                     FadeAnimation(
-                      1.8,
+                      2,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -229,7 +239,7 @@ class SignInScreen extends ConsumerWidget {
                       height: 30.0,
                     ),
                     FadeAnimation(
-                      2.0,
+                      2.2,
                       SizedBox(
                         width: double.infinity,
                         height: 50,
@@ -254,7 +264,7 @@ class SignInScreen extends ConsumerWidget {
                       height: 30.0,
                     ),
                     FadeAnimation(
-                      2.2,
+                      2.4,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

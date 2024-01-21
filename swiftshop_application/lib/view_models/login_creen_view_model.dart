@@ -9,14 +9,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
   UserCredential? _userCredential;
-  Map<String, dynamic> _userData = {};
   AccountRepository fauth = AccountRepository();
   bool get isLoading => _isLoading;
   UserCredential? get userCredential => _userCredential;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _store = FirebaseFirestore.instance;
-
-  Map<String, dynamic> get userData => _userData;
 
   Future<UserCredential> loginUserWithFirebase(
       String email, String password) async {
@@ -47,7 +44,7 @@ class AuthProvider extends ChangeNotifier {
       'fullname': fullname,
       'password': password,
       'phonenumber': '',
-      'position': '',
+      'position': 'User',
     };
     String uid = _userCredential!.user!.uid;
     isSuccess = await addUserToFirebase(data, 'accounts', uid);
@@ -111,16 +108,6 @@ class AuthProvider extends ChangeNotifier {
     }
     return res;
   }
-
-  // Future<void> updateData(bool isLoggedIn) async {
-  //   final SharedPreferences pref = await SharedPreferences.getInstance();
-  //   await pref.setBool('isLoggedIn', isLoggedIn);
-  // }
-
-  // Future<bool> getToken() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   return prefs.getBool('isLoggedIn') ?? false;
-  // }
 }
 
 final authProvider =
