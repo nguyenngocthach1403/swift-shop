@@ -1,16 +1,4 @@
-// import 'package:swiftshop_application/data/models/carts.dart';
 
-// class CartViewModel {
-//   Stream<List<Cart>> cartItemsStream = Cart.getAllCarts();
-
-//   Future<void> updateQuantity(String cartId, int newQuantity) async {
-//     await Cart.updateProductQuantity(cartId, newQuantity);
-//   }
-
-//   Future<void> removeProduct(String cartId) async {
-//     await Cart.removeProduct(cartId);
-//   }
-// }
 
 import 'dart:convert';
 import 'dart:io';
@@ -174,7 +162,11 @@ class CartViewModel {
   updateQuantity(String cartDetailId, int quantity) {
     carts.doc(cartDetailId).update({'Quantity': quantity});
   }
-  
- 
+  //clear các sp khi thanh toán thành công 21/1
+  Future<void> clearCart() async {
+    for (var cartItem in lstCart) {
+      await carts.doc(cartItem.cartdetailId).delete();
+    }
+  }
   
 }
