@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swiftshop_application/data/models/account_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
@@ -78,9 +79,8 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> signInWithGoogle() async {
     bool res = false;
     try {
-      final GoogleSignIn googleSignIn = GoogleSignIn();
       final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
+          await GoogleSignIn().signIn();
       final GoogleSignInAuthentication? googleSignInAuth =
           await googleSignInAccount?.authentication;
 
@@ -111,6 +111,16 @@ class AuthProvider extends ChangeNotifier {
     }
     return res;
   }
+
+  // Future<void> updateData(bool isLoggedIn) async {
+  //   final SharedPreferences pref = await SharedPreferences.getInstance();
+  //   await pref.setBool('isLoggedIn', isLoggedIn);
+  // }
+
+  // Future<bool> getToken() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   return prefs.getBool('isLoggedIn') ?? false;
+  // }
 }
 
 final authProvider =

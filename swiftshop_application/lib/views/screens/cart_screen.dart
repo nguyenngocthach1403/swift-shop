@@ -155,6 +155,9 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:swiftshop_application/data/models/cart_detail.dart';
+import 'package:swiftshop_application/data/models/format_currency.dart';
+import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/cart_screen_view_model.dart';
 
 import 'package:swiftshop_application/views/components/cart_items.dart';
@@ -169,6 +172,41 @@ class Cart_Screen extends StatefulWidget {
 
 class _Cart_ScreenState extends State<Cart_Screen> {
   CartViewModel cartViewModel = CartViewModel();
+  List<CartDetail> carts = [];
+  List<Product> products = [];
+  double totalPrice = 0.0; // Thêm biến totalPrice
+  @override
+  void initState() {
+    cartViewModel.fetchCartDetailOnLocal().then((value) {
+      carts = value;
+    });
+    cartViewModel.fetchProductFromCartDetail().then((value) {
+      setState(() {
+        products = value;
+      });
+    });
+    totalPrice = _calculateTotalPrice(carts, products); // Cập nhật totalPrice
+    super.initState();
+  }
+
+  double _calculateTotalPrice(
+      List<CartDetail> cartItems, List<Product> products) {
+    double totalPrice = 0.0;
+    for (var cartItem in cartItems) {
+      Product? product =
+          cartViewModel.getProductById(cartItem.productId, products);
+      if (product != null) {
+        totalPrice += cartItem.quantity * product.price;
+      }
+    }
+    return totalPrice;
+  }
+
+  void _updateTotalPrice() {
+    setState(() {
+      totalPrice = _calculateTotalPrice(carts, products);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -265,7 +303,7 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       "Total:",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -273,30 +311,15 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                         fontSize: 18,
                       ),
                     ),
-                    StreamBuilder<List<Cart>>(
-                      stream: cartViewModel.cartItemsStream,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          double totalPrice = 0.0;
-                          List<Cart> cartItems = snapshot.data ?? [];
-                          for (var item in cartItems) {
-                            totalPrice += item.totalPrice;
-                          }
-                          return Text(
-                            "${totalPrice.toStringAsFixed(0)}",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 18,
-                            ),
-                          );
-                        }
-                      },
+                    Text(
+                      FormatCurrency.stringToCurrency(
+                          _calculateTotalPrice(carts, products)
+                              .toStringAsFixed(0)),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
                     ),
                   ],
                 ),

@@ -2,12 +2,15 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:swiftshop_application/data/models/user_model.dart';
 import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/Animation/animation.dart';
 import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
+import 'package:path/path.dart';
 
 class ProfileSettingScreen extends StatefulWidget {
   final UserModel user;
@@ -19,47 +22,69 @@ class ProfileSettingScreen extends StatefulWidget {
 
 class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
   TextEditingController? _fullname;
-  TextEditingController? _email;
   TextEditingController? _address;
   TextEditingController? _phonenumber;
-  TextEditingController? _password;
-  Uint8List? _imgage;
-  final _formSignupKey = GlobalKey<FormState>();
 
-  getImage(ImageSource source) async {
+  final _formSignupKey = GlobalKey<FormState>();
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  File? _imgage;
+
+  Future<File?> getImage(ImageSource source) async {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: source);
+    print(image?.path);
     if (image != null) {
-      // selectedImage = File(image.path);
-      // setState(() {});
-      return await image.readAsBytes();
+      return File(image.path);
+    } else {
+      print('No Images Selected');
+      return null;
     }
   }
 
-  void selectedImage() async {
-    Uint8List? img = await getImage(ImageSource.gallery);
-    setState(() {
-      _imgage = img;
-    });
+  selectedImage() async {
+    File? img = await getImage(ImageSource.gallery);
+    if (img != null) {
+      setState(() {
+        _imgage = img;
+        // uploadFileToFirebaseStorage(_imgage);
+      });
+    }
+  }
+
+  Future<String> uploadFileToFirebaseStorage(File? file) async {
+    String url = '';
+    if (file == null) {
+      print('No image selected.');
+      return '';
+    }
+    try {
+      FirebaseStorage storage = FirebaseStorage.instance;
+      String fileName = "${DateTime.now()}.png";
+      Reference storageReference = storage.ref().child(fileName);
+      UploadTask uploadTask = storageReference.putFile(file);
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+      String downloadURL = await taskSnapshot.ref.getDownloadURL();
+      print('File uploaded successfully. Download URL: $downloadURL');
+      url = downloadURL;
+    } catch (e) {
+      print('Error uploading file: $e');
+    }
+    return url;
   }
 
   @override
   void initState() {
     _fullname = TextEditingController(text: widget.user.fullname);
-    _email = TextEditingController(text: widget.user.email);
     _address = TextEditingController(text: widget.user.address);
     _phonenumber = TextEditingController(text: widget.user.phonenumber);
-    _password = TextEditingController(text: widget.user.password);
     super.initState();
   }
 
   @override
   void dispose() {
     _fullname!.dispose();
-    _email!.dispose();
     _address!.dispose();
     _phonenumber!.dispose();
-    _password!.dispose();
     super.dispose();
   }
 
@@ -89,18 +114,20 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                     child: _imgage != null
                         ? CircleAvatar(
                             radius: 64,
-                            backgroundImage: MemoryImage(_imgage!),
+                            backgroundImage: FileImage(_imgage!),
                           )
-                        : const CircleAvatar(
+                        : CircleAvatar(
                             radius: 50,
-                            backgroundImage: NetworkImage(
-                                "https://www.w3schools.com/howto/img_avatar.png"),
+                            backgroundImage: widget.user.avatar!.isEmpty
+                                ? NetworkImage(
+                                    "https://www.w3schools.com/howto/img_avatar.png")
+                                : NetworkImage(widget.user.avatar!),
                           )),
               ]),
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 4,
             child: Container(
               padding: const EdgeInsets.fromLTRB(25.0, 50.0, 25.0, 20.0),
               decoration: const BoxDecoration(
@@ -140,43 +167,6 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                             enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
                                 color: Colors.white,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
-                      FadeAnimation(
-                        1.4,
-                        TextFormField(
-                          controller: _email,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter Email';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: Icon(Icons.email_outlined),
-                            label: const Text('Email'),
-                            hintText: 'Enter your Email',
-                            hintStyle: const TextStyle(
-                              color: Colors.black26,
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.white, // Default border color
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.white, // Default border color
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -261,45 +251,6 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                         height: 25.0,
                       ),
                       FadeAnimation(
-                        2.0,
-                        TextFormField(
-                          controller: _password,
-                          obscureText: true,
-                          obscuringCharacter: '*',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter Password';
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: Icon(Icons.key_sharp),
-                            label: const Text('Password'),
-                            hintText: 'Enter your Password',
-                            hintStyle: const TextStyle(
-                              color: Colors.black26,
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.black12, // Default border color
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.black12, // Default border color
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 25.0,
-                      ),
-                      FadeAnimation(
                         2.2,
                         SizedBox(
                           width: 150,
@@ -307,16 +258,16 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.yellow,
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formSignupKey.currentState!.validate()) {
+                                String _avatar =
+                                    await uploadFileToFirebaseStorage(_imgage);
                                 UserData.updateData(UserModel(
                                     accountId: widget.user.accountId,
                                     fullname: _fullname!.text,
-                                    email: _email!.text,
                                     address: _address!.text,
                                     phonenumber: _phonenumber!.text,
-                                    password: _password!.text,
-                                    avatar: widget.user.avatar));
+                                    avatar: _avatar));
                                 Navigator.pushNamed(context, '/profile');
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

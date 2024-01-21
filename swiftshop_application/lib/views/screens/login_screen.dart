@@ -173,21 +173,11 @@ class SignInScreen extends ConsumerWidget {
                                 );
 
                                 // Navigate Home
-
-                                // Navigator.of(context).push(MaterialPageRoute(
-                                //     builder: ((context) => UpdateProductScreen(
-                                //           product: Product(
-                                //               id: "",
-                                //               path: "",
-                                //               price: 0,
-                                //               title: "",
-                                //               promotionalPrice: 0,
-                                //               type: "",
-                                //               quantity: 0,
-                                //               quantitySold: 0,
-                                //               rate: 0,
-                                //               description: ""),
-                                //         ))));
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  "/homepage",
+                                  (route) => false,
+                                );
                               }
                             } catch (e) {
                               showDialog(
