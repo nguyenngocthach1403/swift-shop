@@ -88,7 +88,6 @@ class HomeScreenViewModel {
 
   //Get product local
   Future<List<Product>> fetchProductsLocal() async {
-    await loadAndSaveProduct();
     List<Product> products = [];
     File file = await Product.getPathFile('product');
     try {
@@ -136,7 +135,7 @@ class HomeScreenViewModel {
     products.sort((a, b) => (b.quantitySold * 0.6 + b.rate! * 0.8)
         .compareTo(a.quantitySold * 0.6 + a.rate! * 0.8));
 
-    if (Product.product.length <= 4) {
+    if (products.length <= 4) {
       bestSalerProducts.addAll(products);
     } else {
       for (int i = 0; products.length >= 4 ? i < 4 : i < products.length; i++) {

@@ -49,7 +49,6 @@ class CartViewModel {
     await Cart.removeProduct(cartId);
   }
 
- 
   //load cart on  firebase
   Future<List<CartDetail>> loadCartOnFirebase() async {
     QuerySnapshot cartSnapshot = await carts.get();
@@ -174,7 +173,4 @@ class CartViewModel {
   updateQuantity(String cartDetailId, int quantity) {
     carts.doc(cartDetailId).update({'Quantity': quantity});
   }
-  
- 
-  
 }
