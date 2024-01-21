@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/home_screen_view_model.dart';
@@ -17,18 +19,32 @@ class _HomeScreenState extends State<HomeScreen> {
   var homeViewModel = HomeScreenViewModel();
   @override
   void initState() {
+    homeViewModel.loadAndSaveProduct().then((value) {
+      setState(() {});
+    });
     homeViewModel.fetchProductsLocal().then((value) {
-      products = value;
+      setState(() {
+        products = value;
+      });
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    homeViewModel.fetchProductsLocal().then((value) {
+      products = value;
+    });
     return Scaffold(
       appBar: AppBar(
-        title: const CircleAvatar(
-          backgroundColor: Colors.amber,
+        scrolledUnderElevation: 0,
+        title: Container(
+          height: 40,
+          width: 150,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/icons/SwiftShop_logo.png'))),
         ),
         actions: [
           IconButton(
@@ -38,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: Image.asset(
                 "assets/icons/shopping-cart.png",
-                width: 35,
+                width: 30,
               ))
         ],
       ),
@@ -59,9 +75,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             //Thach 19/1  Sua
-            OutstandingProductList(
-                cols: 2,
-                products: homeViewModel.findOustandingProducts(products)),
+            products.isEmpty
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : OutstandingProductList(
+                    cols: 2,
+                    products: homeViewModel.findOustandingProducts(products)),
             const Row(
               children: [
                 Padding(
@@ -75,9 +95,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             //Thach 19/1  Sua
-            OutstandingProductList(
-                cols: 2,
-                products: homeViewModel.findBestSalerProducts(products)),
+            products.isEmpty
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : OutstandingProductList(
+                    cols: 2,
+                    products: homeViewModel.findBestSalerProducts(products)),
           ],
         ),
       ),
