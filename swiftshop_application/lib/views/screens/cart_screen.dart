@@ -230,13 +230,16 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                           child: Cart_Items(
                             cartItem: cartItems[index],
                             onIncreaseQuantity: () {
-                              cartViewModel.increaseQuantity(cartItems[index].cartId);
+                              cartViewModel
+                                  .increaseQuantity(cartItems[index].cartId);
                             },
                             onDecreaseQuantity: () {
-                              cartViewModel.decreaseQuantity(cartItems[index].cartId);
+                              cartViewModel
+                                  .decreaseQuantity(cartItems[index].cartId);
                             },
                             onRemoveProduct: () {
-                              cartViewModel.removeProduct(cartItems[index].cartId);
+                              cartViewModel
+                                  .removeProduct(cartItems[index].cartId);
                             },
                           ),
                         ),
@@ -299,9 +302,7 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                 ),
                 SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {
-                    // TODO: Xử lý thanh toán
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(255, 199, 0, 1),
                     minimumSize: Size(double.infinity, 50),

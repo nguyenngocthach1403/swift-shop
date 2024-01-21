@@ -1,3 +1,4 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swiftshop_application/views/components/cart_items.dart';
@@ -25,6 +26,10 @@ void main() async {
           messagingSenderId: "475664841613",
           projectId: "swiftshop-5e2eb",
           storageBucket: "swiftshop-5e2eb.appspot.com"));
+  await FirebaseAppCheck.instance.activate(
+    webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+    androidProvider: AndroidProvider.debug,
+  );
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -38,8 +43,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          // "/": (context) => SignInScreen(),
-          "/": (context) => AdminProfileScreen(),
+          //": (context) => SignInScreen(),
+          "/": (context) => SignInScreen(),
           "/signup": (context) => SignUpScreen(),
           "/homepage": (context) => HomeScreen(),
           "/cartscreen": (context) => Cart_Screen(),
