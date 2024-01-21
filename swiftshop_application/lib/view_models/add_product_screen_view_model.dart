@@ -23,7 +23,7 @@ class AddProduct {
     required int promotionPrice,
     required int quantity,
     required int quantitySold,
-    required int rate,
+    required double rate,
     required String type,
   }) async {
     DocumentReference documentReference = _mainCollection.doc();
@@ -59,12 +59,13 @@ class AddProduct {
   static Future<void> updateItem({
     required String productid,
     required String name,
+    required String path,
     required String description,
     required int price,
     required int promotionPrice,
     required int quantity,
     required int quantitySold,
-    required int rate,
+    required double rate,
     required String type,
   }) async {
     DocumentReference documentReference = _mainCollection.doc(productid);
@@ -78,10 +79,31 @@ class AddProduct {
       "quantitySold": quantitySold,
       "rate": rate,
       "type": type,
+      "path": path,
     };
     await documentReference
         .update(data)
         .whenComplete(() => print("Products item updated to the datatbase"))
+        .catchError((e) => print(e));
+  }
+
+  static Future<void> deleteItem({
+    required String productid,
+    required String name,
+    required String path,
+    required String description,
+    required int price,
+    required int promotionPrice,
+    required int quantity,
+    required int quantitySold,
+    required double rate,
+    required String type,
+  }) async {
+    DocumentReference documentReference = _mainCollection.doc(productid);
+
+    await documentReference
+        .delete()
+        .whenComplete(() => print("Products item deleta to the datatbase"))
         .catchError((e) => print(e));
   }
 }

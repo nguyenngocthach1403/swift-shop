@@ -266,7 +266,8 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                             ),
                           ),
                           child: Cart_Items(
-                            cartItem: cartItems[index],
+                            cartItem: carts[index],
+                            products: products,
                             onIncreaseQuantity: () {
                               cartViewModel
                                   .increaseQuantity(cartItems[index].cartId);
@@ -279,6 +280,8 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                               cartViewModel
                                   .removeProduct(cartItems[index].cartId);
                             },
+                            onQuantityChanged: () {},
+                            productName: 's',
                           ),
                         ),
                       );

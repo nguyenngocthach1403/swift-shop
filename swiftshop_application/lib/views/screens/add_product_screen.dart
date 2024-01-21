@@ -133,7 +133,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  // do something
+                  Navigator.pop(context);
                 },
               ),
             ],

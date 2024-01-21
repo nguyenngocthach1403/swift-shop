@@ -116,6 +116,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
     typeController.dispose();
     promotionController.dispose();
     desciptionController.dispose();
+
     super.dispose();
   }
 
@@ -136,7 +137,7 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  // do something
+                  Navigator.pop(context);
                 },
               ),
             ],
@@ -532,7 +533,10 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: _text("Lưu", Color.fromRGBO(96, 136, 202, 1), 20.0,
+                      child: _text(
+                          "Cập Nhật",
+                          Color.fromRGBO(96, 136, 202, 1),
+                          20.0,
                           FontWeight.bold),
                     ),
                     IconButton(
@@ -541,25 +545,29 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                         color: Colors.black,
                       ),
                       onPressed: (() async {
-                        try {} catch (e) {
+                        try {
+                          if (widget.product.path.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("Hãy chọn hình ảnh cần upload")));
+                            print("Khong hinh anh");
+                            print(widget.product.path);
+                          } else {
+                            AddProduct.updateItem(
+                              productid: widget.product.id,
+                              name: nameController.text,
+                              description: desciptionController.text,
+                              price: int.parse(priceController.text),
+                              promotionPrice:
+                                  int.parse(promotionController.text),
+                              quantity: int.parse(quantityController.text),
+                              quantitySold: widget.product.quantitySold,
+                              rate: widget.product.rate as double,
+                              type: typeController.text,
+                              path: widget.product.path,
+                            );
+                          }
+                        } catch (e) {
                           print("nhập đẩy đủ thông tin");
-                        }
-
-                        if (imageURL.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Hãy chọn hình ảnh cần upload")));
-                        } else {
-                          // AddProduct.addItem(
-                          //   name: nameController.text,
-                          //   description: desciptionController.text,
-                          //   price: int.parse(priceController.text),
-                          //   promotionPrice: int.parse(promotionController.text),
-                          //   quantity: int.parse(quantityController.text),
-                          //   quantitySold: 0,
-                          //   rate: 0,
-                          //   type: typeController.text,
-                          //   path: imageURL.toString(),
-                          // );
                         }
                       }),
                     ),
