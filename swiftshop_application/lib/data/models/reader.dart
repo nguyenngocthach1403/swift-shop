@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 class InfoReader {
   Future<String> getInfo() async {
@@ -9,5 +12,10 @@ class InfoReader {
     } catch (e) {
       return e.toString();
     }
+  }
+
+  Future<File> getPathFile(String nameFile) async {
+    final f = await getApplicationCacheDirectory();
+    return File('${f.path}/$nameFile.json');
   }
 }

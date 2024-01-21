@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swiftshop_application/views/components/cart_items.dart';
@@ -24,8 +26,39 @@ void main() async {
   runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String idCurrentUser = FirebaseAuth.instance.currentUser!.uid;
+  String position = "";
+  //Lấy posion
+  Future<String> positionOfUser(String idCurrentUser) async {
+    QuerySnapshot a =
+        await FirebaseFirestore.instance.collection('accounts').get();
+    for (var i in a.docs) {
+      if (i.id == idCurrentUser) {
+        return i['position'];
+      }
+    }
+    return "";
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    positionOfUser(idCurrentUser).then((value) {
+      setState(() {
+        position = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,15 +67,15 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: {
-          // "/": (context) => SignInScreen(),
-          "/": (context) => AdminProfileScreen(),
+          "/": (context) => SignInScreen(),
           "/signup": (context) => SignUpScreen(),
           "/homepage": (context) => HomeScreen(),
           "/cartscreen": (context) => Cart_Screen(),
           "/searchscreen": (context) =>
               SearchScreen(), // Thach 11/1 10:00 AM Thêm route cho Cart Screen
-          "/profile": (context) =>
-              UserProfileScreen() // Toan 17/1 10:28 AM Thêm route cho UserProfile
+          "/profile": (context) => position == 'User'
+              ? UserProfileScreen()
+              : AdminProfileScreen(), // Toan 17/1 10:28 AM Thêm route cho UserProfile
         });
   }
 }

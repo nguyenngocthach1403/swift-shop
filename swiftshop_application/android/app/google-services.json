@@ -12,7 +12,12 @@
           "package_name": "com.example.swiftshop_application"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "475664841613-pbrkneblbnfl0k2gsei72vai86dc1gn4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB4uR5_QlrE5TwAPReT-bN93MH2SvH1HOM"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475664841613-pbrkneblbnfl0k2gsei72vai86dc1gn4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "475664841613-de4goefae4ti3998i2mh4vv0pjem7j34.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.swiftshopApplication"
+              }
+            }
+          ]
         }
       }
     }

@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/views/components/avatar_and_name_profile.dart';
+import 'package:swiftshop_application/views/components/bottom_navigation_bar.dart';
 import 'package:swiftshop_application/views/components/order_list.dart';
 import 'package:swiftshop_application/views/components/product_list.dart';
 import 'package:swiftshop_application/views/components/profile_information.dart';
@@ -62,9 +65,55 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
               ),
             ],
           ),
-          OrderList()
+          OrderList(),
+          const Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                child: Text("Tiện ích", style: TextStyle(fontSize: 25)),
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: () {
+              //Chuyển trang tạo sản phẩm
+            },
+            child: Container(
+              height: 40,
+              width: MediaQuery.of(context).size.width,
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(233, 233, 233, 1),
+                  borderRadius: BorderRadius.circular(20)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 15, right: 10),
+                    child: Text(
+                      "Thêm sản phẩm mới",
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 5),
+                    child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                            color: Color.fromRGBO(65, 215, 71, 1),
+                            borderRadius: BorderRadius.circular(50)),
+                        alignment: Alignment.center,
+                        child: Center(
+                          child: Icon(Icons.add),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       )),
+      bottomNavigationBar: BottomNavigationBarCustom(idx: 3),
     );
   }
 

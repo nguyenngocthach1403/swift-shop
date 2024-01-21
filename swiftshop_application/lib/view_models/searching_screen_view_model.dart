@@ -1,7 +1,3 @@
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 
 class SearchScreenViewModel {
