@@ -31,6 +31,8 @@ class CartViewModel {
 
   List<CartDetail> lstCart = [];
 
+  get cartItemsStream => null;
+
   Future<void> increaseQuantity(String cartId) async {
     int currentQuantity = (await Cart.getCartById(cartId)).totalQuantity;
     currentQuantity++;

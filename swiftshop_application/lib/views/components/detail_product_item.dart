@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
+import 'package:swiftshop_application/view_models/add_product_screen_view_model.dart';
+import 'package:swiftshop_application/views/screens/update_product_screen.dart';
 
 class DetailProductItem extends StatefulWidget {
   const DetailProductItem({super.key, required this.pro});
@@ -27,9 +29,10 @@ class _DetailProductItemState extends State<DetailProductItem> {
               padding: const EdgeInsets.only(left: 10),
               width: 130,
               height: 130,
-              child: Image.asset(
-                "assets/images/piza.png",
+              child: Image(
+                image: NetworkImage(widget.pro.path),
                 width: 130,
+                fit: BoxFit.contain,
               ),
             ),
           ),
@@ -53,10 +56,25 @@ class _DetailProductItemState extends State<DetailProductItem> {
                       IconButton(
                         icon: Image.asset(
                           "assets/icons/edit.png",
-                          width: 1,
+                          width: 20,
                         ),
                         onPressed: () {
-                          // Add your onPressed logic here
+                          //lấy dữ liệu sang Update Screen
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => UpdateProductScreen(
+                                      product: Product(
+                                    id: widget.pro.id,
+                                    path: widget.pro.path,
+                                    title: widget.pro.title,
+                                    price: widget.pro.price,
+                                    promotionalPrice:
+                                        widget.pro.promotionalPrice,
+                                    type: widget.pro.type,
+                                    quantity: widget.pro.quantity,
+                                    quantitySold: widget.pro.quantitySold,
+                                    rate: widget.pro.rate,
+                                    description: widget.pro.description,
+                                  ))));
                         },
                         iconSize: 10,
                       ),
@@ -138,19 +156,34 @@ class _DetailProductItemState extends State<DetailProductItem> {
                         Container(
                           width: 100,
                           height: 25,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color.fromRGBO(229, 91, 91, 1),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Delete"),
-                              Image.asset(
-                                "assets/icons/trash.png",
-                                width: 15,
-                              )
-                            ],
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              AddProduct.deleteItem(
+                                productid: widget.pro.id,
+                                path: widget.pro.path,
+                                name: widget.pro.title,
+                                price: widget.pro.price,
+                                promotionPrice: widget.pro.promotionalPrice,
+                                type: widget.pro.type,
+                                quantity: widget.pro.quantity,
+                                quantitySold: widget.pro.quantitySold,
+                                rate: widget.pro.rate as double,
+                                description: widget.pro.description,
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.redAccent,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                const Text("Delete"),
+                                Image.asset(
+                                  "assets/icons/trash.png",
+                                  width: 11,
+                                )
+                              ],
+                            ),
                           ),
                         )
                       ],
