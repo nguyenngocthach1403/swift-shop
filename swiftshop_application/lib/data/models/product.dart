@@ -31,7 +31,7 @@ class Product {
       required this.description});
   Product.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        path = "",
+        path = json['path'],
         title = json['name'],
         price = json['price'],
         promotionalPrice = json['promotionalPrice'],
@@ -92,7 +92,7 @@ class Product {
   }
 
   //Thach 12/1 lấy dữ liệu từ filebase
-  static Future<void> fetchDataFromFirebase() async {
+  static Future fetchDataFromFirebase() async {
     List<Product> lstFirebaseProducts = [];
     QuerySnapshot snapshotData =
         await FirebaseFirestore.instance.collection("products").get();
@@ -102,7 +102,7 @@ class Product {
           path: i['path'],
           title: i['name'],
           price: i['price'],
-          promotionalPrice: i['promotionalPrice'],
+          promotionalPrice: i['promotionPrice'],
           type: i['type'],
           quantity: int.parse(i['quantity'].toString()),
           quantitySold: int.parse(i['quantitySold'].toString()),
@@ -121,7 +121,8 @@ class Product {
     Product.product = lstFirebaseProducts;
   }
 
-  static Future<bool> saveDataProduct(List<Product> products) async {
+  static Future<bool> saveDataProduct(
+      List<Product> products, String filename) async {
     try {
       File productFile = await getPathFile('product');
       if (await productFile.exists()) {
@@ -142,7 +143,7 @@ class Product {
         'name': title,
         'price': price,
         'promotionalPrice': promotionalPrice,
-        'path': "",
+        'path': path,
         'quantity': quantity,
         'quantitySold': quantitySold,
         'description': description,

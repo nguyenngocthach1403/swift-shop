@@ -1,14 +1,77 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:swiftshop_application/data/models/format_currency.dart';
+import 'package:swiftshop_application/data/models/order.dart';
+import 'package:swiftshop_application/data/models/product_of_order.dart';
+import 'package:swiftshop_application/data/models/user_model.dart';
+import 'package:swiftshop_application/view_models/order_management_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/product_item_of_order.dart';
 
 class OrderManagementScreen extends StatefulWidget {
-  const OrderManagementScreen({super.key});
+  OrderManagementScreen(
+      {super.key, required this.orderID, required this.accountId});
+  String orderID;
+  String accountId;
 
   @override
   State<OrderManagementScreen> createState() => _OrderManagementScreenState();
 }
 
 class _OrderManagementScreenState extends State<OrderManagementScreen> {
+  OrderManagementViewModel _viewModel = OrderManagementViewModel();
+  Orders order = Orders(
+      orderId: '',
+      accountId: '',
+      address: '',
+      orderDate: Timestamp.now(),
+      status: '',
+      totalPrice: 0);
+  UserModel user = UserModel(
+      accountId: '',
+      address: '',
+      email: '',
+      fullname: '',
+      avatar: '',
+      phonenumber: '',
+      position: '');
+  List<ProductOfOrder> productOfOrder = [];
+  List<ProductItemOfOrder> lstProduct = [];
+
+  var dropDownValue = " ";
+  bool isDropdownButtonEnable = true;
+  var _items = ['Xác nhận', 'Giao hàng', ' '];
+  @override
+  void initState() {
+    _viewModel.getOrderById(widget.orderID, widget.accountId).then((value) {
+      setState(() {
+        order = value;
+        order.status == "Cho duyet" || order.status == 'Da duyet'
+            ? isDropdownButtonEnable = true
+            : isDropdownButtonEnable = false;
+      });
+    });
+    _viewModel.getUser(widget.accountId).then((value) {
+      setState(() {
+        user = value;
+      });
+    });
+    _viewModel.getProductOfOrderItem(widget.orderID).then((value) {
+      setState(() {
+        productOfOrder = value;
+        for (var i in productOfOrder) {
+          lstProduct.add(ProductItemOfOrder(
+              title: i.name,
+              promotionPrice: i.promotionalPrice,
+              path: i.path,
+              quantity: i.quantity,
+              promotionalPrice: i.promotionalPrice,
+              price: i.price));
+        }
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,8 +88,8 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: dropDownValue == " "
-                ? Color.fromRGBO(141, 141, 141, 1)
-                : Color.fromRGBO(96, 136, 202, 1),
+                ? const Color.fromRGBO(141, 141, 141, 1)
+                : const Color.fromRGBO(96, 136, 202, 1),
             borderRadius: BorderRadius.circular(50)),
         child: const Text(
           "Xác nhận",
@@ -47,13 +110,13 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: 40,
-            color: const Color.fromRGBO(65, 235, 184, 1),
+            color: _viewModel.returnColorStatus(order.status),
             alignment: Alignment.centerLeft,
-            child: const Padding(
-              padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
               child: Text(
-                "Đơn hàng đã hoàn thành",
-                style: TextStyle(
+                "Đơn hàng ${_viewModel.returnNameStatus(order.status)}",
+                style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
@@ -73,10 +136,10 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                       decoration: BoxDecoration(
                           color: const Color.fromRGBO(242, 242, 242, 1),
                           borderRadius: BorderRadius.circular(10)),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                             child: Text(
                               "Order Summary",
@@ -87,7 +150,7 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                           Expanded(
                               child: Row(
                             children: [
-                              Expanded(
+                              const Expanded(
                                 flex: 2,
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
@@ -137,26 +200,27 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "#ADAGKDU32",
-                                        style: TextStyle(
+                                        order.orderId,
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        "1/1/2024",
-                                        style: TextStyle(
+                                        "${_viewModel.readTimestamp(order.orderDate)}",
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        "2",
-                                        style: TextStyle(
+                                        "${productOfOrder.length}",
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        "Thành công",
-                                        style: TextStyle(
+                                        _viewModel
+                                            .returnNameStatus(order.status),
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -165,8 +229,7 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                             ],
                           ))
                         ],
-                      )
-                      ),
+                      )),
 //? Imformation Receiver
                   Container(
                       width: MediaQuery.of(context).size.width,
@@ -175,10 +238,10 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                       decoration: BoxDecoration(
                           color: const Color.fromRGBO(242, 242, 242, 1),
                           borderRadius: BorderRadius.circular(10)),
-                      child: const Column(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                             child: Text(
                               "Informantion Receiver",
@@ -189,7 +252,7 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                           Expanded(
                               child: Row(
                             children: [
-                              Expanded(
+                              const Expanded(
                                   flex: 2,
                                   child: Padding(
                                     padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
@@ -232,20 +295,20 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Đỗ Thanh Tùng",
-                                        style: TextStyle(
+                                        user.fullname!,
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        "01231231231",
-                                        style: TextStyle(
+                                        user.phonenumber!,
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        "65 Huỳnh Thúc Kháng, Quận 1",
-                                        style: TextStyle(
+                                        user.address!,
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -268,15 +331,15 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                       decoration: BoxDecoration(
                           color: const Color.fromRGBO(242, 242, 242, 1),
                           borderRadius: BorderRadius.circular(10)),
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   "Total Price :",
                                   style: TextStyle(
                                       fontSize: 20,
@@ -284,8 +347,9 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                                 ),
                                 //! Tổng tiền
                                 Text(
-                                  "20.000.000đ",
-                                  style: TextStyle(
+                                  FormatCurrency.stringToCurrency(
+                                      order.totalPrice.toString()),
+                                  style: const TextStyle(
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.red),
@@ -294,7 +358,7 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                             ),
                           ),
                           //! Phương thức thanh toán
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -345,9 +409,11 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
                                   value: e,
                                 );
                               }).toList(),
-                              onChanged: (String? newValue) => setState(() {
-                                dropDownValue = newValue!;
-                              }),
+                              onChanged: isDropdownButtonEnable
+                                  ? (String? newValue) => setState(() {
+                                        dropDownValue = newValue!;
+                                      })
+                                  : null,
                               value: dropDownValue,
                               underline: Container(
                                 color: const Color.fromRGBO(242, 242, 242, 1),
@@ -365,16 +431,3 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
     );
   }
 }
-
-var dropDownValue = "Xác nhận";
-var _items = ['Xác nhận', 'Giao hàng', ' '];
-List<ProductItemOfOrder> lstProduct = [
-  const ProductItemOfOrder(
-      title: "Sản phẩm 1", quantity: 1, promotionalPrice: 0, price: 15000),
-  const ProductItemOfOrder(
-      title: "Sản phẩm 2", quantity: 2, promotionalPrice: 12000, price: 15000),
-  const ProductItemOfOrder(
-      title: "Sản phẩm 2", quantity: 2, promotionalPrice: 12000, price: 15000),
-  const ProductItemOfOrder(
-      title: "Sản phẩm 2", quantity: 2, promotionalPrice: 12000, price: 15000)
-];

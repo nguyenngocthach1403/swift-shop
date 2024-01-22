@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/views/components/product_item_of_order.dart';
-import 'package:swiftshop_application/views/screens/order_manager_screen.dart';
 
 class Detail_Order_Screen extends StatelessWidget {
   const Detail_Order_Screen({super.key});
@@ -308,14 +307,37 @@ class Detail_Order_Screen extends StatelessWidget {
   }
 }
 
-
 List<ProductItemOfOrder> lstProduct = [
   const ProductItemOfOrder(
-      title: "Sản phẩm 1", quantity: 1, promotionalPrice: 0, price: 15000),
+    title: "Sản phẩm 1",
+    quantity: 1,
+    promotionalPrice: 0,
+    price: 15000,
+    path: "",
+    promotionPrice: 0,
+  ),
   const ProductItemOfOrder(
-      title: "Sản phẩm 2", quantity: 2, promotionalPrice: 12000, price: 15000),
+    title: "Sản phẩm 2",
+    quantity: 2,
+    promotionalPrice: 12000,
+    price: 15000,
+    path: "",
+    promotionPrice: 0,
+  ),
   const ProductItemOfOrder(
-      title: "Sản phẩm 2", quantity: 2, promotionalPrice: 12000, price: 15000),
+    title: "Sản phẩm 2",
+    quantity: 2,
+    promotionalPrice: 12000,
+    price: 15000,
+    path: "",
+    promotionPrice: 0,
+  ),
   const ProductItemOfOrder(
-      title: "Sản phẩm 2", quantity: 2, promotionalPrice: 12000, price: 15000)
+    title: "Sản phẩm 2",
+    quantity: 2,
+    promotionalPrice: 12000,
+    price: 15000,
+    path: "",
+    promotionPrice: 0,
+  )
 ];

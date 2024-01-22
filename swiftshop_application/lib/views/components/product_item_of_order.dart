@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swiftshop_application/data/models/format_currency.dart';
 
 class ProductItemOfOrder extends StatelessWidget {
   const ProductItemOfOrder(
@@ -6,11 +7,15 @@ class ProductItemOfOrder extends StatelessWidget {
       required this.title,
       required this.quantity,
       required this.promotionalPrice,
-      required this.price});
+      required this.price,
+      required this.promotionPrice,
+      required this.path});
   final String title;
+  final String path;
   final int quantity;
   final int promotionalPrice;
   final int price;
+  final int promotionPrice;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +33,10 @@ class ProductItemOfOrder extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.all(5),
-            color: Colors.amber,
+            decoration: BoxDecoration(
+              image: DecorationImage(image: NetworkImage(path)),
+              color: Colors.white,
+            ),
             height: 80,
             width: 80,
           ),
@@ -61,15 +69,17 @@ class ProductItemOfOrder extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: Text(
-                        promotionalPrice == 0 ? "" : price.toString(),
+                        promotionalPrice == 0 && price < 999999
+                            ? ""
+                            : " ${(price % 1000000 == 0 ? price ~/ 1000000 : price / 1000000)}Tr ",
                         style: const TextStyle(
                             decoration: TextDecoration.lineThrough),
                       ),
                     ),
                     Text(
-                      promotionalPrice == 0
-                          ? price.toString()
-                          : promotionalPrice.toString(),
+                      (promotionalPrice == 0 && price < 999999)
+                          ? FormatCurrency.stringToCurrency(price.toString())
+                          : "${(promotionalPrice % 1000000 == 0 ? promotionalPrice ~/ 1000000 : promotionalPrice / 1000000)}Tr",
                       style: const TextStyle(color: Colors.red),
                     )
                   ],
