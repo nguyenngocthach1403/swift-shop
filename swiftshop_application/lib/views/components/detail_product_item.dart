@@ -11,6 +11,8 @@ class DetailProductItem extends StatefulWidget {
 }
 
 class _DetailProductItemState extends State<DetailProductItem> {
+  List<Product> products = [];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,8 +31,8 @@ class _DetailProductItemState extends State<DetailProductItem> {
               padding: const EdgeInsets.only(left: 10),
               width: 130,
               height: 130,
-              child: Image(
-                image: NetworkImage(widget.pro.path),
+              child: Image.network(
+                widget.pro.path.toString(),
                 width: 130,
                 fit: BoxFit.contain,
               ),
@@ -169,7 +171,17 @@ class _DetailProductItemState extends State<DetailProductItem> {
                                 quantitySold: widget.pro.quantitySold,
                                 rate: widget.pro.rate as double,
                                 description: widget.pro.description,
-                              );
+                              ).then((value) => products);
+                              setState(() {
+                                products;
+                              });
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                        content: Text(
+                                            "Xóa thành công sản phẩm"));
+                                  });
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.redAccent,

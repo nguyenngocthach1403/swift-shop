@@ -8,21 +8,25 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/add_product_screen_view_model.dart';
+import 'package:swiftshop_application/view_models/admin_profile_screen_view_model.dart';
+import 'package:swiftshop_application/view_models/home_screen_view_model.dart';
+import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
 
 class AddProductScreen extends StatefulWidget {
-  final Product product;
-  const AddProductScreen({Key? key, required this.product}) : super(key: key);
+  const AddProductScreen({Key? key}) : super(key: key);
 
   @override
   State<AddProductScreen> createState() => _AddProductScreenState();
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
+  List<Product> products = [];
+  var adminprofilemodel = AdminProfileModel();
   File? _imgage;
   final formKey = GlobalKey<FormState>(); //key for form
   final FirebaseStorage storage = FirebaseStorage.instance;
   //image upload
-
+  bool? check;
   String imageURL = '';
   Future<File?> getImage(ImageSource source) async {
     final ImagePicker _picker = ImagePicker();
@@ -56,12 +60,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
       String fileName = "${DateTime.now()}.png";
       Reference storageReference = storage.ref().child(fileName);
       UploadTask uploadTask = storageReference.putFile(file);
-      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {
-        print("Update thành công");
-      });
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
       String downloadURL = await taskSnapshot.ref.getDownloadURL();
       print('File uploaded successfully. Download URL: $downloadURL');
       imageURL = downloadURL;
+      setState(() {
+        imageURL;
+      });
     } catch (e) {
       print('Error uploading file: $e');
     }
@@ -95,7 +100,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
     typeController.clear();
     promotionController.clear();
     desciptionController.clear();
+    imageURL = "";
   }
+
   // loginGoogle() async {
   //   GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
   //   GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
@@ -111,6 +118,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   //   //       .push(MaterialPageRoute(builder: ((context) => HomeScreen())));
   //   // }
   // }
+  @override
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +137,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  setState(() {
+                    adminprofilemodel.getDataOnFireBase().then((value) {
+                      setState(() {
+                        products = value;
+                      });
+                    });
+                    Navigator.pop(context);
+                  });
                 },
               ),
             ],
@@ -184,21 +200,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           ],
                           border: Border.all(width: 1, color: Colors.grey)),
                       child: Container(
-                        alignment: Alignment.center,
-                        width: 100,
-                        height: 80,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey)),
-                        child: IconButton(
-                          onPressed: () async {
-                            selectedImage();
-                          },
-                          icon: FaIcon(
-                            FontAwesomeIcons.plus,
-                            size: 40,
-                          ),
-                        ),
-                      )),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: Colors.grey)),
+                          child: GestureDetector(
+                              onTap: () async {
+                                selectedImage();
+                              },
+                              child: imageURL.isEmpty
+                                  ? FaIcon(
+                                      FontAwesomeIcons.plus,
+                                      size: 70,
+                                    )
+                                  : Image.network(imageURL)))),
                 ),
               ],
             ),
@@ -277,6 +291,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ],
                 ),
                 child: TextFormField(
+                  keyboardType: TextInputType.number,
                   controller: quantityController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -333,6 +348,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ],
                 ),
                 child: TextFormField(
+                  keyboardType: TextInputType.number,
                   controller: priceController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -446,6 +462,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ],
                 ),
                 child: TextFormField(
+                  keyboardType: TextInputType.number,
                   controller: promotionController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -532,32 +549,49 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         color: Colors.black,
                       ),
                       onPressed: (() async {
-                        try {} catch (e) {
-                          print("nhập đẩy đủ thông tin");
+                        try {
+                          if (imageURL.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("Hãy chọn hình ảnh cần upload")));
+                          } else {
+                            await AddProduct.addItem(
+                              name: nameController.text,
+                              description: desciptionController.text,
+                              price: int.parse(priceController.text),
+                              promotionPrice:
+                                  int.parse(promotionController.text),
+                              quantity: int.parse(quantityController.text),
+                              quantitySold: 0,
+                              rate: 0,
+                              type: typeController.text,
+                              path: imageURL.toString(),
+                            ).then((value) => products);
+
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content:
+                                        Text("Thêm thành công sản phẩm"),
+                                  );
+                                });
+                            clearForm();
+                          }
+                        } catch (e) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content:
+                                      Text("Hãy điền đầy đủ thông tin"),
+                                );
+                              });
                         }
-                        final FirebaseFirestore _firestore =
-                            FirebaseFirestore.instance;
-                        final CollectionReference _mainCollection =
-                            _firestore.collection('products');
-                        String docID = _mainCollection.id;
-                        if (imageURL.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Hãy chọn hình ảnh cần upload")));
-                        } else {
-                          AddProduct.addItem(
-                            id: docID,
-                            name: nameController.text,
-                            description: desciptionController.text,
-                            price: int.parse(priceController.text),
-                            promotionPrice: int.parse(promotionController.text),
-                            quantity: int.parse(quantityController.text),
-                            quantitySold: 0,
-                            rate: 0,
-                            type: typeController.text,
-                            path: imageURL.toString(),
-                          );
-                          clearForm();
-                        }
+                        // final FirebaseFirestore _firestore =
+                        //     FirebaseFirestore.instance;
+                        // final CollectionReference _mainCollection =
+                        //     _firestore.collection('products');
+                        // String docID = _mainCollection.doc().id;
                       }),
                     ),
                   ],

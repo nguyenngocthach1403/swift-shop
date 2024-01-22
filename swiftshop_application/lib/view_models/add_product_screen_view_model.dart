@@ -4,15 +4,10 @@ import 'package:flutter/material.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final CollectionReference _mainCollection = _firestore.collection('products');
 
-class Response {
-  int? code;
-  String? message;
-  Response({this.code, this.message});
-}
+int? code;
 
 class AddProduct {
   static Future<void> addItem({
-    required String id,
     required String path,
     required String name,
     required String description,
@@ -39,12 +34,9 @@ class AddProduct {
       "rate": rate,
       "type": type,
     };
-    await documentReference
-        .set(data)
-        .whenComplete(
-          () => const SnackBar(content: Text("Thêm thành công")),
-        )
-        .catchError((e) => print(e));
+    await documentReference.set(data).whenComplete(() {
+      code = 200;
+    }).catchError((e) => print(e));
   }
 
   static Stream<QuerySnapshot> readItems() {
