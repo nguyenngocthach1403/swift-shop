@@ -82,7 +82,7 @@ class _MyAppState extends State<MyApp> {
         ),
         routes: {
           //": (context) => SignInScreen(),
-          "/": (context) => SignInScreen(),
+          // "/": (context) => SignInScreen(),
           "/signup": (context) => SignUpScreen(),
           "/homepage": (context) => HomeScreen(),
           "/cartscreen": (context) => Cart_Screen(),
