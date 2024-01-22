@@ -14,7 +14,8 @@ class Detail_Order_Screen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              //  Navigator.of(context).pop();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/profile', (route) => false);
             },
             icon: Icon(Icons.arrow_back)),
       ),

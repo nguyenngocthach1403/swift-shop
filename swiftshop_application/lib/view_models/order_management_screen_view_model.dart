@@ -84,15 +84,15 @@ class OrderManagementViewModel {
 
   String returnNameStatus(String status) {
     switch (status) {
-      case "Cho duyet":
+      case "Chờ xác nhận":
         return "chờ duyệt";
-      case "Da duyet":
+      case "Đã xác nhận":
         return "đã duyệt";
-      case "Dang giao":
+      case "Đang giao":
         return "đang giao";
-      case "Hoan thanh":
+      case "Thành công":
         return "hoàn thành";
-      case "Da huy":
+      case "Đã hủy":
         return "đã hủy";
     }
     return 'không xác định';
@@ -161,15 +161,15 @@ class OrderManagementViewModel {
 
   Color returnColorStatus(String status) {
     switch (status) {
-      case "Cho duyet":
+      case "Chờ xác nhận":
         return const Color.fromRGBO(228, 209, 30, 1);
-      case "Da duyet":
+      case "Đã xác nhận":
         return const Color.fromRGBO(220, 34, 34, 1);
-      case "Dang giao":
+      case "Đang giao":
         return const Color.fromRGBO(82, 34, 220, 1);
-      case "Hoan thanh":
+      case "Thành công":
         return const Color.fromRGBO(65, 235, 184, 1);
-      case "Da huy":
+      case "Đã hủy":
         return const Color.fromRGBO(109, 102, 132, 1);
     }
     return Colors.white;
@@ -179,5 +179,15 @@ class OrderManagementViewModel {
     DateTime dateTime =
         DateTime.fromMicrosecondsSinceEpoch(timestamp.microsecondsSinceEpoch);
     return "${dateTime.hour}:${dateTime.minute} ${dateTime.day}-${dateTime.month}-${dateTime.year}";
+  }
+
+  bool updateStatusOrder(String newStatus, String orderId) {
+    try {
+      order.doc(orderId).update(
+          {'Status': newStatus == "Xác nhận" ? "Đã xác nhận" : "Đang giao"});
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

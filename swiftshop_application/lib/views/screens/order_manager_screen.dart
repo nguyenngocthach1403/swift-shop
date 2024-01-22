@@ -45,7 +45,7 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
     _viewModel.getOrderById(widget.orderID, widget.accountId).then((value) {
       setState(() {
         order = value;
-        order.status == "Cho duyet" || order.status == 'Da duyet'
+        order.status == "Chờ xác nhận" || order.status == 'Đã xác nhận'
             ? isDropdownButtonEnable = true
             : isDropdownButtonEnable = false;
       });
@@ -78,23 +78,47 @@ class _OrderManagementScreenState extends State<OrderManagementScreen> {
       appBar: AppBar(
         title: Column(
           children: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back))
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, "/profile", (route) => false);
+                },
+                icon: const Icon(Icons.arrow_back))
           ],
         ),
       ),
-      bottomSheet: Container(
-        height: 60,
-        width: MediaQuery.of(context).size.width,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: dropDownValue == " "
-                ? const Color.fromRGBO(141, 141, 141, 1)
-                : const Color.fromRGBO(96, 136, 202, 1),
-            borderRadius: BorderRadius.circular(50)),
-        child: const Text(
-          "Xác nhận",
-          style: TextStyle(
-              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+      bottomSheet: GestureDetector(
+        onTap: () {
+          //Cập nhật trạng thái đơn hàng
+          if (_viewModel.updateStatusOrder(dropDownValue, widget.orderID)) {
+            //Thông báo thành công
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Cập nhật thành công!'),
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Cập nhật thất bại!'),
+              ),
+            );
+          }
+        },
+        child: Container(
+          height: 60,
+          width: MediaQuery.of(context).size.width,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: dropDownValue == " "
+                  ? const Color.fromRGBO(141, 141, 141, 1)
+                  : const Color.fromRGBO(96, 136, 202, 1),
+              borderRadius: BorderRadius.circular(50)),
+          child: const Text(
+            "Xác nhận",
+            style: TextStyle(
+                fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
         ),
       ),
       body: Column(

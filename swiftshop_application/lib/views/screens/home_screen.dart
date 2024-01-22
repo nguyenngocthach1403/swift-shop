@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/home_screen_view_model.dart';
