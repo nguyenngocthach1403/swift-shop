@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:swiftshop_application/data/models/user_model.dart';
+import 'package:swiftshop_application/view_models/cart_screen_view_model.dart';
 
 List<String> list = <String>[' ', 'Momo Wallet', 'Trả sau'];
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
-
+  const PaymentScreen({super.key, required this.user, required this.cart});
+  final UserModel user;
+  final CartViewModel cart;
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
 }
@@ -68,7 +71,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: FaIcon(FontAwesomeIcons.locationDot),
                           ),
-                          _text("Địa chỉ", color, size, FontWeight.bold)
+                          _text({widget.user.fullname}.toString(), color, size,
+                              FontWeight.bold)
                         ],
                       ),
                     ),

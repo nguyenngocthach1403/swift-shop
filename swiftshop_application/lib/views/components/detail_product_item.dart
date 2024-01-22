@@ -11,6 +11,8 @@ class DetailProductItem extends StatefulWidget {
 }
 
 class _DetailProductItemState extends State<DetailProductItem> {
+  List<Product> products = [];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,8 +31,8 @@ class _DetailProductItemState extends State<DetailProductItem> {
               padding: const EdgeInsets.only(left: 10),
               width: 130,
               height: 130,
-              child: Image.asset(
-                "assets/images/piza.png",
+              child: Image.network(
+                widget.pro.path.toString(),
                 width: 130,
               ),
             ),
@@ -168,7 +170,7 @@ class _DetailProductItemState extends State<DetailProductItem> {
                                 quantitySold: widget.pro.quantitySold,
                                 rate: widget.pro.rate as double,
                                 description: widget.pro.description,
-                              );
+                              ).then((value) => products);
                             },
                             style: ElevatedButton.styleFrom(
                               primary: Colors.redAccent,

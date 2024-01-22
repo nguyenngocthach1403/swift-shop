@@ -66,6 +66,9 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
       String downloadURL = await taskSnapshot.ref.getDownloadURL();
       print('File uploaded successfully. Download URL: $downloadURL');
       imageURL = downloadURL;
+      setState(() {
+        imageURL;
+      });
     } catch (e) {
       print('Error uploading file: $e');
     }
@@ -105,7 +108,10 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
         TextEditingController(text: widget.product.promotionalPrice.toString());
     desciptionController =
         TextEditingController(text: widget.product.description);
-    String imageURL = widget.product.path;
+
+    setState(() {
+      widget.product.path;
+    });
   }
 
   @override
@@ -193,21 +199,16 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                           ],
                           border: Border.all(width: 1, color: Colors.grey)),
                       child: Container(
-                        alignment: Alignment.center,
-                        width: 100,
-                        height: 80,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey)),
-                        child: IconButton(
-                          onPressed: () async {
-                            selectedImage();
-                          },
-                          icon: FaIcon(
-                            FontAwesomeIcons.plus,
-                            size: 40,
-                          ),
-                        ),
-                      )),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: Colors.grey)),
+                          child: GestureDetector(
+                              onTap: () async {
+                                selectedImage();
+                              },
+                              child: imageURL.isEmpty
+                                  ? Image.network(widget.product.path)
+                                  : Image.network(imageURL)))),
                 ),
               ],
             ),
@@ -563,11 +564,25 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                               quantitySold: widget.product.quantitySold,
                               rate: widget.product.rate as double,
                               type: typeController.text,
-                              path: widget.product.path,
+                              path: imageURL,
                             );
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Text("Cập nhật thành công"),
+                                  );
+                                });
                           }
                         } catch (e) {
-                          print("nhập đẩy đủ thông tin");
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content:
+                                      Text("Hãy điền đầy đủ thông tin"),
+                                );
+                              });
                         }
                       }),
                     ),
