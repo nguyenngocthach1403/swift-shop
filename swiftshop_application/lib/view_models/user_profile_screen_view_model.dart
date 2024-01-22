@@ -79,3 +79,28 @@ class UserData {
     }
   }
 }
+
+// ViewModel của User
+class ProfileViewModel {
+  final String accountId;
+
+  ProfileViewModel(this.accountId);
+
+  Future<ProfileInfoModel> getProfileData() async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('accounts')
+          .doc(accountId)
+          .get();
+
+      ProfileInfoModel proflieModel =
+          ProfileInfoModel.fromFirestoreDocument(snapshot);
+
+      return proflieModel;
+    } catch (e) {
+      print('Error getting profile data: $e');
+      throw Exception('Error getting profile data');
+    }
+  }
+}

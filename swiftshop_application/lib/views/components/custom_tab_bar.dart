@@ -18,18 +18,17 @@ class TabCustom extends StatefulWidget {
 }
 
 class _TabCustomState extends State<TabCustom> {
-  int _selectedTab = 0;
+  late TabItem _selectedTab;
 
   @override
   void initState() {
     super.initState();
-    widget.lstTab[_selectedTab].active = true;
+    _selectedTab = widget.lstTab[0];
   }
-
   void onTapPress(int index) {
     if (_selectedTab != index) {
       setState(() {
-        _selectedTab = index;
+        _selectedTab = tab;
       });
       for (int i = 0; i < widget.lstTab.length; i++) {
         if (widget.lstTab[i].active) widget.lstTab[i].active = false;
