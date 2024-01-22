@@ -13,9 +13,9 @@ import 'login_screen.dart';
 // }
 
 class SignUpScreen extends ConsumerWidget {
-  TextEditingController _email = TextEditingController();
-  TextEditingController _password = TextEditingController();
-  TextEditingController _fullname = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _fullname = TextEditingController();
   final _formSignupKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -237,7 +237,12 @@ class SignUpScreen extends ConsumerWidget {
                         child: OutlinedButton.icon(
                           style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.white),
-                          onPressed: () {},
+                          onPressed: () async {
+                            bool res = await authNotifier.signInWithGoogle();
+                            if (res) {
+                              Navigator.pushNamed(context, '/homepage');
+                            }
+                          },
                           icon: Image(
                             image: AssetImage("assets/images/logo.png"),
                             width: 20.0,
