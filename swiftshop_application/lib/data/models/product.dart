@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
-import 'package:swiftshop_application/data/models/reader.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Product {
@@ -99,7 +97,7 @@ class Product {
     for (var i in snapshotData.docs) {
       Product newPro = Product(
           id: i.id,
-          path: i['path'],
+          path: i['path'] ?? "", // Thịnh sửa Path để có thể null
           title: i['name'],
           price: i['price'],
           promotionalPrice: i['promotionPrice'],

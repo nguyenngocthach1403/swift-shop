@@ -1,20 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swiftshop_application/views/components/cart_items.dart';
-import 'package:swiftshop_application/views/screens/add_product_screen.dart';
 import 'package:swiftshop_application/views/screens/admin_profile_screen.dart';
 import 'package:swiftshop_application/views/screens/cart_screen.dart';
-import 'package:swiftshop_application/views/screens/detail_order_screen.dart';
-import 'package:swiftshop_application/views/screens/edit_profile_user_screen.dart';
 import 'package:swiftshop_application/views/screens/home_screen.dart';
 import 'package:swiftshop_application/views/screens/login_screen.dart';
 import 'package:swiftshop_application/views/screens/register_screen.dart';
 import 'package:swiftshop_application/views/screens/searching_screen.dart';
-import 'package:swiftshop_application/views/screens/order_manager_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:swiftshop_application/views/screens/user_profile_screen.dart';
+
 import 'firebase_options.dart';
 
 void main() async {

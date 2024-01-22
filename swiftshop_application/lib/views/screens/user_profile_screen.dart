@@ -42,7 +42,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 335,
+                      height: 275,
                       child: Expanded(
                         child: returnProfileScreen(),
                       ),

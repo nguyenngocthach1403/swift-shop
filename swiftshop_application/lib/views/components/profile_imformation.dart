@@ -1,7 +1,6 @@
-// Profile_Info
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:swiftshop_application/data/models/user_model.dart';
+import 'package:swiftshop_application/data/models/profile_info_model.dart';
 import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
 
 class ProfileInformation extends StatefulWidget {
@@ -26,7 +25,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<UserModel>(
+    return FutureBuilder<ProfileInfoModel>(
       future: _viewModel.getProfileData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -34,7 +33,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          UserModel userModel = snapshot.data!;
+          ProfileInfoModel userModel = snapshot.data!;
 
           return Container(
             width: MediaQuery.of(context).size.width - 3,
@@ -101,7 +100,7 @@ class _ProfileInformationState extends State<ProfileInformation> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red, // Màu nền của nút
+                        backgroundColor: Colors.red,
                       ),
                       child: const Row(
                         children: [

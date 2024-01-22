@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/data/models/tab_item.dart';
+import 'package:swiftshop_application/view_models/admin_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/custom_tab_bar.dart';
 import 'package:swiftshop_application/views/components/detail_product_item.dart';
 
 class ProductList extends StatefulWidget {
-  const ProductList({super.key, required this.products});
+  const ProductList({
+    Key? key,
+    required this.products,
+  }) : super(key: key);
   final List<Product> products;
+
   @override
   State<ProductList> createState() => _ProductListState();
 }
@@ -62,8 +67,9 @@ class _ProductListState extends State<ProductList> {
       margin: const EdgeInsets.all(10),
       width: width - 20,
       decoration: BoxDecoration(
-          color: const Color.fromRGBO(233, 233, 233, 1),
-          borderRadius: BorderRadius.circular(20)),
+        color: const Color.fromRGBO(233, 233, 233, 1),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Column(
         children: [
           TabCustom(
@@ -77,12 +83,14 @@ class _ProductListState extends State<ProductList> {
             height: 320,
             margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
             child: ListView.builder(
-              itemCount: items.length,
+              itemCount: lstPro.length,
               itemBuilder: (context, index) {
-                return items[index];
+                return DetailProductItem(
+                  pro: lstPro[index],
+                );
               },
             ),
-          )
+          ),
         ],
       ),
     );
