@@ -21,7 +21,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   Widget returnOrderList() {
-    return OrderList();
+    return OrderList(
+      orders: [],
+    );
   }
 
   @override

@@ -29,9 +29,10 @@ class _DetailProductItemState extends State<DetailProductItem> {
               padding: const EdgeInsets.only(left: 10),
               width: 130,
               height: 130,
-              child: Image.network(
-                widget.pro.path,
+              child: Image(
+                image: NetworkImage(widget.pro.path),
                 width: 130,
+                fit: BoxFit.contain,
               ),
             ),
           ),

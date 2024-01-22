@@ -1,13 +1,15 @@
-
 import 'package:flutter/material.dart';
+import 'package:swiftshop_application/data/models/order.dart';
 import 'package:swiftshop_application/data/models/order_model.dart';
 import 'package:swiftshop_application/data/models/tab_item.dart';
+import 'package:swiftshop_application/view_models/admin_profile_screen_view_model.dart';
 import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/custom_tab_bar.dart';
 import 'package:swiftshop_application/views/components/order_item.dart';
 
 class OrderList extends StatefulWidget {
-  const OrderList({super.key});
+  const OrderList({super.key, required this.orders});
+  final List<Orders> orders;
 
   @override
   State<OrderList> createState() => _OrderListState();
@@ -25,10 +27,35 @@ class _OrderListState extends State<OrderList> {
     TabItem(title: "Đã hủy"),
   ];
 
+  List<OrderItem> orderItem = [];
+  List<Orders> order = [];
+  //Thach
+  List<String> lsttype = [
+    "Chờ xác nhận",
+    "Đã xác nhận",
+    "Đang giao",
+    "Thành công",
+    "Đã hủy"
+  ];
+  //Thach
+  int _selectedTab = 0;
+  void onTapPress(int index) {
+    if (_selectedTab != index) {
+      setState(() {
+        _selectedTab = index;
+      });
+      for (int i = 0; i < lstOrderTab.length; i++) {
+        if (lstOrderTab[i].active) lstOrderTab[i].active = false;
+      }
+      lstOrderTab[index].active = true;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     orderViewModel = OrderViewModel(lstOrderTab[selectedTabIndex].title);
+    order = widget.orders;
   }
 
   void onTabSelected(int index) {
@@ -40,6 +67,14 @@ class _OrderListState extends State<OrderList> {
 
   @override
   Widget build(BuildContext context) {
+    order.clear();
+    orderItem.clear();
+    order = widget.orders
+        .where((element) => element.status == lsttype[_selectedTab])
+        .toList();
+    for (int i = 0; i < order.length; i++) {
+      orderItem.add(OrderItem(order: order[i]));
+    }
     final width = MediaQuery.of(context).size.width;
     return Container(
       margin: const EdgeInsets.all(10),
@@ -51,38 +86,21 @@ class _OrderListState extends State<OrderList> {
       ),
       child: Column(
         children: [
-          Expanded(
-            flex: 2,
-            child: TabCustom(
-              width: width,
-              lstTab: lstOrderTab,
-              onTabSelected: onTabSelected,
-            ),
+          TabCustom(
+            width: width,
+            lstTab: lstOrderTab,
+            selectedTab: _selectedTab,
+            onTabSelected: onTapPress,
           ),
-          Expanded(
-            flex: 12,
-            child: Container(
-              width: width - 20 - 20,
-              height: 310,
-              margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-              child: FutureBuilder<List<OrderModel>>(
-                future: orderViewModel.fetchOrderItems(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    List<OrderModel> orderItems = snapshot.data!;
-                    return ListView.builder(
-                      itemCount: orderItems.length,
-                      itemBuilder: (context, index) {
-                        return OrderItem(order: orderItems[index]);
-                      },
-                    );
-                  }
-                },
-              ),
+          Container(
+            width: width - 20 - 20,
+            height: 310,
+            margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+            child: ListView.builder(
+              itemCount: orderItem.length,
+              itemBuilder: (context, index) {
+                return orderItem[index];
+              },
             ),
           ),
         ],

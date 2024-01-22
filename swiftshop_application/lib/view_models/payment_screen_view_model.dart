@@ -125,6 +125,7 @@ class PaymentScreenViewModel {
         orderDetailCollection.doc(newOrderDetail.id).set(data);
       }
       deleteCartDetailAndUpdateCart(cartItems);
+      updateQuantitySold(cartItems);
       print("New order done");
       return true;
     } catch (e) {
@@ -140,5 +141,34 @@ class PaymentScreenViewModel {
     cartCollection
         .doc(idAccountCurrent)
         .update({'TotalQuantity': 0, 'TotalPrice': 0});
+  }
+
+  updateQuantitySold(List<CartDetail> cartItems) async {
+    for (var i in cartItems) {
+      int quantitySold = 0;
+      QuerySnapshot proSnapShot = await proCollection.get();
+      for (var j in proSnapShot.docs) {
+        if (j.id == i.productId) {
+          quantitySold = j['quantitySold'];
+        }
+      }
+
+      proCollection
+          .doc(i.productId)
+          .update({'quantitySold': quantitySold + i.quantity});
+    }
+    cartCollection
+        .doc(idAccountCurrent)
+        .update({'TotalQuantity': 0, 'TotalPrice': 0});
+  }
+
+  updateRate(List<CartDetail> cartItems) async {
+    //Sao sẽ được tính trong khoảng từ đầu tháng tới cuối tháng
+
+    //tính tống số lượng bán trong tháng đó của sản phẩm
+
+    //Các hạng mức sao dựa vào số lượng sản phẩm bán ra trong tháng lấy tổng số ngày đã trôi qua chia cho số lượng  đã bán  ra trong tháng
+
+    //
   }
 }
