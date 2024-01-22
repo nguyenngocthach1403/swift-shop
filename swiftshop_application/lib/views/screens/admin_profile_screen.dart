@@ -1,15 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:swiftshop_application/data/models/order.dart';
 import 'package:swiftshop_application/data/models/product.dart';
-import 'package:swiftshop_application/view_models/add_product_screen_view_model.dart';
 import 'package:swiftshop_application/view_models/admin_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/avatar_and_name_profile.dart';
 import 'package:swiftshop_application/views/components/bottom_navigation_bar.dart';
 import 'package:swiftshop_application/views/components/order_list.dart';
 import 'package:swiftshop_application/views/components/product_list.dart';
-import 'package:swiftshop_application/views/components/profile_information.dart';
+import 'package:swiftshop_application/views/components/profile_imformation.dart';
 import 'package:swiftshop_application/views/screens/add_product_screen.dart';
 
 class AdminProfileScreen extends StatefulWidget {
@@ -87,6 +84,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
           ),
           OrderList(
             orders: orders,
+            position: '',
           ),
           const Row(
             children: [

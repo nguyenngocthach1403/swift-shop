@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/format_currency.dart';
 import 'package:swiftshop_application/data/models/order.dart';
 import 'package:swiftshop_application/data/models/order_item.dart';
-import 'package:swiftshop_application/data/models/order_model.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/admin_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/screens/order_manager_screen.dart';
@@ -18,8 +17,6 @@ class OrderItem extends StatefulWidget {
 
 class _OrderItemState extends State<OrderItem> {
   AdminScreenViewModel _viewModel = AdminScreenViewModel();
-
-  List<OrderDetail> orderItemList = [];
   Product pro = Product(
       id: '',
       path: '',
@@ -31,9 +28,33 @@ class _OrderItemState extends State<OrderItem> {
       quantitySold: 0,
       rate: 0,
       description: '');
+
   @override
   void initState() {
     super.initState();
+    fetchProductAndOrderDetail();
+  }
+
+  Future<void> fetchProductAndOrderDetail() async {
+    // Fetch OrderDetail using orderId
+    List<OrderDetail> orderDetailList =
+        await _viewModel.getAllOrderDetailByOrder(widget.order.orderId);
+
+    // Assuming orderDetailList contains only one item, adjust the code accordingly if needed
+    if (orderDetailList.isNotEmpty) {
+      OrderDetail orderDetail = orderDetailList.first;
+
+      // Fetch Product using productId from OrderDetail
+      Product product =
+          await _viewModel.getAllProductById(orderDetail.productId);
+
+      // Update pro with the obtained data
+      setState(() {
+        pro.title = product.title;
+        pro.path = product.path;
+        pro.price = orderDetail.price;
+      });
+    }
   }
 
   @override
@@ -107,55 +128,61 @@ class _OrderItemState extends State<OrderItem> {
                 ],
               ),
             ),
-            // Padding(
-            //   padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-            //   child: Row(
-            //     children: [
-            //       Padding(
-            //         padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-            //         child: Image.network(
-            //           pro.path,
-            //           height: 50,
-            //           width: 50,
-            //         ),
-            //       ),
-            //       Expanded(
-            //         child: Padding(
-            //           padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-            //           child: Column(
-            //             crossAxisAlignment: CrossAxisAlignment.start,
-            //             children: [
-            //               _text(
-            //                 pro.title,
-            //                 Colors.black,
-            //                 13.0,
-            //                 FontWeight.normal,
-            //               ),
-            //               Padding(padding: EdgeInsets.all(5.0)),
-            //               Row(
-            //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //                 children: [
-            //                   _text(
-            //                     'sl: ${pro.quantity}',
-            //                     Colors.black,
-            //                     13.0,
-            //                     FontWeight.normal,
-            //                   ),
-            //                   _text(
-            //                     '${pro.price}đ',
-            //                     Colors.black,
-            //                     13.0,
-            //                     FontWeight.normal,
-            //                   ),
-            //                 ],
-            //               )
-            //             ],
-            //           ),
-            //         ),
-            //       )
-            //     ],
-            //   ),
-            // ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: pro.path.isNotEmpty
+                        ? Image.network(
+                            pro.path,
+                            width: 50,
+                            height: 50,
+                          )
+                        : Container(
+                            width: 50,
+                            height: 50,
+                            color: Colors.grey,
+                          ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _text(
+                            pro.title,
+                            Colors.black,
+                            13.0,
+                            FontWeight.normal,
+                          ),
+                          Padding(padding: EdgeInsets.all(5.0)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _text(
+                                'sl: ${pro.quantity}',
+                                Colors.black,
+                                13.0,
+                                FontWeight.normal,
+                              ),
+                              _text(
+                                '${pro.price}đ',
+                                Colors.black,
+                                13.0,
+                                FontWeight.normal,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
             const Divider(),
             Container(
               child: Padding(

@@ -6,9 +6,9 @@ import 'package:path_provider/path_provider.dart';
 
 class Product {
   final String id; //Doi kieu id cua product thanh kieu String
-  final String path;
-  final String title;
-  final int
+  late String path;
+  late String title;
+  late int
       price; //Thach 16.1 sửa lại kiểu dữ liệu price , quantity, promotionalPrice, quantitySold
   final int quantity;
   final String type;

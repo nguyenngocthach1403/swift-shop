@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:swiftshop_application/data/models/order.dart';
 import 'package:swiftshop_application/data/models/order_item.dart';
-import 'package:swiftshop_application/data/models/order_model.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 
 class AdminScreenViewModel {
