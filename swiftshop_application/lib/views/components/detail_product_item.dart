@@ -53,7 +53,7 @@ class _DetailProductItemState extends State<DetailProductItem> {
                       IconButton(
                         icon: Image.asset(
                           "assets/icons/edit.png",
-                          width: 1,
+                          width: 20,
                         ),
                         onPressed: () {
                           // Add your onPressed logic here

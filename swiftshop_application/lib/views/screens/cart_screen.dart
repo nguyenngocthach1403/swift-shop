@@ -162,6 +162,7 @@ import 'package:swiftshop_application/view_models/cart_screen_view_model.dart';
 
 import 'package:swiftshop_application/views/components/cart_items.dart';
 import 'package:swiftshop_application/data/models/carts.dart';
+import 'package:swiftshop_application/views/screens/payment_screen.dart';
 
 class Cart_Screen extends StatefulWidget {
   const Cart_Screen({Key? key}) : super(key: key);
@@ -302,7 +303,7 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "Total:",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -326,6 +327,13 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                 ElevatedButton(
                   onPressed: () {
                     // TODO: Xử lý thanh toán
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PaymentScreen(
+                            cartId: cartViewModel.idAcountCurrent,
+                          ),
+                        ));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(255, 199, 0, 1),

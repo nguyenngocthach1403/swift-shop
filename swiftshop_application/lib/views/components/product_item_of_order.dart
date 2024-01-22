@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/format_currency.dart';
+import 'package:swiftshop_application/view_models/home_screen_view_model.dart';
 
 class ProductItemOfOrder extends StatelessWidget {
   const ProductItemOfOrder(
@@ -69,17 +70,17 @@ class ProductItemOfOrder extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: Text(
-                        promotionalPrice == 0 && price < 999999
+                        promotionalPrice == 0
                             ? ""
-                            : " ${(price % 1000000 == 0 ? price ~/ 1000000 : price / 1000000)}Tr ",
+                            : HomeScreenViewModel.returnPrice(price),
                         style: const TextStyle(
                             decoration: TextDecoration.lineThrough),
                       ),
                     ),
                     Text(
-                      (promotionalPrice == 0 && price < 999999)
-                          ? FormatCurrency.stringToCurrency(price.toString())
-                          : "${(promotionalPrice % 1000000 == 0 ? promotionalPrice ~/ 1000000 : promotionalPrice / 1000000)}Tr",
+                      (promotionalPrice == 0)
+                          ? HomeScreenViewModel.returnPrice(price)
+                          : HomeScreenViewModel.returnPrice(promotionPrice),
                       style: const TextStyle(color: Colors.red),
                     )
                   ],
