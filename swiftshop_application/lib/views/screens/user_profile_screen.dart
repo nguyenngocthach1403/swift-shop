@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:swiftshop_application/data/models/order.dart';
 import 'package:swiftshop_application/views/components/avatar_and_name_profile.dart';
 import 'package:swiftshop_application/views/components/bottom_navigation_bar.dart';
 import 'package:swiftshop_application/views/components/order_list.dart';
@@ -12,6 +15,7 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  final accountId = FirebaseAuth.instance.currentUser!.uid;
   Widget returnProfileScreen() {
     return AvatarProfile();
   }
@@ -20,10 +24,35 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return ProfileInformation();
   }
 
-  Widget returnOrderList() {
-    return OrderList(
-      orders: [],
-    );
+  Future<List<Orders>> getAllOrder() async {
+    QuerySnapshot docOrder =
+        await FirebaseFirestore.instance.collection('orders').get();
+    List<Orders> lstOrder = [];
+    for (var i in docOrder.docs) {
+      if (i['AccountId'] == accountId) {
+        Orders newOrder = Orders(
+            accountId: i['AccountId'],
+            address: i['Address'],
+            orderDate: i['OrderDate'],
+            orderId: i.id,
+            status: i['Status'],
+            totalPrice: i['TotalPrice']);
+        lstOrder.add(newOrder);
+      }
+    }
+    return lstOrder;
+  }
+
+  List<Orders> order = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    getAllOrder().then((value) {
+      setState(() {
+        order = value;
+      });
+    });
+    super.initState();
   }
 
   @override
@@ -50,27 +79,24 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     Expanded(
                       child: returnProfileInfomation(),
                     ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 25),
-                          child: Text(
-                            "Lịch sử đơn hàng",
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      ],
-                    ),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: returnOrderList(),
-                      ),
-                    ),
                   ],
                 ),
               ),
             ),
+            const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 25),
+                  child: Text(
+                    "Lịch sử đơn hàng",
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                )
+              ],
+            ),
+            OrderList(
+              orders: order,
+            )
           ],
         ),
       ),

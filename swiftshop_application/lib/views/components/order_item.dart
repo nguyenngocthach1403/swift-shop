@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/format_currency.dart';
 import 'package:swiftshop_application/data/models/order.dart';
@@ -5,6 +7,7 @@ import 'package:swiftshop_application/data/models/order_item.dart';
 import 'package:swiftshop_application/data/models/order_model.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/admin_profile_screen_view_model.dart';
+import 'package:swiftshop_application/views/screens/detail_order_screen.dart';
 import 'package:swiftshop_application/views/screens/order_manager_screen.dart';
 
 class OrderItem extends StatefulWidget {
@@ -19,6 +22,20 @@ class OrderItem extends StatefulWidget {
 class _OrderItemState extends State<OrderItem> {
   AdminScreenViewModel _viewModel = AdminScreenViewModel();
 
+  Future<String> getPositionOfAccount() async {
+    String position = "";
+    String id = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference accountCol =
+        FirebaseFirestore.instance.collection('accounts');
+    QuerySnapshot accountSnap = await accountCol.get();
+    for (var i in accountSnap.docs) {
+      if (i.id == id) {
+        position = i['position'];
+      }
+    }
+    return position;
+  }
+
   List<OrderDetail> orderItemList = [];
   Product pro = Product(
       id: '',
@@ -32,7 +49,13 @@ class _OrderItemState extends State<OrderItem> {
       rate: 0,
       description: '');
   @override
+  String posision = "";
   void initState() {
+    getPositionOfAccount().then((value) {
+      setState(() {
+        posision = value;
+      });
+    });
     super.initState();
   }
 
@@ -40,15 +63,25 @@ class _OrderItemState extends State<OrderItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OrderManagementScreen(
-                orderID: widget.order.orderId,
-                accountId: widget.order.accountId),
-          ),
-          (route) => false,
-        );
+        if (posision.isNotEmpty && posision == "Admin") {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OrderManagementScreen(
+                  orderID: widget.order.orderId,
+                  accountId: widget.order.accountId),
+            ),
+            (route) => false,
+          );
+        } else {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Detail_Order_Screen(),
+            ),
+            (route) => false,
+          );
+        }
       },
       child: Container(
         width: 145,
