@@ -1,8 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/home_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/banner_slider.dart';
 import 'package:swiftshop_application/views/components/bottom_navigation_bar.dart';
+import 'package:swiftshop_application/views/components/outstanding_product_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,19 +15,36 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Product> products = [];
+  var homeViewModel = HomeScreenViewModel();
+  @override
+  void initState() {
+    homeViewModel.loadAndSaveProduct().then((value) {
+      setState(() {});
+    });
+    homeViewModel.fetchProductsLocal().then((value) {
+      setState(() {
+        products = value;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var homeViewModel = HomeScreenViewModel();
-    //Thach xóa list
-    @override
-    void initState() {
-      super.initState();
-    }
-
+    homeViewModel.fetchProductsLocal().then((value) {
+      products = value;
+    });
     return Scaffold(
       appBar: AppBar(
-        title: const CircleAvatar(
-          backgroundColor: Colors.amber,
+        scrolledUnderElevation: 0,
+        title: Container(
+          height: 40,
+          width: 150,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/icons/SwiftShop_logo.png'))),
         ),
         actions: [
           IconButton(
@@ -34,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               icon: Image.asset(
                 "assets/icons/shopping-cart.png",
-                width: 35,
+                width: 30,
               ))
         ],
       ),
@@ -54,8 +74,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            //Thach 11/1  Chỉnh sửa view model
-            homeViewModel.loadOutStandingProducts(),
+            //Thach 19/1  Sua
+            products.isEmpty
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : OutstandingProductList(
+                    cols: 2,
+                    products: homeViewModel.findOustandingProducts(products)),
             const Row(
               children: [
                 Padding(
@@ -68,8 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            //Thach 11/1  Chỉnh sửa view model
-            homeViewModel.loadBestSalerProducts(),
+            //Thach 19/1  Sua
+            products.isEmpty
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : OutstandingProductList(
+                    cols: 2,
+                    products: homeViewModel.findBestSalerProducts(products)),
           ],
         ),
       ),

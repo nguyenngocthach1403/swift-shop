@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/data/models/format_currency.dart';
+import 'package:swiftshop_application/view_models/home_screen_view_model.dart';
 import 'package:swiftshop_application/views/screens/detail_product_screen.dart'; //? Format tiền kiểu int thành String VND
 
 class Item extends StatefulWidget {
@@ -133,22 +134,23 @@ class _ItemState extends State<Item> {
                     children: [
                       Text(
                         //Thạch 10/1 5:21PM sửa format tiền thành kiểu VND
-                        widget.products.promotionalPrice == 0 &&
-                                widget.products.price < 999999
+                        widget.products.promotionalPrice == 0
                             ? ""
-                            : " ${(widget.products.price % 1000000 == 0 ? widget.products.price ~/ 1000000 : widget.products.price / 1000000)}Tr ",
+                            : HomeScreenViewModel.returnPrice(
+                                widget.products.price),
                         style: const TextStyle(
                             decoration: TextDecoration.lineThrough,
                             fontSize: 12),
                         softWrap: true,
                       ),
                       Text(
-                        (widget.products.promotionalPrice == 0 &&
-                                widget.products.price < 999999)
-                            ? FormatCurrency.stringToCurrency(
-                                widget.products.price.toString())
-                            : "${(widget.products.promotionalPrice % 1000000 == 0 ? widget.products.promotionalPrice ~/ 1000000 : widget.products.promotionalPrice / 1000000)}Tr",
-                        style: const TextStyle(fontSize: 12),
+                        widget.products.promotionalPrice == 0
+                            ? HomeScreenViewModel.returnPrice(
+                                widget.products.price)
+                            : HomeScreenViewModel.returnPrice(
+                                widget.products.promotionalPrice),
+                        style: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
                         softWrap: true,
                       ),
                     ],

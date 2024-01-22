@@ -1,13 +1,13 @@
-// order_list.dart
+
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/order_model.dart';
 import 'package:swiftshop_application/data/models/tab_item.dart';
-import 'package:swiftshop_application/view_models/order_list_viewmodel.dart';
+import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/custom_tab_bar.dart';
 import 'package:swiftshop_application/views/components/order_item.dart';
 
 class OrderList extends StatefulWidget {
-  const OrderList({Key? key}) : super(key: key);
+  const OrderList({super.key});
 
   @override
   State<OrderList> createState() => _OrderListState();
@@ -31,9 +31,9 @@ class _OrderListState extends State<OrderList> {
     orderViewModel = OrderViewModel(lstOrderTab[selectedTabIndex].title);
   }
 
-  void onTabSelected(TabItem tab) {
+  void onTabSelected(int index) {
     setState(() {
-      selectedTabIndex = lstOrderTab.indexOf(tab);
+      selectedTabIndex = index;
       orderViewModel = OrderViewModel(lstOrderTab[selectedTabIndex].title);
     });
   }
@@ -67,20 +67,17 @@ class _OrderListState extends State<OrderList> {
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
               child: FutureBuilder<List<OrderModel>>(
                 future: orderViewModel.fetchOrderItems(),
-                builder: (context, AsyncSnapshot<List<OrderModel>> snapshot) {
+                builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    List<OrderModel> orderItems = snapshot.data ?? [];
+                    List<OrderModel> orderItems = snapshot.data!;
                     return ListView.builder(
                       itemCount: orderItems.length,
                       itemBuilder: (context, index) {
-                        return OrderItem(
-                          order: orderItems[index],
-                          viewModel: orderViewModel,
-                        );
+                        return OrderItem(order: orderItems[index]);
                       },
                     );
                   }

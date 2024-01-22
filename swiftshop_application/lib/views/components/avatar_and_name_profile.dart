@@ -14,6 +14,7 @@ class AvatarProfile extends StatefulWidget {
 class _AvatarProfileState extends State<AvatarProfile> {
   User? user = FirebaseAuth.instance.currentUser;
   String _name = '';
+  String _url = '';
 
   @override
   void initState() {
@@ -29,8 +30,10 @@ class _AvatarProfileState extends State<AvatarProfile> {
           .get();
       if (userDoc.exists) {
         String fullname = userDoc['fullname'];
+        String avatar = userDoc['avatar'];
         setState(() {
           _name = fullname;
+          _url = avatar;
         });
       }
     }
@@ -54,7 +57,7 @@ class _AvatarProfileState extends State<AvatarProfile> {
             alignment: Alignment.center,
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25.0),
                   topRight: Radius.circular(25.0),
                 ),
@@ -64,13 +67,15 @@ class _AvatarProfileState extends State<AvatarProfile> {
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
                 ),
-              ), // Thịnh chỉnh viền cho background
-              const Positioned(
-                bottom: -20,
+              ), // Thịnh đã đụng dô phần này Ok
+              Positioned(
+                bottom: -40,
                 child: CircleAvatar(
                   radius: 50,
-                  backgroundImage: NetworkImage(
-                      "https://www.w3schools.com/howto/img_avatar.png"),
+                  backgroundImage: _url.isEmpty
+                      ? NetworkImage(
+                          "https://www.w3schools.com/howto/img_avatar.png")
+                      : NetworkImage(_url),
                 ),
               ),
               Positioned(
@@ -85,13 +90,10 @@ class _AvatarProfileState extends State<AvatarProfile> {
                           .doc(user!.uid)
                           .get();
                       if (userDoc.exists) {
-                        // Retrieve user data
                         String accountId = userDoc['accountId'];
                         String address = userDoc['address'];
                         String avatar = userDoc['avatar'];
-                        // String email = userDoc['email'];
                         String fullname = userDoc['fullname'];
-                        // String password = userDoc['password'];
                         String phonenumber = userDoc['phonenumber'];
                         String position = "";
                         Navigator.push(
@@ -102,9 +104,7 @@ class _AvatarProfileState extends State<AvatarProfile> {
                                   accountId: accountId,
                                   address: address,
                                   avatar: avatar,
-                                  // email: email,
                                   fullname: fullname,
-                                  // password: password,
                                   phonenumber: phonenumber,
                                   position: position),
                             ),

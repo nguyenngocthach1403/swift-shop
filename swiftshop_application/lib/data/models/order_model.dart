@@ -1,37 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrderModel {
+  final String documentId;
+  final String date;
+  final String name;
   final String orderId;
-  final String accountId;
-  final String status;
-  final String dateComplete;
-  final Timestamp orderDate;
+  final String path;
+  final String price;
+  final int productId;
   final int quantity;
-  final int totalPrice; // Chuyển kiểu dữ liệu thành int
-  final String address;
+  final String state;
 
   OrderModel({
+    required this.documentId,
+    required this.date,
+    required this.name,
     required this.orderId,
-    required this.accountId,
-    required this.status,
-    required this.dateComplete,
-    required this.orderDate,
+    required this.path,
+    required this.price,
+    required this.productId,
     required this.quantity,
-    required this.totalPrice,
-    required this.address,
+    required this.state,
   });
 
   factory OrderModel.fromFirestoreDocument(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     return OrderModel(
-      orderId: snapshot.get('orderId') ?? '',
-      accountId: snapshot.get('AccountId') ?? '',
-      status: snapshot.get('Status') ?? '',
-      dateComplete: snapshot.get('DateComplete') ?? '',
-      orderDate: snapshot.get('OrderDate') ?? Timestamp.now(),
-      quantity: snapshot.get('Quantity') ?? 0,
-      totalPrice: snapshot.get('TotalPrice') ?? 0, // Thay đổi ở đây
-      address: snapshot.get('Address') ?? '',
+      documentId: snapshot.id,
+      date: snapshot.data()?['Date'] ?? '',
+      name: snapshot.data()?['Name'] ?? '',
+      orderId: snapshot.data()?['OrderId'] ?? '',
+      path: snapshot.data()?['Path'] ?? '',
+      price: snapshot.data()?['Price'] ?? '',
+      productId: snapshot.data()?['ProductId'] ?? 0,
+      quantity: snapshot.data()?['Quantity'] ?? 0,
+      state: snapshot.data()?['State'] ?? '',
     );
   }
 }

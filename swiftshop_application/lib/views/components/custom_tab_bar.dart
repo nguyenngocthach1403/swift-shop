@@ -1,17 +1,17 @@
+// TabCustom
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/tab_item.dart';
 
 class TabCustom extends StatefulWidget {
-  const TabCustom({
-    Key? key,
-    required this.width,
-    required this.lstTab,
-    required this.onTabSelected,
-  }) : super(key: key);
-
+  const TabCustom(
+      {Key? key,
+      required this.width,
+      required this.lstTab,
+      required this.onTabSelected})
+      : super(key: key);
   final double width;
   final List<TabItem> lstTab;
-  final Function(TabItem) onTabSelected;
+  final Function(int) onTabSelected;
 
   @override
   State<TabCustom> createState() => _TabCustomState();
@@ -25,14 +25,17 @@ class _TabCustomState extends State<TabCustom> {
     super.initState();
     _selectedTab = widget.lstTab[0];
   }
-
-  void onTapPress(TabItem tab) {
-    if (_selectedTab != tab) {
+  void onTapPress(int index) {
+    if (_selectedTab != index) {
       setState(() {
         _selectedTab = tab;
       });
+      for (int i = 0; i < widget.lstTab.length; i++) {
+        if (widget.lstTab[i].active) widget.lstTab[i].active = false;
+      }
+      widget.lstTab[index].active = true;
 
-      widget.onTabSelected(tab);
+      widget.onTabSelected(index);
     }
   }
 
@@ -50,26 +53,26 @@ class _TabCustomState extends State<TabCustom> {
         scrollDirection: Axis.horizontal,
         itemCount: widget.lstTab.length,
         itemBuilder: (context, index) {
-          TabItem tab = widget.lstTab[index];
+          TabItem btn = widget.lstTab[index];
           return GestureDetector(
             onTap: () {
-              onTapPress(tab);
+              onTapPress(index);
             },
             child: Container(
               width: (widget.width - 20 - 20) / 4,
               height: 30,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: tab == _selectedTab
+                color: btn.active
                     ? const Color.fromRGBO(54, 84, 134, 1)
                     : Colors.white,
                 borderRadius: BorderRadius.circular(50),
               ),
               child: Text(
-                tab.title,
+                btn.title,
                 style: TextStyle(
                   fontSize: 12,
-                  color: tab == _selectedTab ? Colors.white : Colors.black,
+                  color: btn.active ? Colors.white : Colors.black,
                 ),
               ),
             ),

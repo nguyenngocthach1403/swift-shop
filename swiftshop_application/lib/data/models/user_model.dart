@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class UserModel {
   String? accountId;
@@ -20,6 +21,16 @@ class UserModel {
       this.phonenumber,
       this.position});
 
+  factory UserModel.fromFirestoreDocument(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    return UserModel(
+      accountId: snapshot.id,
+      fullname: snapshot.data()?['fullname'] ?? '',
+      email: snapshot.data()?['email'] ?? '',
+      phonenumber: snapshot.data()?['phonenumber'] ?? '',
+      address: snapshot.data()?['address'] ?? '',
+    );
+  }
   factory UserModel.formSnapShot(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
     return UserModel(

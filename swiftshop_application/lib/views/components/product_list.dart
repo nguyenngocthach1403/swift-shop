@@ -26,12 +26,9 @@ class _ProductListState extends State<ProductList> {
       child: Column(
         children: [
           TabCustom(
-            width: width,
-            lstTab: widget.viewModel.lsttype,
-            onTabSelected: (selectedTab) {
-              widget.viewModel.onTapFilter(selectedTab.title);
-              setState(() {});
-            },
+            width: width
+            lstTab: lstProTypeTab,
+            onTabSelected: (int) {},
           ),
           Container(
             width: width - 20 - 20,
