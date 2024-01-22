@@ -55,7 +55,7 @@ class _DetailProductItemState extends State<DetailProductItem> {
                       IconButton(
                         icon: Image.asset(
                           "assets/icons/edit.png",
-                          width: 1,
+                          width: 20,
                         ),
                         onPressed: () {
                           //lấy dữ liệu sang Update Screen
@@ -171,7 +171,7 @@ class _DetailProductItemState extends State<DetailProductItem> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.redAccent,
+                              backgroundColor: Colors.redAccent,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

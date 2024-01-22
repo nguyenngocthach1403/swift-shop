@@ -162,6 +162,7 @@ import 'package:swiftshop_application/view_models/cart_screen_view_model.dart';
 
 import 'package:swiftshop_application/views/components/cart_items.dart';
 import 'package:swiftshop_application/data/models/carts.dart';
+import 'package:swiftshop_application/views/screens/payment_screen.dart';
 
 class Cart_Screen extends StatefulWidget {
   const Cart_Screen({Key? key}) : super(key: key);
@@ -229,65 +230,62 @@ class _Cart_ScreenState extends State<Cart_Screen> {
       body: Column(
         children: [
           Expanded(
-            child: StreamBuilder<List<Cart>>(
-              stream: cartViewModel.cartItemsStream,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else {
-                  List<Cart> cartItems = snapshot.data ?? [];
-                  return ListView.builder(
-                    itemCount: cartItems.length,
-                    itemBuilder: (context, index) {
-                      return Align(
-                        alignment: Alignment.topCenter,
-                        child: Container(
-                          width: 390,
-                          height: 145,
-                          margin: EdgeInsets.only(
-                            bottom: 10,
-                          ),
-                          padding: EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                            border: Border.all(
-                              color: Colors.white,
-                            ),
-                          ),
-                          child: Cart_Items(
-                            cartItem: carts[index],
-                            products: products,
-                            onIncreaseQuantity: () {
-                              cartViewModel
-                                  .increaseQuantity(cartItems[index].cartId);
-                            },
-                            onDecreaseQuantity: () {
-                              cartViewModel
-                                  .decreaseQuantity(cartItems[index].cartId);
-                            },
-                            onRemoveProduct: () {
-                              cartViewModel
-                                  .removeProduct(cartItems[index].cartId);
-                            },
-                            onQuantityChanged: () {},
-                            productName: 's',
-                          ),
+            child: ListView.builder(
+              itemCount: carts.length,
+              itemBuilder: (context, index) {
+                return Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    width: 390,
+                    height: 145,
+                    margin: EdgeInsets.only(
+                      bottom: 10,
+                    ),
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3),
                         ),
-                      );
-                    },
-                  );
-                }
+                      ],
+                      border: Border.all(
+                        color: Colors.white,
+                      ),
+                    ),
+                    child: Cart_Items(
+                      productName: "",
+                      cartItem: carts[index],
+                      products: products,
+                      onIncreaseQuantity: () {
+                        cartViewModel.increaseQuantity(carts[index].cartId);
+                        _updateTotalPrice();
+                      },
+                      onDecreaseQuantity: () {
+                        cartViewModel.decreaseQuantity(carts[index].cartId);
+                        _updateTotalPrice();
+                      },
+                      onRemoveProduct: () {
+                        cartViewModel.deleteItem(carts[index].cartdetailId);
+                        cartViewModel.fetchCartDetailOnLocal().then((value) {
+                          carts = value;
+                        });
+                        cartViewModel
+                            .fetchProductFromCartDetail()
+                            .then((value) {
+                          products = value;
+                          _updateTotalPrice();
+                          setState(() {});
+                        });
+                      },
+                      onQuantityChanged: () {},
+                    ),
+                  ),
+                );
               },
             ),
           ),
@@ -306,7 +304,7 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "Total:",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -328,7 +326,16 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                 ),
                 SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // TODO: Xử lý thanh toán
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PaymentScreen(
+                            cartId: cartViewModel.idAcountCurrent,
+                          ),
+                        ));
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(255, 199, 0, 1),
                     minimumSize: Size(double.infinity, 50),
