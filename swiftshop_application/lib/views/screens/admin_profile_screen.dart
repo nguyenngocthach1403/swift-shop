@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:swiftshop_application/data/models/order.dart';
 import 'package:swiftshop_application/data/models/product.dart';
-import 'package:swiftshop_application/view_models/add_product_screen_view_model.dart';
 import 'package:swiftshop_application/view_models/admin_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/avatar_and_name_profile.dart';
 import 'package:swiftshop_application/views/components/bottom_navigation_bar.dart';

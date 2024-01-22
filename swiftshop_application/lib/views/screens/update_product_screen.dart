@@ -1,14 +1,10 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/add_product_screen_view_model.dart';
-import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
 
 class UpdateProductScreen extends StatefulWidget {
   final Product product;

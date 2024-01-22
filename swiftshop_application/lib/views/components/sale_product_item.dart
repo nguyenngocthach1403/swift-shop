@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
-import 'package:swiftshop_application/data/models/format_currency.dart';
 import 'package:swiftshop_application/view_models/home_screen_view_model.dart';
 import 'package:swiftshop_application/views/screens/detail_product_screen.dart'; //? Format tiền kiểu int thành String VND
 

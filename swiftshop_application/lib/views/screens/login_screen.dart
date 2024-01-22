@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swiftshop_application/data/models/product.dart';
-import 'package:swiftshop_application/data/models/user_model.dart';
 import 'package:swiftshop_application/view_models/login_creen_view_model.dart';
-import 'package:swiftshop_application/views/screens/add_product_screen.dart';
-import 'package:swiftshop_application/views/screens/admin_profile_screen.dart';
-import 'package:swiftshop_application/views/screens/edit_profile_user_screen.dart';
-import 'package:swiftshop_application/views/screens/update_product_screen.dart';
 import '../Animation/animation.dart';
 import 'register_screen.dart';
 

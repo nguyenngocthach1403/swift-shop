@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:swiftshop_application/data/models/format_currency.dart';
 import 'package:swiftshop_application/view_models/home_screen_view_model.dart';
 
 class ProductItemOfOrder extends StatelessWidget {

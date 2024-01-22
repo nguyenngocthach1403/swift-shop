@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/data/models/tab_item.dart';
-import 'package:swiftshop_application/view_models/admin_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/components/custom_tab_bar.dart';
 import 'package:swiftshop_application/views/components/detail_product_item.dart';
 
