@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/views/components/outstanding_product_list.dart';
-import 'package:swiftshop_application/views/screens/cart_screen.dart';
-import 'package:swiftshop_application/views/screens/detail_product_screen.dart';
 
 class HomeScreenViewModel {
   final CollectionReference products =

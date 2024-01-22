@@ -27,8 +27,8 @@ class _DetailProductItemState extends State<DetailProductItem> {
               padding: const EdgeInsets.only(left: 10),
               width: 130,
               height: 130,
-              child: Image.asset(
-                "assets/images/piza.png",
+              child: Image.network(
+                widget.pro.path,
                 width: 130,
               ),
             ),

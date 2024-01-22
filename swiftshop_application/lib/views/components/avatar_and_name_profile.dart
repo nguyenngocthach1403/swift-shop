@@ -42,14 +42,31 @@ class _AvatarProfileState extends State<AvatarProfile> {
     return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
+        // children: [
+        //   Stack(
+        //     clipBehavior: Clip.none,
+        //     alignment: Alignment.center,
+        //     children: [
+        //       Image.asset("assets/images/ne.jpg"),
         children: [
           Stack(
             clipBehavior: Clip.none,
             alignment: Alignment.center,
             children: [
-              Image.asset("assets/images/ne.jpg"),
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(25.0),
+                  topRight: Radius.circular(25.0),
+                ),
+                child: Image.asset(
+                  "assets/images/ne.jpg",
+                  height: 200,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.cover,
+                ),
+              ), // Thịnh chỉnh viền cho background
               const Positioned(
-                bottom: -40,
+                bottom: -20,
                 child: CircleAvatar(
                   radius: 50,
                   backgroundImage: NetworkImage(
