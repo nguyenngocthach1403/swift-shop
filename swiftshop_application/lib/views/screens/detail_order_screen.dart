@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshop_application/views/components/product_item_of_order.dart';
-import 'package:swiftshop_application/views/screens/order_manager_screen.dart';
 
 class Detail_Order_Screen extends StatelessWidget {
   const Detail_Order_Screen({super.key});
@@ -15,7 +14,8 @@ class Detail_Order_Screen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              //  Navigator.of(context).pop();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/profile', (route) => false);
             },
             icon: Icon(Icons.arrow_back)),
       ),

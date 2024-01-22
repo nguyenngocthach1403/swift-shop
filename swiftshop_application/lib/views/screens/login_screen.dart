@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swiftshop_application/data/models/product.dart';
+import 'package:swiftshop_application/data/models/user_model.dart';
 import 'package:swiftshop_application/view_models/login_creen_view_model.dart';
+import 'package:swiftshop_application/views/screens/add_product_screen.dart';
+import 'package:swiftshop_application/views/screens/admin_profile_screen.dart';
+import 'package:swiftshop_application/views/screens/edit_profile_user_screen.dart';
+import 'package:swiftshop_application/views/screens/update_product_screen.dart';
 import '../Animation/animation.dart';
 import 'register_screen.dart';
 
@@ -11,6 +17,7 @@ import 'register_screen.dart';
 //   State<SignInScreen> createState() => _SignInScreenState();
 // }
 class SignInScreen extends ConsumerWidget {
+  String? user1;
   // bool pass = true;
   final _formSignInKey = GlobalKey<FormState>();
   TextEditingController _email = TextEditingController();
@@ -171,8 +178,6 @@ class SignInScreen extends ConsumerWidget {
                                   "/homepage",
                                   (route) => false,
                                 );
-
-                                // authNotifier.updateData(true);
                               }
                             } catch (e) {
                               showDialog(
@@ -239,7 +244,8 @@ class SignInScreen extends ConsumerWidget {
                           onPressed: () async {
                             bool res = await authNotifier.signInWithGoogle();
                             if (res) {
-                              Navigator.pushNamed(context, '/homepage');
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //     builder: ((context) => AddProductScreen())));
                             }
                           },
                           icon: Image(
