@@ -14,38 +14,52 @@ class ProductList extends StatefulWidget {
 class _ProductListState extends State<ProductList> {
   List<TabItem> lstProTypeTab = [
     TabItem(title: "All"),
-    TabItem(title: "1"),
-    TabItem(title: "2"),
-    TabItem(title: "3"),
-    TabItem(title: "4")
   ];
+  List<String> lsttype = ['All'];
+  int _selectedTab = 0;
+  void onTapPress(int index) {
+    if (_selectedTab != index) {
+      setState(() {
+        _selectedTab = index;
+      });
+      for (int i = 0; i < lstProTypeTab.length; i++) {
+        if (lstProTypeTab[i].active) lstProTypeTab[i].active = false;
+      }
+      lstProTypeTab[index].active = true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<DetailProductItem> items = List.filled(
-        0,
-        DetailProductItem(
-          pro: Product(
-              id: '',
-              path: "",
-              title: "",
-              price: 0, //Thach 16/1 int
-              promotionalPrice: 0, //Thach 16/1 int
-              type: "",
-              quantity: 1,
-              quantitySold: 1,
-              description: "",
-              rate: 1),
-        ),
-        growable: true);
-    for (int i = 0; i < widget.products.length; i++) {
+    for (var i in widget.products) {
+      bool isExist = false;
+      for (var j in lsttype) {
+        if (i.type == j) {
+          isExist = true;
+        }
+      }
+      if (!isExist) {
+        lstProTypeTab.add(TabItem(title: i.type));
+        lsttype.add(i.type);
+      }
+    }
+    List<DetailProductItem> items = [];
+    List<Product> lstPro = [];
+    if (lsttype[_selectedTab] == "All") {
+      lstPro = widget.products;
+    } else {
+      lstPro = widget.products
+          .where((element) => element.type == lsttype[_selectedTab])
+          .toList();
+    }
+    for (int i = 0; i < lstPro.length; i++) {
       items.add(DetailProductItem(
-        pro: widget.products[i],
+        pro: lstPro[i],
       ));
     }
     final width = MediaQuery.of(context).size.width;
     return Container(
       margin: const EdgeInsets.all(10),
-      height: 360,
       width: width - 20,
       decoration: BoxDecoration(
           color: const Color.fromRGBO(233, 233, 233, 1),
@@ -55,11 +69,12 @@ class _ProductListState extends State<ProductList> {
           TabCustom(
             width: width,
             lstTab: lstProTypeTab,
-            onTabSelected: (int) {},
+            selectedTab: _selectedTab,
+            onTabSelected: onTapPress,
           ),
           Container(
             width: width - 20 - 20,
-            height: 310,
+            height: 320,
             margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
             child: ListView.builder(
               itemCount: items.length,

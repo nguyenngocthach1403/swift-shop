@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/tab_item.dart';
 
 class TabCustom extends StatefulWidget {
-  const TabCustom(
-      {Key? key,
-      required this.width,
-      required this.lstTab,
-      required this.onTabSelected})
-      : super(key: key);
+  const TabCustom({
+    Key? key,
+    required this.width,
+    required this.lstTab,
+    required this.selectedTab,
+    required this.onTabSelected,
+  }) : super(key: key);
   final double width;
+  final int selectedTab;
   final List<TabItem> lstTab;
   final Function(int) onTabSelected;
 
@@ -18,27 +20,13 @@ class TabCustom extends StatefulWidget {
 }
 
 class _TabCustomState extends State<TabCustom> {
-  int _selectedTab = 0;
-
   @override
   void initState() {
     super.initState();
-    widget.lstTab[_selectedTab].active = true;
+    widget.lstTab[widget.selectedTab].active = true;
   }
 
-  void onTapPress(int index) {
-    if (_selectedTab != index) {
-      setState(() {
-        _selectedTab = index;
-      });
-      for (int i = 0; i < widget.lstTab.length; i++) {
-        if (widget.lstTab[i].active) widget.lstTab[i].active = false;
-      }
-      widget.lstTab[index].active = true;
-
-      widget.onTabSelected(index);
-    }
-  }
+  int returnIdexTab(int index) => index;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +45,7 @@ class _TabCustomState extends State<TabCustom> {
           TabItem btn = widget.lstTab[index];
           return GestureDetector(
             onTap: () {
-              onTapPress(index);
+              widget.onTabSelected(index);
             },
             child: Container(
               width: (widget.width - 20 - 20) / 4,

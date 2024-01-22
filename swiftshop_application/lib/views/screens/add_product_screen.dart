@@ -541,7 +541,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             FirebaseFirestore.instance;
                         final CollectionReference _mainCollection =
                             _firestore.collection('products');
-                        String docID = _mainCollection.doc().id;
+                        String docID = _mainCollection.id;
                         if (imageURL.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text("Hãy chọn hình ảnh cần upload")));

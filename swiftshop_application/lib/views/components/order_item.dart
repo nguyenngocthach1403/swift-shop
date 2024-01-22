@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:swiftshop_application/data/models/order.dart';
+import 'package:swiftshop_application/data/models/order_item.dart';
 import 'package:swiftshop_application/data/models/order_model.dart';
+import 'package:swiftshop_application/view_models/admin_profile_screen_view_model.dart';
 
 class OrderItem extends StatefulWidget {
-  final OrderModel order;
+  final Orders order;
+  final OrderDetail orderDeltail;
 
-  const OrderItem({Key? key, required this.order}) : super(key: key);
+  const OrderItem({Key? key, required this.order, required this.orderDeltail})
+      : super(key: key);
 
   @override
   State<OrderItem> createState() => _OrderItemState();
@@ -48,7 +53,7 @@ class _OrderItemState extends State<OrderItem> {
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: _text(
-                  widget.order.state,
+                  widget.order.status,
                   Colors.blueAccent,
                   12.0,
                   FontWeight.normal,
@@ -62,7 +67,7 @@ class _OrderItemState extends State<OrderItem> {
               children: [
                 _text('Ngày đặt: ', Colors.grey, 12.0, FontWeight.normal),
                 _text(
-                  widget.order.date,
+                  AdminScreenViewModel.readTimestamp(widget.order.orderDate),
                   Colors.black,
                   13.0,
                   FontWeight.normal,
@@ -77,47 +82,47 @@ class _OrderItemState extends State<OrderItem> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                   child: Image.network(
-                    widget.order.path,
+                    "widget.order.,",
                     height: 50,
                     width: 50,
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _text(
-                          widget.order.name.length > 45
-                              ? widget.order.name.substring(0, 45)
-                              : widget.order.name,
-                          Colors.black,
-                          13.0,
-                          FontWeight.normal,
-                        ),
-                        Padding(padding: EdgeInsets.all(5.0)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            _text(
-                              'sl: ${widget.order.quantity}',
-                              Colors.black,
-                              13.0,
-                              FontWeight.normal,
-                            ),
-                            _text(
-                              '${widget.order.price}đ',
-                              Colors.black,
-                              13.0,
-                              FontWeight.normal,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                )
+                // Expanded(
+                //   child: Padding(
+                //     padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         // _text(
+                //         //   widget.order..length > 45
+                //         //       ? widget.order.name.substring(0, 45)
+                //         //       : widget.order.name,
+                //         //   Colors.black,
+                //         //   13.0,
+                //         //   FontWeight.normal,
+                //         // ),
+                //         Padding(padding: EdgeInsets.all(5.0)),
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             _text(
+                //               'sl: ${widget.order.quantity}',
+                //               Colors.black,
+                //               13.0,
+                //               FontWeight.normal,
+                //             ),
+                //             _text(
+                //               '${widget.order.price}đ',
+                //               Colors.black,
+                //               13.0,
+                //               FontWeight.normal,
+                //             ),
+                //           ],
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),
@@ -144,12 +149,12 @@ class _OrderItemState extends State<OrderItem> {
                           15.0,
                           FontWeight.normal,
                         ),
-                        _text(
-                          '${(widget.order.quantity * int.parse(widget.order.price)).toDouble()}',
-                          Colors.red,
-                          15.0,
-                          FontWeight.bold,
-                        ),
+                        // _text(
+                        //   '${(widget.order.quantity * int.parse(widget.order.price)).toDouble()}',
+                        //   Colors.red,
+                        //   15.0,
+                        //   FontWeight.bold,
+                        // ),
                       ],
                     ),
                   )
