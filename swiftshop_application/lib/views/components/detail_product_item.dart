@@ -171,6 +171,16 @@ class _DetailProductItemState extends State<DetailProductItem> {
                                 rate: widget.pro.rate as double,
                                 description: widget.pro.description,
                               ).then((value) => products);
+                              setState(() {
+                                products;
+                              });
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                        content: Text(
+                                            "Xóa thành công sản phẩm"));
+                                  });
                             },
                             style: ElevatedButton.styleFrom(
                               primary: Colors.redAccent,
