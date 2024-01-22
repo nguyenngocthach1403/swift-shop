@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:swiftshop_application/data/models/format_currency.dart';
 import 'package:swiftshop_application/data/models/order.dart';
 import 'package:swiftshop_application/data/models/order_item.dart';
-import 'package:swiftshop_application/data/models/order_model.dart';
 import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/admin_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/screens/detail_order_screen.dart';

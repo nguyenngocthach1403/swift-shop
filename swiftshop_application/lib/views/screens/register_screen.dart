@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart';
 import 'package:swiftshop_application/view_models/login_creen_view_model.dart';
 import '../Animation/animation.dart';
 import 'login_screen.dart';
-
-// class SignUpScreen extends ConsumerWidget {
-//   SignUpScreen({super.key});
-
-//   // @override
-//   // State<SignUpScreen> createState() => _SignUpScreenState();
-// }
 
 class SignUpScreen extends ConsumerWidget {
   final TextEditingController _email = TextEditingController();

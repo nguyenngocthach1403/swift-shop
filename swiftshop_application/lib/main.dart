@@ -12,8 +12,6 @@ import 'package:swiftshop_application/views/screens/register_screen.dart';
 import 'package:swiftshop_application/views/screens/searching_screen.dart';
 import 'package:swiftshop_application/views/screens/user_profile_screen.dart';
 
-import 'firebase_options.dart';
-
 //first
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
