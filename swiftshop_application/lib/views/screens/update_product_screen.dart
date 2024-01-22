@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 
@@ -11,15 +10,16 @@ import 'package:swiftshop_application/data/models/product.dart';
 import 'package:swiftshop_application/view_models/add_product_screen_view_model.dart';
 import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
 
-class AddProductScreen extends StatefulWidget {
+class UpdateProductScreen extends StatefulWidget {
   final Product product;
-  const AddProductScreen({Key? key, required this.product}) : super(key: key);
+  const UpdateProductScreen({Key? key, required this.product})
+      : super(key: key);
 
   @override
-  State<AddProductScreen> createState() => _AddProductScreenState();
+  State<UpdateProductScreen> createState() => _UpdateProductScreenState();
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
+class _UpdateProductScreenState extends State<UpdateProductScreen> {
   File? _imgage;
   final formKey = GlobalKey<FormState>(); //key for form
   final FirebaseStorage storage = FirebaseStorage.instance;
@@ -90,36 +90,41 @@ class _AddProductScreenState extends State<AddProductScreen> {
   TextEditingController typeController = TextEditingController();
   TextEditingController promotionController = TextEditingController();
   TextEditingController desciptionController = TextEditingController();
-  void clearForm() {
-    nameController.clear();
-    quantityController.clear();
-    priceController.clear();
-    typeController.clear();
-    promotionController.clear();
-    desciptionController.clear();
+  void initState() {
+    // TODO: implement initState
+
+    nameController = TextEditingController(text: widget.product.title);
+    quantityController =
+        TextEditingController(text: widget.product.quantity.toString());
+    priceController =
+        TextEditingController(text: widget.product.price.toString());
+    typeController = TextEditingController(text: widget.product.type);
+    promotionController =
+        TextEditingController(text: widget.product.promotionalPrice.toString());
+    desciptionController =
+        TextEditingController(text: widget.product.description);
+    String imageURL = widget.product.path;
   }
-  // loginGoogle() async {
-  //   GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  //   GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-  //   AuthCredential credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth?.accessToken,
-  //     idToken: googleAuth?.idToken,
-  //   );
-  //   UserCredential userCredential =
-  //       await FirebaseAuth.instance.signInWithCredential(credential);
-  //   // print(userCredential.user?.displayName);
-  //   // if (userCredential.user != null) {
-  //   //   Navigator.of(context)
-  //   //       .push(MaterialPageRoute(builder: ((context) => HomeScreen())));
-  //   // }
-  // }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    quantityController.dispose();
+    priceController.dispose();
+    typeController.dispose();
+    promotionController.dispose();
+    desciptionController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(96, 136, 2, 1),
-        title: _text("Thêm sản phẩm", Colors.white, 20.0, FontWeight.bold),
+        title:
+            _text("Cập nhật sản phẩm", Colors.white, 20.0, FontWeight.bold),
         leading: Container(
           width: 100,
           child: Row(
@@ -240,14 +245,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         color: Colors.black,
                       ),
                     ),
-                    label: Center(child: const Text('Tên Sản Phẩm')),
+                    //label: Center(child: const Text('Tên Sản Phẩm')),
+
                     labelStyle: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                         fontSize: 20),
                     hintText: 'Nhập Tên Sản Phẩm',
                     hintStyle: const TextStyle(
-                      color: Colors.black26,
+                      color: Colors.black,
                     ),
                     border: OutlineInputBorder(
                       borderSide: const BorderSide(
@@ -525,7 +531,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: _text("Lưu", Color.fromRGBO(96, 136, 202, 1), 20.0,
+                      child: _text(
+                          "Cập Nhật",
+                          Color.fromRGBO(96, 136, 202, 1),
+                          20.0,
                           FontWeight.bold),
                     ),
                     IconButton(
@@ -534,31 +543,29 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         color: Colors.black,
                       ),
                       onPressed: (() async {
-                        try {} catch (e) {
+                        try {
+                          if (widget.product.path.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("Hãy chọn hình ảnh cần upload")));
+                            print("Khong hinh anh");
+                            print(widget.product.path);
+                          } else {
+                            AddProduct.updateItem(
+                              productid: widget.product.id,
+                              name: nameController.text,
+                              description: desciptionController.text,
+                              price: int.parse(priceController.text),
+                              promotionPrice:
+                                  int.parse(promotionController.text),
+                              quantity: int.parse(quantityController.text),
+                              quantitySold: widget.product.quantitySold,
+                              rate: widget.product.rate as double,
+                              type: typeController.text,
+                              path: widget.product.path,
+                            );
+                          }
+                        } catch (e) {
                           print("nhập đẩy đủ thông tin");
-                        }
-                        final FirebaseFirestore _firestore =
-                            FirebaseFirestore.instance;
-                        final CollectionReference _mainCollection =
-                            _firestore.collection('products');
-                        String docID = _mainCollection.doc().id;
-                        if (imageURL.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Hãy chọn hình ảnh cần upload")));
-                        } else {
-                          AddProduct.addItem(
-                            id: docID,
-                            name: nameController.text,
-                            description: desciptionController.text,
-                            price: int.parse(priceController.text),
-                            promotionPrice: int.parse(promotionController.text),
-                            quantity: int.parse(quantityController.text),
-                            quantitySold: 0,
-                            rate: 0,
-                            type: typeController.text,
-                            path: imageURL.toString(),
-                          );
-                          clearForm();
                         }
                       }),
                     ),

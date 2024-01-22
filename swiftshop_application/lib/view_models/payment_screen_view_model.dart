@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:swiftshop_application/data/models/cart_detail.dart';
@@ -23,7 +21,8 @@ class PaymentScreenViewModel {
   //Get infomation receiver
   Future<UserModel> userInfomation() async {
     QuerySnapshot user = await users.get();
-    UserModel userInfo = UserModel();
+    UserModel userInfo = UserModel(
+        accountId: '', fullname: '', email: '', phonenumber: '', address: '');
     for (var i in user.docs) {
       if (i.id == idAccountCurrent) {
         userInfo = UserModel(

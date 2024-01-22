@@ -34,7 +34,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   String dropdownValue = list.first;
 
   //Info receiver
-  UserModel receiverIf = UserModel();
+  UserModel receiverIf = UserModel(
+      accountId: '', fullname: '', email: '', phonenumber: '', address: '');
   //List product
   List<ProductItemOfOrder> product = [];
   List<Product> productInfo = [];

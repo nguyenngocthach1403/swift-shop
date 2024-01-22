@@ -2,6 +2,7 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+  
 }
 
 def localProperties = new Properties()
@@ -62,9 +63,11 @@ android {
 
 flutter {
     source '../..'
-}
+
+dependencies {}
 
 dependencies {
     implementation 'com.google.firebase:firebase-appcheck-debug:16.0.0-beta01'
 }
 
+}

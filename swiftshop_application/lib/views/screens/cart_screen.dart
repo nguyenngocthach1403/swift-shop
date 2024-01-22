@@ -258,6 +258,7 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                       ),
                     ),
                     child: Cart_Items(
+                      productName: "",
                       cartItem: carts[index],
                       products: products,
                       onIncreaseQuantity: () {
