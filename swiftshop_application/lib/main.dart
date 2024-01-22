@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,6 +13,7 @@ import 'package:swiftshop_application/views/screens/user_profile_screen.dart';
 
 import 'firebase_options.dart';
 
+//first
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -66,17 +66,17 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        // home: FutureBuilder(
-        //   future: FirebaseAuth.instance.authStateChanges().first,
-        //   builder: (context, snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.waiting) {
-        //       return CircularProgressIndicator();
-        //     } else {
-        //       final user = snapshot.data as User?;
-        //       return user != null ? HomeScreen() : SignInScreen();
-        //     }
-        //   },
-        // ),
+        home: FutureBuilder(
+          future: FirebaseAuth.instance.authStateChanges().first,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            } else {
+              final user = snapshot.data as User?;
+              return user != null ? HomeScreen() : SignInScreen();
+            }
+          },
+        ),
         routes: {
           //": (context) => SignInScreen(),
           "/": (context) => SignInScreen(),

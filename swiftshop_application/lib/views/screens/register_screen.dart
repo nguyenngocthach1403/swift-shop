@@ -13,9 +13,9 @@ import 'login_screen.dart';
 // }
 
 class SignUpScreen extends ConsumerWidget {
-  TextEditingController _email = TextEditingController();
-  TextEditingController _password = TextEditingController();
-  TextEditingController _fullname = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _fullname = TextEditingController();
   final _formSignupKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
