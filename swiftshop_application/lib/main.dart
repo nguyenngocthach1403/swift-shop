@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +22,15 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyB4uR5_QlrE5TwAPReT-bN93MH2SvH1HOM",
+          appId: "1:475664841613:android:bb3894c3094a582cec5bc4",
+          messagingSenderId: "475664841613",
+          projectId: "swiftshop-5e2eb",
+          storageBucket: "swiftshop-5e2eb.appspot.com"));
+  await FirebaseAppCheck.instance.activate(
+    webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+    androidProvider: AndroidProvider.debug,
   );
   runApp(ProviderScope(child: MyApp()));
 }
@@ -67,6 +76,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         routes: {
+          //": (context) => SignInScreen(),
           "/": (context) => SignInScreen(),
           "/signup": (context) => SignUpScreen(),
           "/homepage": (context) => HomeScreen(),
