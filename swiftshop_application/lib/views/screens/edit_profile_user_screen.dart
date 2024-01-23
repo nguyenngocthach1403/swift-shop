@@ -1,16 +1,11 @@
-import 'dart:ffi';
 import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:swiftshop_application/data/models/user_model.dart';
 import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
 import 'package:swiftshop_application/views/Animation/animation.dart';
-import 'package:swiftshop_application/view_models/user_profile_screen_view_model.dart';
-import 'package:path/path.dart';
 
 class ProfileSettingScreen extends StatefulWidget {
   final UserModel user;
@@ -119,7 +114,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                         : CircleAvatar(
                             radius: 50,
                             backgroundImage: widget.user.avatar!.isEmpty
-                                ? NetworkImage(
+                                ? const NetworkImage(
                                     "https://www.w3schools.com/howto/img_avatar.png")
                                 : NetworkImage(widget.user.avatar!),
                           )),
@@ -262,12 +257,17 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen> {
                               if (_formSignupKey.currentState!.validate()) {
                                 String _avatar =
                                     await uploadFileToFirebaseStorage(_imgage);
-                                UserData.updateData(UserModel(
+                                UserData.updateData(
+                                  UserModel(
                                     accountId: widget.user.accountId,
+                                    password: widget.user.password,
+                                    position: widget.user.position,
                                     fullname: _fullname!.text,
                                     address: _address!.text,
                                     phonenumber: _phonenumber!.text,
-                                    avatar: _avatar));
+                                    avatar: _avatar,
+                                  ),
+                                );
                                 Navigator.pushNamed(context, '/profile');
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

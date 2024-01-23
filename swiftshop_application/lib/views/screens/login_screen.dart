@@ -1,31 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swiftshop_application/data/models/product.dart';
-import 'package:swiftshop_application/data/models/user_model.dart';
 import 'package:swiftshop_application/view_models/login_creen_view_model.dart';
-import 'package:swiftshop_application/views/screens/add_product_screen.dart';
-import 'package:swiftshop_application/views/screens/admin_profile_screen.dart';
-import 'package:swiftshop_application/views/screens/edit_profile_user_screen.dart';
-import 'package:swiftshop_application/views/screens/update_product_screen.dart';
 import '../Animation/animation.dart';
 import 'register_screen.dart';
 
-// class SignInScreen extends StatefulWidget {
-//   const SignInScreen({super.key});
-
-//   @override
-//   State<SignInScreen> createState() => _SignInScreenState();
-// }
 class SignInScreen extends ConsumerWidget {
-  String? user1;
-  // bool pass = true;
   final _formSignInKey = GlobalKey<FormState>();
-  TextEditingController _email = TextEditingController();
-  TextEditingController _password = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authNotifier = ref.watch(authProvider);
     final _isObscure = ref.watch(passwordVisibleProvider);
+    // final _isObscure = ref.watch(passwordVisibleProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(96, 136, 202, 1),
@@ -43,11 +30,21 @@ class SignInScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    FadeAnimation(
+                      1,
+                      Container(
+                        child: Image(
+                          image: AssetImage('assets/icons/SwiftShop_logo.png'),
+                          width: 400,
+                          height: 100,
+                        ),
+                      ),
+                    ),
                     const SizedBox(
                       height: 25.0,
                     ),
                     FadeAnimation(
-                      1,
+                      1.2,
                       const Text(
                         'Welcome to SwiftShop',
                         style: TextStyle(
@@ -57,10 +54,10 @@ class SignInScreen extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 100,
+                      height: 30,
                     ),
                     FadeAnimation(
-                      1.2,
+                      1.4,
                       TextFormField(
                         controller: _email,
                         validator: (value) {
@@ -97,13 +94,10 @@ class SignInScreen extends ConsumerWidget {
                       height: 25.0,
                     ),
                     FadeAnimation(
-                      1.4,
+                      1.6,
                       TextFormField(
                         controller: _password,
-                        // obscureText: pass ? _isObscure : false,
-                        // obscureText: ref.watch(passwordVisibleProvider),
-                        // obscureText: ref.watch(passwordVisibleProvider),
-                        obscureText: true,
+                        obscureText: _isObscure,
                         obscuringCharacter: '*',
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -132,18 +126,15 @@ class SignInScreen extends ConsumerWidget {
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          // suffixIcon: IconButton(
-                          //   onPressed: () {
-                          //     // setState(() {
-                          //     //   _isObscure = !_isObscure;
-                          //     // });
-                          //     ref.read(passwordVisibleProvider).state =
-                          //         !passwordVisibleProvider.state;
-                          //   },
-                          //   icon: Icon(_isObscure
-                          //       ? Icons.visibility_off
-                          //       : Icons.visibility),
-                          // ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              ref.read(passwordVisibleProvider.notifier).state =
+                                  !ref.read(passwordVisibleProvider);
+                            },
+                            icon: Icon(_isObscure
+                                ? Icons.visibility_off
+                                : Icons.visibility),
+                          ),
                         ),
                       ),
                     ),
@@ -151,7 +142,7 @@ class SignInScreen extends ConsumerWidget {
                       height: 25.0,
                     ),
                     FadeAnimation(
-                      1.6,
+                      1.8,
                       SizedBox(
                         width: 150,
                         child: ElevatedButton(
@@ -171,7 +162,6 @@ class SignInScreen extends ConsumerWidget {
                                     content: Text('Login Success'),
                                   ),
                                 );
-
                                 // Navigate Home
                                 Navigator.pushNamedAndRemoveUntil(
                                   context,
@@ -198,7 +188,7 @@ class SignInScreen extends ConsumerWidget {
                       height: 25.0,
                     ),
                     FadeAnimation(
-                      1.8,
+                      2,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -234,7 +224,7 @@ class SignInScreen extends ConsumerWidget {
                       height: 30.0,
                     ),
                     FadeAnimation(
-                      2.0,
+                      2.2,
                       SizedBox(
                         width: double.infinity,
                         height: 50,
@@ -260,7 +250,7 @@ class SignInScreen extends ConsumerWidget {
                       height: 30.0,
                     ),
                     FadeAnimation(
-                      2.2,
+                      2.4,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

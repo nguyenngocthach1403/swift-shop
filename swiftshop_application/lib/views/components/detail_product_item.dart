@@ -34,6 +34,7 @@ class _DetailProductItemState extends State<DetailProductItem> {
               child: Image.network(
                 widget.pro.path.toString(),
                 width: 130,
+                fit: BoxFit.contain,
               ),
             ),
           ),
@@ -57,7 +58,7 @@ class _DetailProductItemState extends State<DetailProductItem> {
                       IconButton(
                         icon: Image.asset(
                           "assets/icons/edit.png",
-                          width: 1,
+                          width: 20,
                         ),
                         onPressed: () {
                           //lấy dữ liệu sang Update Screen
@@ -183,7 +184,7 @@ class _DetailProductItemState extends State<DetailProductItem> {
                                   });
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.redAccent,
+                              backgroundColor: Colors.redAccent,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

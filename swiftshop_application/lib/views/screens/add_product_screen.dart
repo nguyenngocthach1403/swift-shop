@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,8 +25,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   File? _imgage;
   final formKey = GlobalKey<FormState>(); //key for form
   final FirebaseStorage storage = FirebaseStorage.instance;
-
-  final appCheck = FirebaseAppCheck.instance;
   //image upload
   bool? check;
   String imageURL = '';
