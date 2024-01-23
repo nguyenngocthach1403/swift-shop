@@ -1,7 +1,9 @@
-
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:swiftshop_application/data/models/order.dart';
+import 'package:swiftshop_application/data/models/order_item.dart';
+import 'package:swiftshop_application/data/models/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:swiftshop_application/data/models/product.dart';
@@ -84,10 +86,6 @@ class AdminProfileModel {
     return products;
   }
 }
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:swiftshop_application/data/models/order.dart';
-import 'package:swiftshop_application/data/models/order_item.dart';
-import 'package:swiftshop_application/data/models/product.dart';
 
 class AdminScreenViewModel {
   CollectionReference order = FirebaseFirestore.instance.collection('orders');

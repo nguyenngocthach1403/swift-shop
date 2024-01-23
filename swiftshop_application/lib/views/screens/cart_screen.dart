@@ -230,7 +230,6 @@ class _Cart_ScreenState extends State<Cart_Screen> {
       body: Column(
         children: [
           Expanded(
-<<<<<<< HEAD
             child: StreamBuilder<List<Cart>>(
               stream: cartViewModel.cartItemsStream,
               builder: (context, snapshot) {
@@ -285,7 +284,7 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                             // onQuantityChanged: () {},
                             productName: 's',
                           ),
-=======
+
             child: ListView.builder(
               itemCount: carts.length,
               itemBuilder: (context, index) {
