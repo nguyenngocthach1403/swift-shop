@@ -280,7 +280,7 @@ class _Cart_ScreenState extends State<Cart_Screen> {
                               cartViewModel
                                   .removeProduct(cartItems[index].cartId);
                             },
-                            onQuantityChanged: () {},
+                            // onQuantityChanged: () {},
                             productName: 's',
                           ),
                         ),

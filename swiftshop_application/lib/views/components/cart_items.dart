@@ -144,7 +144,6 @@ class Cart_Items extends StatefulWidget {
     required this.onDecreaseQuantity,
     required this.onRemoveProduct,
     required this.products,
-    required this.onQuantityChanged,
     required String productName,
   }) : super(key: key);
 
@@ -153,7 +152,7 @@ class Cart_Items extends StatefulWidget {
   final VoidCallback onIncreaseQuantity;
   final VoidCallback onDecreaseQuantity;
   final VoidCallback onRemoveProduct;
-  final VoidCallback onQuantityChanged;
+  //final VoidCallback onQuantityChanged;
   @override
   State<Cart_Items> createState() => _Cart_ItemsState();
 }
@@ -246,7 +245,7 @@ class _Cart_ItemsState extends State<Cart_Items> {
                                   quantity--;
                                   _viewModel.updateQuantity(
                                       widget.cartItem.cartdetailId, quantity);
-                                  widget.onQuantityChanged();
+                                  //   widget.onQuantityChanged();
                                 }
                               });
                             },
@@ -268,7 +267,7 @@ class _Cart_ItemsState extends State<Cart_Items> {
                                 quantity++;
                                 _viewModel.updateQuantity(
                                     widget.cartItem.cartdetailId, quantity);
-                                widget.onQuantityChanged();
+//                                widget.onQuantityChanged();
                               });
                             },
                             color: Colors.black,
